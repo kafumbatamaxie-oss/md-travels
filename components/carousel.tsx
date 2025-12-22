@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
+import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface CarouselSlide {
@@ -8,110 +10,140 @@ interface CarouselSlide {
   title: string
   subtitle: string
   image: string
+  mobileImage?: string
   cta: string
 }
 
 export function Carousel({ slides }: { slides: CarouselSlide[] }) {
   const [current, setCurrent] = useState(0)
   const [autoPlay, setAutoPlay] = useState(true)
+  const startX = useRef<number | null>(null)
 
+  /* ================= AUTOPLAY ================= */
   useEffect(() => {
     if (!autoPlay) return
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length)
-    }, 5000)
+      setCurrent((p) => (p + 1) % slides.length)
+    }, 6000)
     return () => clearInterval(timer)
   }, [autoPlay, slides.length])
 
   const next = () => {
-    setCurrent((prev) => (prev + 1) % slides.length)
+    setCurrent((p) => (p + 1) % slides.length)
     setAutoPlay(false)
   }
 
   const prev = () => {
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length)
+    setCurrent((p) => (p - 1 + slides.length) % slides.length)
     setAutoPlay(false)
   }
 
+  /* ================= TOUCH ================= */
+  const onTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX
+  }
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (startX.current === null) return
+    const diff = startX.current - e.changedTouches[0].clientX
+    if (diff > 50) next()
+    if (diff < -50) prev()
+    startX.current = null
+  }
+
   return (
-    <div
-      className="relative w-full h-screen bg-background overflow-hidden group"
+    <section
+      className="relative w-full h-[75vh] sm:h-screen overflow-hidden"
       onMouseEnter={() => setAutoPlay(false)}
       onMouseLeave={() => setAutoPlay(true)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
-      {/* Slides */}
       {slides.map((slide, idx) => (
         <div
           key={slide.id}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            idx === current ? "opacity-100" : "opacity-0"
+            idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
           }`}
         >
-          {/* Background Image with Overlay */}
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url('${slide.image}')`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+          {/* Background */}
+          <div className="absolute inset-0">
+            <Image
+              src={slide.mobileImage || slide.image}
+              alt={slide.title}
+              fill
+              priority={idx === 0}
+              className="object-cover sm:hidden"
+            />
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              fill
+              priority={idx === 0}
+              className="object-cover hidden sm:block"
+            />
           </div>
 
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent" />
+
           {/* Content */}
-          <div className="relative h-full flex items-center justify-start px-4 sm:px-8 md:px-12">
-            <div className="max-w-2xl animate-fade-in">
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-4 leading-tight text-balance">
+          <div className="relative z-20 h-full flex items-center px-4 sm:px-20">
+            <div className="max-w-xl sm:max-w-2xl animate-fade-in">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight">
                 {slide.title}
-              </h2>
-              <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 max-w-xl text-balance">
+              </h1>
+
+              <p className="text-sm sm:text-lg md:text-xl text-gray-200 mb-6">
                 {slide.subtitle}
               </p>
-              <button className="px-6 sm:px-8 py-3 md:py-4 bg-secondary text-primary rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105 text-sm sm:text-base">
+
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center px-7 py-3 sm:px-9 sm:py-4 bg-secondary text-primary rounded-lg font-semibold transition hover:scale-[1.03]"
+              >
                 {slide.cta}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       ))}
 
-      {/* Navigation Buttons - Hidden on Mobile, Visible on Desktop */}
+      {/* Arrows */}
       <button
         onClick={prev}
-        className="hidden sm:flex absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 md:p-3 rounded-full transition backdrop-blur-sm group-hover:opacity-100"
+        className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronLeft />
       </button>
 
       <button
         onClick={next}
-        className="hidden sm:flex absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 md:p-3 rounded-full transition backdrop-blur-sm group-hover:opacity-100"
+        className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronRight />
       </button>
 
-      {/* Dots Navigation - Mobile Friendly */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 sm:gap-3">
-        {slides.map((_, idx) => (
+      {/* Dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+        {slides.map((_, i) => (
           <button
-            key={idx}
+            key={i}
             onClick={() => {
-              setCurrent(idx)
+              setCurrent(i)
               setAutoPlay(false)
             }}
-            className={`transition-all rounded-full ${
-              idx === current
-                ? "bg-secondary w-8 sm:w-10 h-2 sm:h-3"
-                : "bg-white/40 hover:bg-white/60 w-2 sm:w-3 h-2 sm:h-3"
+            className={`rounded-full transition-all ${
+              i === current
+                ? "bg-secondary w-8 h-2"
+                : "bg-white/40 w-2 h-2 hover:bg-white/60"
             }`}
-            aria-label={`Go to slide ${idx + 1}`}
+            aria-label={`Go to slide ${i + 1}`}
           />
         ))}
       </div>
-
-      {/* Touch Navigation for Mobile */}
-      <div className="absolute inset-0 z-10" />
-    </div>
+    </section>
   )
 }
