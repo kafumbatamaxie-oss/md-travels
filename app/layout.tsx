@@ -63,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-
+  
   const content = (
     <html lang="en" className="scroll-smooth">
       <body className={`${_geist.className} antialiased bg-background text-foreground`}>
