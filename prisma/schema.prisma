@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Vehicle {
+  id           String   @id @default(cuid())
+  name         String
+  brand        String
+  category     String
+  passengers   Int
+  pricePerDay  Float
+  imageUrl     String
+  status       String   @default("AVAILABLE")
+  description  String?
+  fuelType     String?  @default("Petrol")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  bookings     Booking[]
+}
+
+model Booking {
+  id             String   @id @default(cuid())
+  userId         String
+  vehicleId      String
+  vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
+  pickupDate     DateTime
+  dropoffDate    DateTime
+  status         String   @default("PENDING")
+  totalAmount    Float
+  createdAt      DateTime @default(now())
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Quote {
+  id                     String   @id @default(cuid())
+  firstName              String
+  lastName               String
+  email                  String
+  phone                  String
+  pickupAddress          String
+  destination            String
+  pickupDate             DateTime
+  dropoffDate            DateTime
+  pickupTime             String
+  passengers             Int
+  serviceType             String
+  additionalRequirements String?
+  status                 String   @default("NEW")
+  createdAt              DateTime @default(now())
+}

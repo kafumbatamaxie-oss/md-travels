@@ -1,0 +1,121 @@
+"use client"
+
+import { Navbar } from "@/components/navbar"
+import { FloatingElements } from "@/components/floating-elements"
+import { useLanguage } from "@/hooks/use-language"
+import { CheckCircle } from "lucide-react"
+
+export default function About() {
+  const { t, mounted } = useLanguage()
+
+  if (!mounted) return null
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+    
+
+      {/* Hero */}
+      <section className="relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-dark">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">About MD Travels</h1>
+          <p className="text-lg text-text-secondary">
+            We are a premier transportation company committed to providing exceptional service
+          </p>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="animate-slide-in-left">
+              <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+              <p className="text-text-secondary leading-relaxed mb-8">
+                To provide safe, reliable, and luxurious transportation services that exceed our clients' expectations
+                while maintaining the highest standards of professionalism and customer service.
+              </p>
+
+              <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
+              <p className="text-text-secondary leading-relaxed mb-8">
+                To become the leading transportation service provider in Cape Town, known for our commitment to
+                excellence, innovation, and customer satisfaction.
+              </p>
+            </div>
+
+            <div className="animate-slide-up">
+              <h2 className="text-3xl font-bold mb-8">Core Values</h2>
+              <div className="space-y-4">
+                {[
+                  { title: "Safety First", desc: "Your security is our top priority" },
+                  { title: "Reliability", desc: "Always on time, every single time" },
+                  { title: "Excellence", desc: "Uncompromising quality in everything" },
+                  { title: "Customer Focus", desc: "Your satisfaction drives our success" },
+                ].map((value, idx) => (
+                  <div
+                    key={idx}
+                    className="flex gap-4 p-4 glass rounded-lg border border-border hover:border-secondary transition"
+                  >
+                    <CheckCircle className="w-6 h-6 text-secondary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold mb-1">{value.title}</h3>
+                      <p className="text-sm text-text-secondary">{value.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-surface/30">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-16 text-balance">Why Choose MD Travels?</h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              { title: "24/7 Availability", desc: "Round-the-clock service for your convenience" },
+              { title: "Licensed & Insured", desc: "Fully licensed with comprehensive insurance coverage" },
+              { title: "Professional Team", desc: "Experienced and courteous drivers" },
+              { title: "Customer Satisfaction", desc: "Your comfort and satisfaction is our priority" },
+              { title: "Fleet Quality", desc: "Modern vehicles with premium amenities" },
+              { title: "Local Expertise", desc: "Deep knowledge of Cape Town and surroundings" },
+            ].map((item, idx) => (
+              <div key={idx} className="p-6 glass rounded-lg border border-border hover:border-secondary transition">
+                <h3 className="text-lg font-bold mb-2 text-secondary">0{idx + 1}</h3>
+                <h4 className="font-bold mb-2">{item.title}</h4>
+                <p className="text-text-secondary text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            {[
+              { number: "5+", label: "Years Experience" },
+              { number: "1000+", label: "Happy Customers" },
+              { number: "50+", label: "Fleet Vehicles" },
+              { number: "24/7", label: "Service Available" },
+            ].map((stat, idx) => (
+              <div key={idx} className="p-8 glass rounded-lg border border-border">
+                <div className="text-4xl font-bold gradient-gold mb-2">{stat.number}</div>
+                <p className="text-text-secondary">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <FloatingElements />
+    </main>
+  )
+}
