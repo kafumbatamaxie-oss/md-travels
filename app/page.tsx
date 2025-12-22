@@ -50,11 +50,11 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Search Section - First Body Section */}
-      <section className="px-0 p-0">
+      {/* <section className="px-0 p-0">
         <div className="w-full mx-auto">
           <SearchForm />
         </div>
-      </section>
+      </section> */}
 
        {/* Hero Carousel Section */}
       <section className="relative h-[75vh] flex flex-col items-center justify-center">
