@@ -1,7 +1,4 @@
 "use client"
-
-"use client"
-import { Carousel } from "@/components/carousel"
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import Link from "next/link"
@@ -9,6 +6,7 @@ import { Shield, Clock, Users, Star, Award, HeartHandshake } from "lucide-react"
 import { translations } from "@/lib/i18n"
 import { SearchForm } from "@/components/search-form"
 import { AnimatedStats } from "@/components/animated-stats"
+import { HeroCarouselSection } from "@/components/HeroCarouselSection"
 
 export default function Home() {
   const { language, mounted } = useLanguage()
@@ -16,40 +14,7 @@ export default function Home() {
 
   if (!mounted) return null
 
-  const carouselSlides = [
-    {
-      id: 1,
-      title: t.hero.title,
-      subtitle: t.hero.subtitle,
-      cta: t.hero.cta1,
-      image: "/Home-page-banner-2.jpg",
-      mobileImage: "/Home-page-banner-mobile-1.jpg",
-    },
-    {
-      id: 2,
-      title: t.services.airportTransfers,
-      subtitle: "Reliable, on-time airport pickup and drop-off services for business and leisure travelers",
-      cta: t.hero.cta1,
-      image: "/Home-page-banner-2.jpg",
-      mobileImage: "/Home-page-banner-mobile-1.jpg",
-    },
-    {
-      id: 3,
-      title: t.services.corporateTravel,
-      subtitle: "Professional transportation for your business needs with experienced drivers and luxury vehicles",
-      cta: t.hero.cta1,
-      image: "/Home-page-banner-2.jpg",
-      mobileImage: "/Home-page-banner-mobile-1.jpg",
-    },
-    {
-      id: 4,
-      title: t.services.events,
-      subtitle: "Make your special day memorable with our premium transportation and professional service",
-      image: "/Home-page-banner-2.jpg",
-      mobileImage: "/Home-page-banner-mobile-1.jpg",
-      cta: t.hero.cta1,
-    },
-  ]
+ 
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -61,9 +26,7 @@ export default function Home() {
       </section> */}
 
        {/* Hero Carousel Section */}
-      <section className="relative h-[75vh] flex flex-col items-center justify-center">
-        <Carousel slides={carouselSlides} />
-      </section>
+       <HeroCarouselSection />
 
        {/* About Section with GIF background and Parallax */}
       <section className="relative py-24 md:py-32 overflow-hidden">
@@ -72,7 +35,7 @@ export default function Home() {
           className="absolute inset-0 z-0 opacity-10 grayscale pointer-events-none bg-fixed bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('/car-0.gif')",
+              "url('/Flag_of_South_Africa.gif')",
           }}
         />
 
