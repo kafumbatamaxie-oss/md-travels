@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar"
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import { CheckCircle } from "lucide-react"
+import CustomHero from "@/components/CustomHero"
 
 export default function About() {
   const { t, mounted } = useLanguage()
@@ -15,18 +16,10 @@ export default function About() {
     
 
       {/* Hero */}
-      <section className="relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-dark">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">About MD Travels</h1>
-          <p className="text-lg text-text-secondary">
-            We are a premier transportation company committed to providing exceptional service
-          </p>
-        </div>
-      </section>
+      <CustomHero 
+        title="About Us" 
+        subTitle="We are a premier transportation company committed to providing exceptional service" />
+      
 
       {/* Mission & Vision */}
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">

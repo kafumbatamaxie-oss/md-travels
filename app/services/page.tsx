@@ -5,6 +5,7 @@ import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import { Plane, Briefcase, MapPin, Heart, Compass, Truck } from "lucide-react"
 import Link from "next/link"
+import CustomHero from "@/components/CustomHero"
 
 const services = [
   {
@@ -55,16 +56,7 @@ export default function Services() {
     
 
       {/* Hero */}
-      <section className="relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-dark">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{t("services.title")}</h1>
-          <p className="text-lg text-text-secondary">{t("services.subtitle")}</p>
-        </div>
-      </section>
+      <CustomHero title={t("services.title")} subTitle={t("services.subtitle")} />
 
       {/* Services Grid */}
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">

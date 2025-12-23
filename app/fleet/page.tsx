@@ -5,27 +5,28 @@ import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import Link from "next/link"
 import { Users, Zap, Shield } from "lucide-react"
+import CustomHero from "@/components/CustomHero"
 
 const vehicles = [
   {
     name: "Mercedes-Benz C-Class",
     passengers: "5",
     type: "Luxury Sedan",
-    image: "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=600&q=80",
+    image: "/hero-mobile-1.jpg",
     features: ["Air Conditioning", "Premium Interior", "WiFi", "Phone Charger"],
   },
   {
     name: "Toyota Quantum",
     passengers: "14",
     type: "Group Transport",
-    image: "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80",
+    image: "/hero-mobile-2.jpg",
     features: ["Spacious Interior", "Air Conditioning", "USB Ports", "Entertainment"],
   },
   {
     name: "Hyundai Staria",
     passengers: "9",
     type: "Mid-Size Van",
-    image: "https://images.unsplash.com/photo-1533473359331-35b8a4c58712?w=600&q=80",
+    image: "/hero-mobile-3.jpg",
     features: ["Comfortable Seating", "Climate Control", "Modern Tech", "Luggage Space"],
   },
 ]
@@ -40,16 +41,7 @@ export default function Fleet() {
    
 
       {/* Hero */}
-      <section className="relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-dark">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{t("fleet.title")}</h1>
-          <p className="text-lg text-text-secondary">{t("fleet.subtitle")}</p>
-        </div>
-      </section>
+      <CustomHero title={t("fleet.title")} subTitle={t("fleet.subtitle")} />
 
       {/* Fleet Grid */}
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">

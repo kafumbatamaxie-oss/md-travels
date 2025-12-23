@@ -8,6 +8,7 @@ import { useLanguage } from "@/hooks/use-language"
 import { useState } from "react"
 import { Send, Phone, Mail, MapPin, CheckCircle, Loader2 } from "lucide-react"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import CustomHero from "@/components/CustomHero"
 
 
 const springConfig = {
@@ -65,25 +66,8 @@ export default function Contact() {
    
 
       {/* Hero with Reveal */}
-      <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--secondary)_0%,_transparent_70%)] opacity-5 blur-[120px]" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center">
-          <ScrollReveal>
-            <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase leading-none mb-6">
-              Connect <span className="text-secondary">With Us</span>
-            </h1>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experience gold-standard support. Our team is dedicated to providing you with the ultimate luxury
-              experience in Cape Town.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <CustomHero title="Connect With Us" subTitle="Experience gold-standard support. Our team is dedicated to providing you with the ultimate luxury
+              experience in Cape Town."/>
 
       {/* Contact Section */}
       <section className="pb-32 px-4 sm:px-6 lg:px-8">

@@ -3,46 +3,47 @@
 import { Navbar } from "@/components/navbar"
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
+import CustomHero from "@/components/CustomHero"
 
 const galleryImages = [
   {
     category: "Fleet",
-    image: "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=600&q=80",
+    image: "/p1.jpg",
     title: "Luxury Fleet",
   },
   {
     category: "Views",
-    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80",
+    image: "/p2.jpg",
     title: "Cape Town Views",
   },
   {
     category: "Fleet",
-    image: "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80",
+    image: "/p3.jpg",
     title: "Group Transport",
   },
   {
     category: "Views",
-    image: "https://images.unsplash.com/photo-1507672492031-44a72e44d995?w=600&q=80",
+    image: "/p4.jpg",
     title: "Mountain Scenery",
   },
   {
     category: "Fleet",
-    image: "https://images.unsplash.com/photo-1533473359331-35b8a4c58712?w=600&q=80",
+    image: "/p5.jpg",
     title: "Premium Vehicles",
   },
   {
     category: "Views",
-    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80",
+    image: "/hero-mobile-3.jpg",
     title: "Coastal Beauty",
   },
   {
     category: "Fleet",
-    image: "https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?w=600&q=80",
+    image: "/hero-mobile-2.jpg",
     title: "Professional Service",
   },
   {
     category: "Views",
-    image: "https://images.unsplash.com/photo-1500595046891-9049f5edfaf5?w=600&q=80",
+    image: "/hero-mobile-1.jpg",
     title: "Urban Exploration",
   },
 ]
@@ -57,16 +58,7 @@ export default function Gallery() {
   
 
       {/* Hero */}
-      <section className="relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-dark">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">Our Gallery</h1>
-          <p className="text-lg text-text-secondary">Explore our fleet, services, and beautiful destinations</p>
-        </div>
-      </section>
+      <CustomHero title="Our Gallery" subTitle="Explore our fleet, services, and beautiful destinations" />
 
       {/* Gallery Grid */}
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">

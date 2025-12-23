@@ -13,7 +13,7 @@ export function OurHeritageSection({ t} : {t: any}) {
           }}
         />
 
-        <div className="container relative z-10 mx-auto px-4">
+        <div className="container relative z-10 mx-auto px-4 bg-transparent">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <TextComponent title={t.about.title}  desc1={t.about.description2}/>
@@ -21,7 +21,7 @@ export function OurHeritageSection({ t} : {t: any}) {
               <AnimatedStats experienceLabel={t.about.experience} clientsLabel={t.about.customers} />
             </div>
 
-            <div className="relative rounded-[3rem] overflow-hidden shadow-2xl group border-8 border-white">
+            <div className="relative rounded-[3rem] overflow-hidden bg-transparent shadow-2xl group ">
               <img
                 src="/heritage.png"
                 alt="Luxury Vehicle Interior"
