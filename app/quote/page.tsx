@@ -116,21 +116,23 @@ export default function Quote() {
     }
   }
 
-  if (!mounted) return null
 
   const progressValue = step === 1 ? 50 : 100
 
   useEffect(() => {
-  if (loading) {
-    document.body.style.overflow = "hidden"
-  } else {
-    document.body.style.overflow = ""
-  }
+    if (loading) {
+        document.body.style.overflow = "hidden"
+    } else {
+        document.body.style.overflow = ""
+    }
 
-  return () => {
-    document.body.style.overflow = ""
-  }
-}, [loading])
+      return () => {
+        document.body.style.overflow = ""
+      }
+  }, [loading])
+
+  
+  if (!mounted) return null
 
 
   return (
