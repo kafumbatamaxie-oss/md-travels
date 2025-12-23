@@ -18,6 +18,11 @@ export const translations = {
       cta1: "Start Your Journey",
       cta2: "Our Fleet",
     },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
+    },
     // About
     about: {
       title: "Our Heritage",
@@ -27,6 +32,7 @@ export const translations = {
       experience: "Years of Excellence",
       customers: "Global Clients",
     },
+
     // Services
     services: {
       title: "Our Services",
@@ -112,6 +118,11 @@ export const translations = {
       subtitle: "Ontdek die uiteindelike in premium vervoer. Van uitvoerende oordragte tot pasgemaakte toere.",
       cta1: "Begin Jou Reis",
       cta2: "Ons Voertuie",
+    },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
     },
     about: {
       title: "Ons Erfenis",
@@ -204,6 +215,11 @@ export const translations = {
       cta1: "Qala Uhambo Lwakho",
       cta2: "Izimoto Zethu",
     },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
+    },
     about: {
       title: "Igugu Lethu",
       description1: "I-MD Travels isibe phambili kwezokuthutha zikanokusho eKapa iminyaka engaphezu kweyishumi.",
@@ -261,6 +277,23 @@ export const translations = {
       closed: "Kuvaliwe",
       privacyPolicy: "Inqubomgomo Yobumfihlo",
       webDev: "Ukuthuthukiswa Kwewebhu yi-MD Travels",
+      whyTitle: "Kungani Khetha i-MD Travels",
+      whyTime: "Ngaso Sonke Isikhathi",
+      whyTimeDesc: "Siyalazisa isikhathi sakho futhi siqinisekisa ukufika ngesikhathi.",
+      whySafe: "Kuphephile",
+      whySafeDesc: "Abashayeli abanamalayisense nezimoto ezigcinwe kahle.",
+      whyTeam: "Ithimba Eliqeqeshiwe",
+      whyTeamDesc: "Abashayeli abanobungcweti nabahloniphekile.",
+      whyStars: "Insiza yeziNkwenkwezi ezi-5",
+      whyStarsDesc: "Ukugculiseka kwamakhasimende okuphezulu.",
+      whyAward: "Umklomelo",
+      whyAwardDesc: "Saziwa ngobuhle bokuhamba okunethezekile.",
+      whyClient: "Ikhasimende Kuqala",
+      whyClientDesc: "Induduzo yakho iyinto ebalulekile kithi.",
+      ctaTitle: "Usukulungele Ukuhamba?",
+      ctaDesc: "Xhumana nathi namuhla uthole isilinganiso.",
+      whatsapp: "Xoxa kuWhatsApp",
+
     },
   },
   xh: {
@@ -279,6 +312,11 @@ export const translations = {
         "Fumanisa eyona nto ingcono kakhulu kuthutho lweprimiyam. Ukusuka kwiitransfays zabaphathi ukuya kwiitour ezikhethekileyo.",
       cta1: "Qala Uhambo Lwakho",
       cta2: "Iimoto Zethu",
+    },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
     },
     about: {
       title: "Ilifa Lethu",
@@ -337,6 +375,23 @@ export const translations = {
       closed: "Valiwe",
       privacyPolicy: "Umgaqo-nkqubo weSifuba",
       webDev: "Uphuhliso lwewebhu yi-MD Travels",
+      whyTitle: "Kungani Khetha i-MD Travels",
+      whyTime: "Ngaso Sonke Isikhathi",
+      whyTimeDesc: "Siyalazisa isikhathi sakho futhi siqinisekisa ukufika ngesikhathi.",
+      whySafe: "Kuphephile",
+      whySafeDesc: "Abashayeli abanamalayisense nezimoto ezigcinwe kahle.",
+      whyTeam: "Ithimba Eliqeqeshiwe",
+      whyTeamDesc: "Abashayeli abanobungcweti nabahloniphekile.",
+      whyStars: "Insiza yeziNkwenkwezi ezi-5",
+      whyStarsDesc: "Ukugculiseka kwamakhasimende okuphezulu.",
+      whyAward: "Umklomelo",
+      whyAwardDesc: "Saziwa ngobuhle bokuhamba okunethezekile.",
+      whyClient: "Ikhasimende Kuqala",
+      whyClientDesc: "Induduzo yakho iyinto ebalulekile kithi.",
+      ctaTitle: "Usukulungele Ukuhamba?",
+      ctaDesc: "Xhumana nathi namuhla uthole isilinganiso.",
+      whatsapp: "Xoxa kuWhatsApp",
+
     },
   },
   es: {
@@ -354,6 +409,11 @@ export const translations = {
       subtitle: "Descubra lo último en transporte premium. Desde traslados ejecutivos hasta tours personalizados.",
       cta1: "Inicie su Viaje",
       cta2: "Nuestra Flota",
+    },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
     },
     about: {
       title: "Nuestra Herencia",
@@ -455,6 +515,11 @@ export const translations = {
       experience: "Années d'Excellence",
       customers: "Clients Internationaux",
     },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
+    },
     services: {
       title: "Nos Services",
       subtitle: "Solutions de transport global",
@@ -540,6 +605,11 @@ export const translations = {
         "Entdecken Sie das Ultimative an Premium-Transport. Von VIP-Transfers bis hin zu maßgeschneiderten Touren.",
       cta1: "Reise Beginnen",
       cta2: "Unsere Flotte",
+    },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
     },
     about: {
       title: "Unser Erbe",
@@ -639,6 +709,11 @@ export const translations = {
       description2: "Orgulhamo-nos da discrição, segurança e um compromisso inabalável com a excelência do serviço.",
       experience: "Anos de Excelência",
       customers: "Clientes Globais",
+    },
+    aboutSection: {
+      title: "About MD Travels",
+      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
+      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
     },
     services: {
       title: "Nossos Serviços",

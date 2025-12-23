@@ -289,25 +289,25 @@
   bottom: 15%;
   width: 220px;
   height: 80px;
-  background: url("/luxury-car-profile.jpg") no-repeat center / contain;
+  background: url("/benz.png") no-repeat center / contain;
   animation: drive-across 4s linear infinite;
   opacity: 0.8;
 }
 
 @keyframes drive-across {
   0% {
-    transform: translateX(-120%);
+    transform: translateX(120%);
   }
   100% {
-    transform: translateX(120%);
+    transform: translateX(-120%);
   }
 }
 
 /* Loader container */
 .loader-container {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 220px;
+  height: 220px;
 }
 
 /* Circular ring */
@@ -344,6 +344,12 @@
   50% {
     transform: scale(1.05);
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .will-change-transform {
+    transform: none !important;
   }
 }
 

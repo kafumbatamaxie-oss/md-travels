@@ -21,7 +21,7 @@ export const HeroCarouselSection = () => {
       title: t.services.airportTransfers,
       subtitle: "Reliable, on-time airport pickup and drop-off services for business and leisure travelers",
       cta: t.hero.cta1,
-      image: "/Home-page-banner-2.jpg",
+      image: "/bg-2.jpeg",
       mobileImage: "/Home-page-banner-mobile-1.jpg",
     },
     {

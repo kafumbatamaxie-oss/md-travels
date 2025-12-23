@@ -54,20 +54,18 @@ export async function POST(req: NextRequest) {
 
     /* -------------------- SEND SMS -------------------- */
     const smsBody = `
-🆕 MD Travels Quote Request
+            🆕 MD Travels Quote Request
+            Name: ${firstName} ${lastName}
+            Phone: ${phone}
+            Service: ${serviceType}
+            Passengers: ${passengers}
 
-Name: ${firstName} ${lastName}
-Phone: ${phone}
-Service: ${serviceType}
-Passengers: ${passengers}
+            Pickup: ${pickupAddress}
+            Destination: ${destination}
 
-Pickup: ${pickupAddress}
-Destination: ${destination}
-
-Dashboard:
-https://www.mdtravels.co.za/dashboard
-`
-
+            Dashboard:
+            https://www.mdtravels.co.za/dashboard
+            `
     await client.messages.create({
       body: smsBody,
       to: "+27815116234",
