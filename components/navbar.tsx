@@ -89,12 +89,12 @@ export function Navbar() {
           {/* Left */}
           <div className="flex items-center gap-3">
             <a
-              href="tel:+27831234567"
+              href="tel:+27606411703"
               className="flex items-center gap-1 hover:text-white/80 transition"
               aria-label="Call MD Travels"
             >
               <Phone className="w-4 h-4" />
-              <span>+27 83 123 4567</span>
+              <span>+27 606 411 703</span>
             </a>
 
             <span className="opacity-60">|</span>
