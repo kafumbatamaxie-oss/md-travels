@@ -6,6 +6,8 @@ datasource db {
   provider = "postgresql"
 }
 
+
+
 model Vehicle {
   id           String   @id @default(cuid())
   name         String
@@ -50,14 +52,31 @@ model Quote {
   lastName               String
   email                  String
   phone                  String
+
   pickupAddress          String
   destination            String
   pickupDate             DateTime
   dropoffDate            DateTime
   pickupTime             String
   passengers             Int
-  serviceType             String
+
+  serviceId              String
+  service                Service  @relation(fields: [serviceId], references: [id])
+
   additionalRequirements String?
   status                 String   @default("NEW")
   createdAt              DateTime @default(now())
 }
+
+
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  quotes      Quote[]
+}
+

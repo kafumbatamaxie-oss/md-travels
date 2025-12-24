@@ -99,10 +99,10 @@ export function AboutSection({
                 </video>
 
                 {/* Glass Reflection Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
 
                 {/* Bezel Bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-gray-800 to-gray-900" />
+                <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 bg-linear-to-b from-gray-800 to-gray-900" />
               </div>
             </motion.div>
           </div>

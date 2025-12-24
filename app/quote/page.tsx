@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { QuoteLoadingModal } from "@/components/quote-loading-modal"
 import { QuoteLoadingOverlay } from "@/components/quote-loading-overlay"
+import { QuoteClientSchema } from "@/lib/validators/quote-client"
 
 type FormStep = 1 | 2
 
@@ -27,15 +28,23 @@ type QuoteRequest = {
   dropoffDate: string
   pickupTime: string
   passengers: string
-  serviceType: string
+  serviceId: string
   additionalRequirements?: string
 }
+
+type Service = {
+  id: string
+  name: string
+}
+
+
 
 export default function Quote() {
   const { t, mounted } = useLanguage()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [step, setStep] = useState<FormStep>(1)
+  const [services, setServices] = useState<Service[]>([])
   
 
   const [formData, setFormData] = useState<QuoteRequest>({
@@ -49,9 +58,10 @@ export default function Quote() {
     dropoffDate: "",
     pickupTime: "",
     passengers: "",
-    serviceType: "",
+    serviceId: "",             // ✅ renamed
     additionalRequirements: "",
   })
+
 
 
   const updateField = (name: keyof QuoteRequest, value: string) => {
@@ -81,6 +91,14 @@ export default function Quote() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Vaildate quote data from sent from the user
+    const parsed = QuoteClientSchema.safeParse(formData)
+    if (!parsed.success) {
+      alert("Please complete all required fields correctly.")
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -103,7 +121,7 @@ export default function Quote() {
           dropoffDate: "",
           pickupTime: "",
           passengers: "",
-          serviceType: "",
+          serviceId: "",
           additionalRequirements: "",
         })
         setStep(1)
@@ -130,6 +148,16 @@ export default function Quote() {
         document.body.style.overflow = ""
       }
   }, [loading])
+
+
+
+  useEffect(() => {
+    fetch("/api/services")
+      .then(res => res.json())
+        .then(setServices)
+            .catch(console.error)
+  }, [])
+
 
   
   if (!mounted) return null
@@ -202,20 +230,20 @@ export default function Quote() {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold mb-2 uppercase">
-                        Select a Vehicle <span className="text-red-500">*</span>
+                        Click to select <span className="text-red-500">*</span>
                       </label>
                       <select
-                        name="serviceType"
-                        value={formData.serviceType}
+                        name="serviceId"
+                        value={formData.serviceId}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
                       >
-                        <option value="">Click to select</option>
-                        <option value="toyota-hilux">Group RH: Toyota Hilux SC 4x2 VVTi Petrol</option>
-                        <option value="mahindra-dc">Group RM5: Mahindra DC 4x4 Diesel</option>
-                        <option value="sedan-luxury">Luxury Sedan</option>
-                        <option value="suv-premium">Premium SUV</option>
+                        {services.map(service => (
+                          <option key={service.id} value={service.id}>
+                            {service.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
 

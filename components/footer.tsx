@@ -93,29 +93,31 @@ export function Footer() {
           {/* Quick Contact Section - flex-1 */}
           <div className="flex-1">
             <h4 className="text-secondary font-bold mb-2 uppercase tracking-wider text-sm">{t.contact.quickContact}</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <ul className="space-y-4 text-sm gap-2 text-gray-400">
+              
+              <li className="flex items-center gap-3 group">
+                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <a href={`tel:+27719455941`} className="hover:text-white transition">
+                  +27 71 9455 941
+                </a>
+              </li>
               <li className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href={`tel:+27606411703`} className="hover:text-white transition">
                   +27 606 411 703
                 </a>
               </li>
-              <li className="flex items-center gap-3 group">
-                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
-                <a href={`tel:+27833507251`} className="hover:text-white transition">
-                  +278 3350 7251
-                </a>
-              </li>
-              <li className="flex items-center gap-3 group">
-                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
-                <a href={`tel:+27789927035`} className="hover:text-white transition">
-                  +27 789 927 035
-                </a>
-              </li>
+              
               <li className="flex items-center gap-3 group">
                 <Mail className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href={`mailto:${t.contact.email}`} className="hover:text-white transition">
                   {t.contact.email}
+                </a>
+              </li>
+              <li className="flex items-center gap-3 group">
+                <Mail className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <a href={`mailto:malipheze@mdtravels.co.za`} className="hover:text-white transition">
+                  malipheze@mdtravels.co.za
                 </a>
               </li>
               <li className="flex gap-6 pt-4">
