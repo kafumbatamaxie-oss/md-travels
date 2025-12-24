@@ -96,8 +96,20 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
-                <a href={`tel:${t.contact.phone}`} className="hover:text-white transition">
-                  {t.contact.phone}
+                <a href={`tel:+27606411703`} className="hover:text-white transition">
+                  +27 606 411 703
+                </a>
+              </li>
+              <li className="flex items-center gap-3 group">
+                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <a href={`tel:+27833507251`} className="hover:text-white transition">
+                  +278 3350 7251
+                </a>
+              </li>
+              <li className="flex items-center gap-3 group">
+                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <a href={`tel:+27789927035`} className="hover:text-white transition">
+                  +27 789 927 035
                 </a>
               </li>
               <li className="flex items-center gap-3 group">
