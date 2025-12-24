@@ -77,8 +77,8 @@ export async function POST(req: NextRequest) {
     /* ---------- EMAILS (NON-BLOCKING) ---------- */
     Promise.allSettled([
       resend.emails.send({
-        from: "MD Travels <no-reply@resend.dev>",
-        to: process.env.ADMIN_EMAIL!,
+        from: 'MD <adtravels@resend.dev>',
+        to: 'kafumbatamaxie@gmail.com',
         subject: "🆕 New Quote Request",
         html: `
           <h2>New Quote Request</h2>
