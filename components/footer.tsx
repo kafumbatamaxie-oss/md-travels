@@ -26,17 +26,17 @@ export function Footer() {
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-x-8 gap-y-12 lg:gap-16 mb-20">
           {/* Logo Section - flex-1 */}
-          <div className="flex-1 flex flex-col items-center sm:items-start text-center sm:text-left space-y-6">
+          <div className="flex-1 flex flex-col items-start  sm:items-start text-center sm:text-left space-y-2">
             <Link href="/" className="inline-block hover:opacity-80 transition">
               <Image
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="MD Travels"
-                width={180}
+                width={90}
                 height={90}
-                className="brightness-0 invert w-[150px] md:w-[180px]"
+                className="w-[150px] md:w-[180px]"
               />
             </Link>
-            <p className="text-gray-500 text-sm leading-relaxed">
+            <p className="text-sky-800 text-sm leading-relaxed">
               Premium luxury transportation services in the heart of Cape Town. Experience comfort, reliability, and
               style.
             </p>
@@ -60,7 +60,7 @@ export function Footer() {
 
           {/* Quick Links Section - flex-1 */}
           <div className="flex-1">
-            <h4 className="text-secondary font-bold mb-6 uppercase tracking-wider text-sm">{t.contact.quickLinks}</h4>
+            <h4 className="text-secondary font-bold mb-2 uppercase tracking-wider text-sm">{t.contact.quickLinks}</h4>
             <ul className="space-y-4 text-sm text-gray-400">
               <li>
                 <Link href="/about" className="hover:text-white transition">
@@ -92,8 +92,8 @@ export function Footer() {
 
           {/* Quick Contact Section - flex-1 */}
           <div className="flex-1">
-            <h4 className="text-secondary font-bold mb-6 uppercase tracking-wider text-sm">{t.contact.quickContact}</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
+            <h4 className="text-secondary font-bold mb-2 uppercase tracking-wider text-sm">{t.contact.quickContact}</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
               <li className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href={`tel:+27606411703`} className="hover:text-white transition">
@@ -122,10 +122,10 @@ export function Footer() {
                 <a href="https://www.facebook.com/profile.php?id=61583066652705" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <Facebook className="w-6 h-6 fill-current" />
                 </a>
-                <a href="#" className="text-white hover:text-secondary transition transform hover:scale-110">
+                <a href="https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <Instagram className="w-6 h-6" />
                 </a>
-                <a href="#" className="text-white hover:text-secondary transition transform hover:scale-110">
+                <a href="https://www.linkedin.com/in/malipheze-dlunge-735b70391?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <Linkedin className="w-6 h-6 fill-current" />
                 </a>
               </li>
@@ -134,7 +134,7 @@ export function Footer() {
 
           {/* Call Center Hours Section - flex-1 */}
           <div className="flex-1">
-            <h4 className="text-secondary font-bold mb-6 uppercase tracking-wider text-sm">{t.contact.hours}</h4>
+            <h4 className="text-secondary font-bold mb-2 uppercase tracking-wider text-sm">{t.contact.hours}</h4>
             <ul className="space-y-5 text-sm">
               <li className="flex justify-between items-center text-gray-400">
                 <span className="text-white font-medium">{t.contact.monFri}:</span>

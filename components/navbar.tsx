@@ -113,8 +113,8 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             {[ 
               { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61583066652705", label: "Facebook" },
-              { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-              { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+              { Icon: Instagram, href: "https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#", label: "Instagram" },
+              { Icon: Linkedin, href: "https://www.linkedin.com/in/malipheze-dlunge-735b70391?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", label: "LinkedIn" },
             ].map(({ Icon, href, label }) => (
               <a
                 key={label}
