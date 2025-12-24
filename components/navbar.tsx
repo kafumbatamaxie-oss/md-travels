@@ -112,7 +112,7 @@ export function Navbar() {
           {/* Right (md+) */}
           <div className="hidden md:flex items-center gap-4">
             {[ 
-              { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+              { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61583066652705", label: "Facebook" },
               { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
               { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
             ].map(({ Icon, href, label }) => (

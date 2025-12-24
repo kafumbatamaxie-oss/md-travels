@@ -119,7 +119,7 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex gap-6 pt-4">
-                <a href="#" className="text-white hover:text-secondary transition transform hover:scale-110">
+                <a href="https://www.facebook.com/profile.php?id=61583066652705" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <Facebook className="w-6 h-6 fill-current" />
                 </a>
                 <a href="#" className="text-white hover:text-secondary transition transform hover:scale-110">
