@@ -80,7 +80,7 @@ export default function Contact() {
               { icon: Mail, title: "Email Us on", content: "info@mdtravels.co.za", href: "mailto:info@mdtravels.co.za" },
               { icon: MapPin, title: "Visit Us on", content: "44 Wrench Street, Parow West, 7500", href: "#" },
             ].map((item, i) => (
-              <p className="border-b py-4">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
+              <p className="border-b py-4 text-underline ">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
             ))}
           </div>
 
