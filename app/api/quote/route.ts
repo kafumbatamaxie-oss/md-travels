@@ -5,6 +5,9 @@ import { Resend } from "resend"
 import { sendSMS } from "@/lib/sms"
 import { QuoteAlertEmailTemplate } from "@/lib/emails/quote-alert-email"
 import { QuoteConfirmationEmailTemplate } from "@/lib/emails/quote-confirmation-email"
+import { useRouter } from "next/navigation"
+
+
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -28,6 +31,8 @@ const QuoteSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const router = useRouter()
+
   try {
     const body = await req.json()
 
@@ -103,8 +108,7 @@ export async function POST(req: NextRequest) {
       }),
     ])
 
-    // Send sms
-     // 🔔 ADMIN SMS (non-blocking)
+    // Send sms 🔔 ADMIN SMS (non-blocking)
     sendSMS({
         to: process.env.ADMIN_PHONE!,
         message: `🔔🚗 New Quote Request
@@ -113,12 +117,12 @@ export async function POST(req: NextRequest) {
         To: ${quote.destination}
         Name: ${quote.firstName} ${quote.lastName}
         Phone: ${quote.phone}`,
-      })
-
-    return NextResponse.json({
-      success: true,
-      quoteId: quote.id,
     })
+
+    // 🔥 Redirect immediately
+    router.replace("/confirmation")
+
+    
   } catch (error) {
     console.error("[QUOTE_API_ERROR]", error)
     return NextResponse.json(
