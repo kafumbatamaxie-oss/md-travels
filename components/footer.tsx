@@ -191,7 +191,7 @@ export function Footer() {
           </div>
 
           <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-            Web Development by MD Travels Digital
+            Web Development by AltroTech AI
           </p>
         </div>
       </div>

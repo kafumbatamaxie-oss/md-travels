@@ -119,7 +119,7 @@ export default function Services() {
 
             <div className="glass rounded-xl border border-border p-8 aspect-video flex items-center justify-center">
               <img
-                src="https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=800&q=80"
+                src="/p1.jpg"
                 alt="Service showcase"
                 className="w-full h-full object-cover rounded-lg"
               />

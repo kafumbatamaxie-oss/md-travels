@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 import { prisma } from "@/lib/prisma"
 import { contactEmailTemplate } from "@/lib/emails/contact-email"
+import { confirmationEmailTemplate } from "@/lib/emails/confirmation-email"
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -29,12 +30,22 @@ export async function POST(req: NextRequest) {
     // ✅ Fire-and-forget email (non-blocking)
     if (resend && inquiry) {
       try {
-        resend.emails.send({
-        from: 'MD <adtravels@resend.dev>',
-        to: 'kafumbatamaxie@gmail.com',
-        subject: `New Inquiry: ${subject}`,
-        html: contactEmailTemplate({ name, email, phone, subject, message }),
-      })
+        /* ---------- EMAILS (NON-BLOCKING) ---------- */
+        Promise.allSettled([
+          resend.emails.send({
+            from: process.env.RESEND_FROM!,
+            to: ['kafumbatamaxie@gmail.com',"info@mdtraders.co.za","malipheze@mdtravels.co.za"],
+            subject: `🔔🔔 New Inquiry: ${subject}`,
+            html: contactEmailTemplate({ name, email, phone, subject, message }),
+          }),
+          resend.emails.send({
+            from: process.env.RESEND_FROM!,
+            to: email,
+            subject: 'Thanks for contacting MD Travels',
+            html: confirmationEmailTemplate(name),
+          }),
+        ])
+        
       } catch(err) {
         console.error("[CONTACT_EMAIL_ERROR]", err)
       }
