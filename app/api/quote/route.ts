@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 import { Resend } from "resend"
 import { sendSMS } from "@/lib/sms"
+import { QuoteAlertEmailTemplate } from "@/lib/emails/quote-alert-email"
+import { QuoteConfirmationEmailTemplate } from "@/lib/emails/quote-confirmation-email"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -38,7 +40,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const data = parsed.data
+    const data = parsed.data;
+    
 
     /* ---------- VERIFY SERVICE ---------- */
     const service = await prisma.service.findFirst({
@@ -52,6 +55,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
+
+
 
     /* ---------- CREATE QUOTE ---------- */
     const quote = await prisma.quote.create({
@@ -75,33 +80,26 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    const {firstName, lastName, phone, pickupAddress, destination } = data;
+    const serviceName = service.name
+
+    
+ 
+
     /* ---------- EMAILS (NON-BLOCKING) ---------- */
     Promise.allSettled([
       resend.emails.send({
-        from: 'MD <adtravels@resend.dev>',
-        to: 'kafumbatamaxie@gmail.com',
-        subject: "🆕 New Quote Request",
-        html: `
-          <h2>New Quote Request</h2>
-          <p><b>Name:</b> ${quote.firstName} ${quote.lastName}</p>
-          <p><b>Phone:</b> ${quote.phone}</p>
-          <p><b>Service:</b> ${quote.service.name}</p>
-          <p><b>Pickup:</b> ${quote.pickupAddress}</p>
-          <p><b>Destination:</b> ${quote.destination}</p>
-        `,
+        from: process.env.RESEND_FROM!,
+        to: ['kafumbatamaxie@gmail.com',"info@mdtraders.co.za","malipheze@mdtravels.co.za"],
+        subject: `🔔🆕🔔 New Inquiry: ${quote.service.name}`,
+        html: QuoteAlertEmailTemplate(firstName, lastName, phone, serviceName, pickupAddress, destination)
       }),
 
       resend.emails.send({
-        from: "MD Travels <admin@resend.dev>",
-        to: quote.email,
+        from: process.env.RESEND_FROM!,
+        to: data.email,
         subject: "✅ Quote Request Received",
-        html: `
-          <h2>Thank you ${quote.firstName}!</h2>
-          <p>Your request for <b>${quote.service.name}</b> has been received.</p>
-          <p>Our Cape Town team will contact you shortly.</p>
-          <br/>
-          <p>MD Travels</p>
-        `,
+        html: QuoteConfirmationEmailTemplate(firstName, serviceName, pickupAddress, destination)
       }),
     ])
 

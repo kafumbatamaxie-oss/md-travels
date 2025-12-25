@@ -423,14 +423,14 @@ export default function Quote() {
                     </div>
                   </div>
                   {/* Step 2 unchanged – already correct */}
-                  <div className="flex gap-4">
-                    <button type="button" onClick={handleBackStep} className="px-6 py-4 bg-muted rounded-lg">
-                      <ChevronLeft className="w-4 h-4" /> Back
+                  <div className="flex items-center justify-center gap-4">
+                    <button type="button" onClick={handleBackStep} className="px-6 py-4 text-center bg-muted rounded-lg">
+                      <ChevronLeft className="w-4 h-4" /> 
                     </button>
                     <button
                       type="submit"
                       disabled={loading}
-                      className="flex-1 px-8 py-4 bg-secondary text-white rounded-lg font-bold uppercase"
+                      className="flex-1 px-8 py-4 bg-secondary text-white rounded-lg flex-2 font-bold uppercase"
                     >
                       {loading ? "Sending..." : <>Send Request <Send className="w-4 h-4" /></>}
                     </button>

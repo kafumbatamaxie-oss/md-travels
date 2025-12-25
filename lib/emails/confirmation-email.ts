@@ -62,12 +62,12 @@ export function confirmationEmailTemplate(name: string) {
                 <tr>
                   <td style="background:#0b2e4f;padding:20px 30px;color:#e5e7eb;font-size:12px;text-align:center;">
                     <p style="margin:0;">
-                      📞 +27 71 945 5941 &nbsp;|&nbsp;
-                      ✉️ info@mdtravels.co.za
+                    📞 +27 606 411 703 &nbsp;|&nbsp;
+                    ✉️ info@mdtravels.coza
                     </p>
                     <p style="margin:0;">
-                      📞 +27 606 411 703 &nbsp;|&nbsp;
-                      ✉️ info@mdtravels.co.za
+                    📞 +27 71 945 5941 &nbsp;|&nbsp;
+                    ✉️ kafumbatamaxie@gmail.com
                     </p>
                     <p style="margin:8px 0 0;color:#9ca3af;">
                       © ${new Date().getFullYear()} MD Travels. All rights reserved.
