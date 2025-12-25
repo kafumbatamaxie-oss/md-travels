@@ -37,7 +37,7 @@ export function Footer() {
               />
             </Link>
 
-            <p className="text-sky-800 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed">
               Premium luxury transportation services in the heart of Cape Town.
               Experience comfort, reliability, and style.
             </p>
