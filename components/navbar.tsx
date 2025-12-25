@@ -17,7 +17,7 @@ import {
   Linkedin,
 } from "lucide-react"
 
-import { FaTiktok, FaFacebook } from "react-icons/fa"
+import { FaTiktok } from "react-icons/fa"
 
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
@@ -118,7 +118,7 @@ export function Navbar() {
             {[ 
               { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61583066652705", label: "Facebook" },
               { Icon: Instagram, href: "https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#", label: "Instagram" },
-              { Icon: FaTiktok, href: "", label: "Tiktok"},
+              { Icon: FaTiktok, href: "https://www.tiktok.com/@mdtravels.za?_r=1&_t=ZS-92VqYCTMO25", label: "Tiktok"},
               { Icon: Linkedin, href: "https://www.linkedin.com/in/malipheze-dlunge-735b70391?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", label: "LinkedIn" },
             ].map(({ Icon, href, label }) => (
               <a

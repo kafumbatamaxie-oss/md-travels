@@ -125,7 +125,7 @@ export function Footer() {
                 <a href="https://www.facebook.com/profile.php?id=61583066652705" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <Facebook className="w-6 h-6 fill-current" />
                 </a>
-                <a href="https://www.tiktok.com/profile.php?id=61583066652705" className="text-white hover:text-secondary transition transform hover:scale-110">
+                <a href="https://www.tiktok.com/@mdtravels.za?_r=1&_t=ZS-92VqYCTMO25" className="text-white hover:text-secondary transition transform hover:scale-110">
                   <FaTiktok className="w-6 h-6 fill-current" />
                 </a>
                 <a href="https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#" className="text-white hover:text-secondary transition transform hover:scale-110">
