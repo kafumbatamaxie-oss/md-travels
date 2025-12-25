@@ -3,14 +3,13 @@ import { Resend } from "resend"
 import { prisma } from "@/lib/prisma"
 import { contactEmailTemplate } from "@/lib/emails/contact-email"
 import { confirmationEmailTemplate } from "@/lib/emails/confirmation-email"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null
 
 export async function POST(req: NextRequest) {
-  const router = useRouter()
 
   try {
     const body = await req.json()
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 🔥 Redirect immediately
-    router.replace("/confirmation")
+    redirect("/confirmation")
 
     
   } catch (error) {

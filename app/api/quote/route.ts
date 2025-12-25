@@ -5,7 +5,7 @@ import { Resend } from "resend"
 import { sendSMS } from "@/lib/sms"
 import { QuoteAlertEmailTemplate } from "@/lib/emails/quote-alert-email"
 import { QuoteConfirmationEmailTemplate } from "@/lib/emails/quote-confirmation-email"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 
 
 
@@ -31,7 +31,6 @@ const QuoteSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const router = useRouter()
 
   try {
     const body = await req.json()
@@ -120,7 +119,7 @@ export async function POST(req: NextRequest) {
     })
 
     // 🔥 Redirect immediately
-    router.replace("/confirmation")
+    redirect("/confirmation")
 
     
   } catch (error) {
