@@ -4,8 +4,7 @@ import Link from "next/link"
 import { useLanguage } from "@/hooks/use-language"
 import { translations, type LanguageCode } from "@/lib/i18n"
 import Image from "next/image"
-import { Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react"
-import { FaTiktok, FaClock } from "react-icons/fa"
+import { FaTiktok, FaClock, FaWhatsapp, FaFacebook, FaInstagram, FaLinkedin, FaPhone, FaMailBulk } from "react-icons/fa"
 
 export function Footer() {
   const { language, changeLanguage } = useLanguage()
@@ -83,45 +82,54 @@ export function Footer() {
 
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-center gap-3 group">
-                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <FaPhone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href="tel:+27719455941" className="hover:text-white transition">
                   +27 71 9455 941
                 </a>
               </li>
 
               <li className="flex items-center gap-3 group">
-                <Phone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <FaPhone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href="tel:+27606411703" className="hover:text-white transition">
                   +27 606 411 703
                 </a>
               </li>
 
               <li className="flex items-center gap-3 group">
-                <Mail className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <FaMailBulk className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href={`mailto:${t.contact.email}`} className="hover:text-white transition">
                   {t.contact.email}
                 </a>
               </li>
 
               <li className="flex items-center gap-3 group">
-                <Mail className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <FaMailBulk className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href="mailto:malipheze@mdtravels.co.za" className="hover:text-white transition">
                   malipheze@mdtravels.co.za
                 </a>
               </li>
 
               <li className="flex gap-6 pt-4">
+                 <a
+                  href="https://wa.me/27719455941"
+                  className="hover:text-green-500 transition transform hover:scale-110"
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaWhatsapp className="w-6 h-6" />
+                </a>
                 <a href="https://www.facebook.com/profile.php?id=61583066652705" className="hover:text-secondary transition">
-                  <Facebook className="w-6 h-6" />
+                  <FaFacebook className="w-6 h-6" />
                 </a>
                 <a href="https://www.tiktok.com/@mdtravels.za" className="hover:text-secondary transition">
                   <FaTiktok className="w-6 h-6" />
                 </a>
                 <a href="https://www.instagram.com/md_travels_sa" className="hover:text-secondary transition">
-                  <Instagram className="w-6 h-6" />
+                  <FaInstagram className="w-6 h-6" />
                 </a>
                 <a href="https://www.linkedin.com" className="hover:text-secondary transition">
-                  <Linkedin className="w-6 h-6" />
+                  <FaLinkedin className="w-6 h-6" />
                 </a>
               </li>
             </ul>

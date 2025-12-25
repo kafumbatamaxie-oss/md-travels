@@ -17,7 +17,7 @@ import {
   Linkedin,
 } from "lucide-react"
 
-import { FaTiktok } from "react-icons/fa"
+import { FaTiktok, FaWhatsapp } from "react-icons/fa"
 
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
@@ -116,6 +116,7 @@ export function Navbar() {
           {/* Right (md+) */}
           <div className="hidden md:flex items-center gap-4">
             {[ 
+              { Icon: FaWhatsapp, href: "https://wa.me/27719455941?text=Hello%20MD%20Travels%20👋%0A%0AI%20would%20like%20to%20enquire%20about%20your%20luxury%20transport%20services.%0A%0A📍%20Pickup%20Location:%0A🕒%20Date%20%26%20Time:%0A🚘%20Service%20Type:%0A%0AThank%20you!", label: "Whatsap" },
               { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61583066652705", label: "Facebook" },
               { Icon: Instagram, href: "https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#", label: "Instagram" },
               { Icon: FaTiktok, href: "https://www.tiktok.com/@mdtravels.za?_r=1&_t=ZS-92VqYCTMO25", label: "Tiktok"},
