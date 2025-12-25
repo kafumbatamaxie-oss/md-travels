@@ -78,9 +78,9 @@ export default function Contact() {
               { icon: Phone, title: "Call Us on", content: "+27 606 411 703", href: "tel:+27606411703" },
               { icon: Phone, title: "Call Us on", content: "+27 71 945 5941", href: "tel:+27719455941" },
               { icon: Mail, title: "Email Us on", content: "info@mdtravels.co.za", href: "mailto:info@mdtravels.co.za" },
-              { icon: MapPin, title: "Visit Us on", content: "44 Wrench Street, Parow West, 7500", href: "#" },
+              { icon: MapPin, title: "Visit Us at", content: "44 Wrench Street, Parow West, 7500", href: "#" },
             ].map((item, i) => (
-              <p className="border-b py-4 text-underline ">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
+              <p className="border-b py-4 text-underline underline decoration-indigo-500">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
             ))}
           </div>
 
