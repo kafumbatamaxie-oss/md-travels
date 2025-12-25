@@ -72,7 +72,7 @@ export default function Contact() {
       {/* Contact Section */}
       <section className="pb-32 px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col md:flex-row max-w-full mx-auto py-10 gap-10">
-          <div className="">
+          <div className="mt-10">
             {[
             
               { icon: Phone, title: "Call Us on", content: "+27 606 411 703", href: "tel:+27606411703" },
@@ -80,7 +80,7 @@ export default function Contact() {
               { icon: Mail, title: "Email Us on", content: "info@mdtravels.co.za", href: "mailto:info@mdtravels.co.za" },
               { icon: MapPin, title: "Visit Us on", content: "44 Wrench Street, Parow West, 7500", href: "#" },
             ].map((item, i) => (
-              <p className="border-b pb-2">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
+              <p className="border-b py-4">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
             ))}
           </div>
 
