@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 import { Resend } from "resend"
+import { sendSMS } from "@/lib/sms"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -103,6 +104,18 @@ export async function POST(req: NextRequest) {
         `,
       }),
     ])
+
+    // Send sms
+     // 🔔 ADMIN SMS (non-blocking)
+    sendSMS({
+        to: process.env.ADMIN_PHONE!,
+        message: `🔔🚗 New Quote Request
+        Service: ${quote.service.name}
+        From: ${quote.pickupAddress}
+        To: ${quote.destination}
+        Name: ${quote.firstName} ${quote.lastName}
+        Phone: ${quote.phone}`,
+      })
 
     return NextResponse.json({
       success: true,

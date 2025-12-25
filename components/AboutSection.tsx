@@ -86,7 +86,7 @@ export function AboutSection({
               className="w-full h-96 md:h-full"
             >
               <div
-                className="relative w-full h-96 md:h-[500px] bg-black rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-900 group"
+                className="relative w-full h-96 md:h-[500px] bg-black rounded-3xl  overflow-hidden border-8 border-gray-900 group"
                 style={{
                   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
                 }}

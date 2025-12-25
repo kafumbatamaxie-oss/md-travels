@@ -16,6 +16,10 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react"
+
+import { FaTiktok, FaFacebook } from "react-icons/fa"
+
+
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
@@ -114,6 +118,7 @@ export function Navbar() {
             {[ 
               { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61583066652705", label: "Facebook" },
               { Icon: Instagram, href: "https://www.instagram.com/md_travels_sa/?igsh=MmZ6cXl2dmxyZ25s#", label: "Instagram" },
+              { Icon: FaTiktok, href: "", label: "Tiktok"},
               { Icon: Linkedin, href: "https://www.linkedin.com/in/malipheze-dlunge-735b70391?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", label: "LinkedIn" },
             ].map(({ Icon, href, label }) => (
               <a
@@ -127,6 +132,16 @@ export function Navbar() {
                 <Icon className="w-4 h-4" />
               </a>
             ))}
+            <a
+                key='tiktok'
+                href=''
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`MD Travels on Tiktok`}
+                className="transform transition duration-300 ease-out hover:-translate-y-0.5 hover:scale-110 hover:opacity-90"
+              >
+                {/* Missing Tiktok Icon */}
+              </a>
           </div>
         </div>
       </div>
