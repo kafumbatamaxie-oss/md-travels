@@ -160,7 +160,7 @@ export function FeaturedCarsSection({
                   {/* Hover Button */}
                   <motion.div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-auto">
                     <Link
-                      href="/search"
+                      href="/quote"
                       className="px-6 md:px-8 py-2.5 md:py-3 bg-secondary hover:bg-secondary/90 text-white rounded-lg font-bold text-sm md:text-base transition-all"
                     >
                       Book Now
