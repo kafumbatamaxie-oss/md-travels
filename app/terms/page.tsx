@@ -1,6 +1,8 @@
 
-export const TermsPage = () => {
+function TermsPage() {
   return (
-    <div className="flex items-center justify-center">Terms AND  Conditions Page</div>
+    <div>PrivacyPage</div>
   )
 }
+
+export default TermsPage
