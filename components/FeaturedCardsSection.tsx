@@ -32,11 +32,18 @@ export function FeaturedCarsSection({
   // Mock data - top 10 cars
   const defaultCars: CarProps[] = [
     {
+      id: 4,
+      name: "Hyundai H1",
+      category: "Luxury Minibus",
+      price: 2200,
+      image: "/Hyundai-h1-minibus.jpeg",
+    },
+    {
       id: 1,
-      name: "BMW 7 Series",
-      category: "Luxury Sedan",
+      name: "Mercedes CLA200",
+      category: "Luxury Benz",
       price: 2500,
-      image: "/benz.png",
+      image: "/Mercedes-cla-200.jpg",
       type: "Premium",
     },
     {
@@ -49,51 +56,20 @@ export function FeaturedCarsSection({
     },
     {
       id: 3,
-      name: "Range Rover",
-      category: "Luxury SUV",
+      name: "Mercedes C-180",
+      category: "Luxury Benz",
       price: 2800,
-      image: "/benz.png",
+      image: "/mercedes-c180.jpg",
       badge: "Popular",
     },
-    {
-      id: 4,
-      name: "Audi A8",
-      category: "Luxury Sedan",
-      price: 2200,
-      image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&h=400&fit=crop",
-    },
-    {
-      id: 5,
-      name: "Porsche Cayenne",
-      category: "Sport SUV",
-      price: 3000,
-      image: "https://images.unsplash.com/photo-1552456557-f1847a88f935?w=600&h=400&fit=crop",
-      type: "Sport",
-    },
-    {
-      id: 6,
-      name: "Tesla Model S",
-      category: "Electric Luxury",
-      price: 1900,
-      image: "https://images.unsplash.com/photo-1597578124851-34cd96d9b14c?w=600&h=400&fit=crop",
-      badge: "Electric",
-    },
-    {
-      id: 7,
-      name: "Jaguar XJ",
-      category: "Luxury Sedan",
-      price: 2100,
-      image: "https://images.unsplash.com/photo-1485968579580-b6baeb10eb11?w=600&h=400&fit=crop",
-    },
-    {
-      id: 8,
-      name: "Bentley Flying Spur",
-      category: "Ultra Luxury",
-      price: 3500,
-      image: "https://images.unsplash.com/photo-1565818735482-81230b63b25f?w=600&h=400&fit=crop",
-      badge: "VIP",
-    },
-  
+     {
+      id: 30,
+      name: "Toyota Diesel",
+      category: "Quantum Collection",
+      price: 2800,
+      image: "/toyotaquantumdiesel.jpeg",
+      badge: "Popular",
+    }
   ]
 
   const carsList = cars || defaultCars
