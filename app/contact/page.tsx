@@ -70,32 +70,24 @@ export default function Contact() {
               experience in Cape Town."/>
 
       {/* Contact Section */}
-      <section className="pb-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6 mb-20">
+      <section className="pb-32 px-4 sm:px-6 lg:px-8 py-10">
+        <div className="flex flex-col md:flex-row max-w-full mx-auto py-10 gap-10">
+          <div className="">
             {[
-              { icon: Phone, title: "Call Us", content: "+27 71 945 5941", href: "tel:+27719455941" },
-              { icon: Mail, title: "Email Us", content: "info@mdtravels.co.za", href: "mailto:info@mdtravels.co.za" },
-              { icon: MapPin, title: "Visit Us", content: "44 Wrench Street, Parow West, 7500", href: "#" },
+            
+              { icon: Phone, title: "Call Us on", content: "+27 606 411 703", href: "tel:+27606411703" },
+              { icon: Phone, title: "Call Us on", content: "+27 71 945 5941", href: "tel:+27719455941" },
+              { icon: Mail, title: "Email Us on", content: "info@mdtravels.co.za", href: "mailto:info@mdtravels.co.za" },
+              { icon: MapPin, title: "Visit Us on", content: "44 Wrench Street, Parow West, 7500", href: "#" },
             ].map((item, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <a
-                  href={item.href}
-                  className="block p-8 bg-card border border-border rounded-3xl hover:border-secondary transition-all group relative overflow-hidden h-full"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-secondary/10 transition-colors" />
-                  <item.icon className="w-10 h-10 text-secondary mb-6 group-hover:scale-110 transition duration-500" />
-                  <h3 className="text-xl font-bold mb-2 uppercase tracking-tight">{item.title}</h3>
-                  <p className="text-muted-foreground font-medium">{item.content}</p>
-                </a>
-              </ScrollReveal>
+              <p className="border-b pb-2">{item.title.toUpperCase()} : <span><a href={item.href}>{item.content}</a></span></p>
             ))}
           </div>
 
           {/* Form with physics animations */}
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-full mx-auto ">
             <ScrollReveal delay={0.3}>
-              <div className="bg-card border border-border p-8 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+              <div className="bg-card border border-border p-8 md:p-12 rounded-[2.5rem]  relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent" />
 
                 <form onSubmit={handleSubmit} className="space-y-8">
