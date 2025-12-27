@@ -17,7 +17,7 @@ const galleryImages = [
   },
   {
     category: "Fleet",
-    image: "/p6.jpg",
+    image: "/p5.jpg",
     title: "Group Transport",
   },
   {
