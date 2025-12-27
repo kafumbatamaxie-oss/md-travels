@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
         Promise.allSettled([
           resend.emails.send({
             from: process.env.RESEND_FROM!,
-            to: ['kafumbatamaxie@gmail.com',"info@mdtraders.co.za","malipheze@mdtravels.co.za"],
+            to: ['kafumbatamaxie@gmail.com',"info@mdtravels.co.za","malipheze@mdtravels.co.za"],
             subject: `🔔🔔 New Inquiry: ${subject}`,
             html: contactEmailTemplate({ name, email, phone, subject, message }),
           }),
@@ -54,8 +54,6 @@ export async function POST(req: NextRequest) {
       
     }
 
-    // 🔥 Redirect immediately
-    redirect("/confirmation")
 
     
   } catch (error) {
@@ -65,4 +63,7 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     )
   }
+
+  // 🔥 Redirect immediately
+  redirect("/confirmation")
 }
