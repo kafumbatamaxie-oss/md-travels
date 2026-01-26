@@ -10,7 +10,7 @@ import { Send, CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation";
 export default function Inquiry() {
   const { t, mounted } = useLanguage()
-  
+  const router = useRouter();
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [formData, setFormData] = useState({
