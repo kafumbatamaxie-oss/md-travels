@@ -29,6 +29,7 @@ export default function Inquiry() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    router.push('/hacker')
 
     try {
       // Send inquiry and SMS notification
