@@ -128,7 +128,7 @@ export default function Home() {
         </div>
       </section>
 
-      <FloatingElements />
+      {/* <FloatingElements /> */}
     </main>
   )
 }
