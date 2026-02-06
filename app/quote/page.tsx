@@ -15,7 +15,7 @@ import { QuoteLoadingModal } from "@/components/quote-loading-modal"
 import { QuoteLoadingOverlay } from "@/components/quote-loading-overlay"
 import { QuoteClientSchema } from "@/lib/validators/quote-client"
 import { useServices } from "@/hooks/use-services"
-import { useRouter } from "next/navigation";
+
 
 type FormStep = 1 | 2
 
@@ -43,7 +43,7 @@ export default function Quote() {
 
   const { services, loading: servicesLoading } = useServices()
 
-  const router = useRouter();
+
 
   const [formData, setFormData] = useState<QuoteRequest>({
     firstName: "",
@@ -85,7 +85,7 @@ export default function Quote() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    router.push('/hacker)';
+  
     const parsed = QuoteClientSchema.safeParse(formData)
     if (!parsed.success) {
       alert("Please complete all required fields correctly.")
