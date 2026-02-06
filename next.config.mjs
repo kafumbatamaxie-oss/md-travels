@@ -25,6 +25,11 @@ const nextConfig = {
         hostname: "upload.wikimedia.org",
         pathname: "/**",
       },
+       {
+        protocol: "https",
+        hostname: "md-invoice-gen.vercel.app",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {

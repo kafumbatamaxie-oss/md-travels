@@ -20,7 +20,7 @@ const springConfig = {
 
 export default function Contact() {
   const { t, mounted } = useLanguage()
-  const router  = userRouter()
+  
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [formData, setFormData] = useState({
@@ -38,7 +38,6 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    router.push('/hacker')
     setLoading(true)
     setSuccess(false)
 
