@@ -12,8 +12,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <Link href="/admin" className="block hover:text-secondary">
             Overview
           </Link>
-          <Link href="/admin/quotes" className="block hover:text-secondary">
-            Quotes
+          <Link href="https://www.md-innvoice-gen.vercel.app" className="block hover:text-secondary">
+            Create an Invoice
           </Link>
           <Link href="/admin/services" className="block hover:text-secondary">
             Services
