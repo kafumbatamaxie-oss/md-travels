@@ -7,8 +7,6 @@ import { QuoteAlertEmailTemplate } from "@/lib/emails/quote-alert-email"
 import { QuoteConfirmationEmailTemplate } from "@/lib/emails/quote-confirmation-email"
 import { redirect } from "next/navigation"
 
-
-
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 /* -------------------- ZOD SCHEMA -------------------- */
@@ -17,20 +15,18 @@ const QuoteSchema = z.object({
   lastName: z.string().min(1),
   email: z.string().email(),
   phone: z.string().min(7),
-
   pickupAddress: z.string().min(5),
   destination: z.string().min(3),
   pickupDate: z.string().datetime(),
   dropoffDate: z.string().datetime(),
   pickupTime: z.string().min(3),
   passengers: z.coerce.number().int().min(1),
-
   serviceId: z.string().cuid(),
-
   additionalRequirements: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
+  let successfullyCreated = false;
 
   try {
     const body = await req.json()
@@ -38,6 +34,8 @@ export async function POST(req: NextRequest) {
     /* ---------- VALIDATION ---------- */
     const parsed = QuoteSchema.safeParse(body)
     if (!parsed.success) {
+      // This will show in your terminal if the data format is wrong
+      console.error("Validation failed:", JSON.stringify(parsed.error.flatten(), null, 2))
       return NextResponse.json(
         { success: false, errors: parsed.error.flatten() },
         { status: 400 }
@@ -45,7 +43,6 @@ export async function POST(req: NextRequest) {
     }
 
     const data = parsed.data;
-    
 
     /* ---------- VERIFY SERVICE ---------- */
     const service = await prisma.service.findFirst({
@@ -59,8 +56,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
-
-
 
     /* ---------- CREATE QUOTE ---------- */
     const quote = await prisma.quote.create({
@@ -84,17 +79,17 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    const {firstName, lastName, phone, pickupAddress, destination } = data;
+    successfullyCreated = true;
+
+    const { firstName, lastName, phone, pickupAddress, destination } = data;
     const serviceName = service.name
 
-    
- 
-
     /* ---------- EMAILS (NON-BLOCKING) ---------- */
+    // Using void to ensure they don't block the response but still run
     Promise.allSettled([
       resend.emails.send({
         from: process.env.RESEND_FROM!,
-        to: ['kafumbatamaxie@gmail.com',"info@mdtravels.co.za","malipheze@mdtravels.co.za"],
+        to: ['kafumbatamaxie@gmail.com', "info@mdtravels.co.za", "malipheze@mdtravels.co.za"],
         subject: `🔔🆕🔔 New Inquiry: ${quote.service.name}`,
         html: QuoteAlertEmailTemplate(firstName, lastName, phone, serviceName, pickupAddress, destination)
       }),
@@ -109,16 +104,18 @@ export async function POST(req: NextRequest) {
 
     // Send sms 🔔 ADMIN SMS (non-blocking)
     sendSMS({
-        to: process.env.ADMIN_PHONE!,
-        message: `🔔🚗 New Quote Request
+      to: process.env.ADMIN_PHONE!,
+      message: `🔔🚗 New Quote Request
         Service: ${quote.service.name}
         From: ${quote.pickupAddress}
         To: ${quote.destination}
         Name: ${quote.firstName} ${quote.lastName}
         Phone: ${quote.phone}`,
     })
-    
+
   } catch (error) {
+    // If Next.js redirect error is caught here, it breaks the flow. 
+    // We catch everything else.
     console.error("[QUOTE_API_ERROR]", error)
     return NextResponse.json(
       { success: false, message: "Internal server error" },
@@ -126,6 +123,9 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // 🔥 Redirect immediately
-  redirect("/confirmation")
+  // 🔥 Redirect must happen OUTSIDE the try/catch block 
+  // to avoid Next.js catching its own redirect signal as an error.
+  if (successfullyCreated) {
+    redirect("/confirmation")
+  }
 }
