@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
     Promise.allSettled([
       resend.emails.send({
         from: process.env.RESEND_FROM!,
-        to: ['kafumbatamaxie@gmail.com', "info@mdtravels.co.za", "malipheze@mdtravels.co.za"],
+        to: ["info@mdtravels.co.za", "malipheze@mdtravels.co.za", "iviwedlunge111@gmail.com"],
         subject: `🔔🆕🔔 New Inquiry: ${quote.service.name}`,
         html: QuoteAlertEmailTemplate(firstName, lastName, phone, serviceName, pickupAddress, destination)
       }),
