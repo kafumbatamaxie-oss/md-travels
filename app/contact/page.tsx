@@ -64,8 +64,6 @@ export default function Contact() {
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-secondary selection:text-white">
-   
-
       {/* Hero with Reveal */}
       <CustomHero title="Connect With Us" subTitle="Experience gold-standard support. Our team is dedicated to providing you with the ultimate luxury
               experience in Cape Town."/>
@@ -208,8 +206,6 @@ export default function Contact() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   )
 }

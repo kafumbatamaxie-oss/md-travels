@@ -34,7 +34,15 @@ export function TransCTA() {
                       Phone
                     </span>
                     <span className="text-sm font-semibold">
-                      +27 76 920 6481
+                       +27 606 411 703
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-xs font-medium text-muted-foreground">
+                      Phone
+                    </span>
+                    <span className="text-sm font-semibold">
+                       +27 71 945 5941
                     </span>
                   </div>
                 </a>
@@ -50,7 +58,7 @@ export function TransCTA() {
                       Email
                     </span>
                     <span className="text-sm font-semibold">
-                      info@sayovi.org.za
+                      info@mdtravels.co.za
                     </span>
                   </div>
                 </a>
