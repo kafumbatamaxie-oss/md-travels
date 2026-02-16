@@ -20,6 +20,7 @@ export default function ProfessionalTransport() {
       }, [])
   return (
     <>
+      
       <section className="relative flex min-h-[90vh] items-center bg-primary pt-16">
         <video
         ref={videoRef}
@@ -84,7 +85,7 @@ export default function ProfessionalTransport() {
       <TransAbout />
       <TransServices />
       <TransSafety />
-      <TransCTA />
+      {/* <TransCTA /> */}
     </>
   )
 }
