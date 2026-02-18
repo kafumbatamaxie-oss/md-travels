@@ -29,8 +29,8 @@ export const HeroCarouselSection = () => {
       title: t.services.corporateTravel,
       subtitle: "Professional transportation for your business needs with experienced drivers and luxury vehicles",
       cta: t.hero.cta1,
-      image: "/hero-2.jpg",
-      mobileImage: "/hero-mobile-3.jpg",
+      image: "/quantum.jpg",
+      mobileImage: "/quantum.jpg",
     },
     {
       id: 4,

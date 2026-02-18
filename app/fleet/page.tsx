@@ -9,8 +9,7 @@ import { useEffect, useRef, useState } from "react"
 
 export default function ProfessionalTransport() {
      const videoRef = useRef<HTMLVideoElement>(null)
-    const [videoLoaded, setVideoLoaded] = useState(false)
-
+     const [videoLoaded, setVideoLoaded] = useState(false)
       useEffect(() => {
         const video = videoRef.current
         if (video) {

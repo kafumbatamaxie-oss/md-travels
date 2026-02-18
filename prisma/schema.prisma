@@ -6,34 +6,32 @@ datasource db {
   provider = "postgresql"
 }
 
-
-
 model Vehicle {
-  id           String   @id @default(cuid())
-  name         String
-  brand        String
-  category     String
-  passengers   Int
-  pricePerDay  Float
-  imageUrl     String
-  status       String   @default("AVAILABLE")
-  description  String?
-  fuelType     String?  @default("Petrol")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  bookings     Booking[]
+  id          String    @id @default(cuid())
+  name        String
+  brand       String
+  category    String
+  passengers  Int
+  pricePerDay Float
+  imageUrl    String
+  status      String    @default("AVAILABLE")
+  description String?
+  fuelType    String?   @default("Petrol")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
 }
 
 model Booking {
-  id             String   @id @default(cuid())
-  userId         String
-  vehicleId      String
-  vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
-  pickupDate     DateTime
-  dropoffDate    DateTime
-  status         String   @default("PENDING")
-  totalAmount    Float
-  createdAt      DateTime @default(now())
+  id          String   @id @default(cuid())
+  userId      String
+  vehicleId   String
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  pickupDate  DateTime
+  dropoffDate DateTime
+  status      String   @default("PENDING")
+  totalAmount Float
+  createdAt   DateTime @default(now())
 }
 
 model Inquiry {
@@ -48,26 +46,49 @@ model Inquiry {
 
 model Quote {
   id                     String   @id @default(cuid())
+
   firstName              String
   lastName               String
   email                  String
   phone                  String
 
+  // 📍 PICKUP LOCATION
   pickupAddress          String
-  destination            String
+  pickupLat              Float?    // OPTIONAL
+  pickupLng              Float?
+
+  // 📍 DESTINATION
+  destinationAddress     String?   // was "destination"
+  destinationLat         Float?
+  destinationLng         Float?
+
   pickupDate             DateTime
   dropoffDate            DateTime
   pickupTime             String
   passengers             Int
 
-  serviceId              String
-  service                Service  @relation(fields: [serviceId], references: [id])
+  // 🚗 MANUAL VEHICLE SELECTION
+  vehicleCategory        String?   // OPTIONAL for old records
+
+  // OPTIONAL SERVICE TYPE
+  serviceId              String?
+  service                Service? @relation(fields: [serviceId], references: [id])
+
+  // 📊 ROUTE + PRICING DATA
+  distanceKm             Float?
+  estimatedPrice         Float?
+  pricingType            String?  // AIRPORT, DISTANCE, DAILY_PACKAGE
 
   additionalRequirements String?
+
+  total Decimal? @db.Decimal(10, 2) // ✅ ADD THIS
+
+  // 📄 GENERATED PDF STORAGE
+  pdfUrl                 String?
+
   status                 String   @default("NEW")
   createdAt              DateTime @default(now())
 }
-
 
 
 model Service {
@@ -77,6 +98,5 @@ model Service {
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
 
-  quotes      Quote[]
+  quotes Quote[]
 }
-

@@ -8,12 +8,15 @@ export const QuoteClientSchema = z.object({
   phone: z.string().min(7),
 
   pickupAddress: z.string().min(3),
-  destination: z.string().min(3),
+  destinationAddress: z.string().min(3), // ✅ FIXED
 
-  pickupDate: z.string(),
-  dropoffDate: z.string(),
-  pickupTime: z.string(),
+  pickupDate: z.string().min(1),
+  dropoffDate: z.string().min(1),
+  pickupTime: z.string().min(1),
 
   passengers: z.string().regex(/^\d+$/),
   serviceId: z.string().min(1),
+  vehicleCategory: z.string().min(1), // ✅ You added this in form
+
+  additionalRequirements: z.string().optional(),
 })

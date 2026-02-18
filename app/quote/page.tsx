@@ -4,7 +4,8 @@ import type React from "react"
 
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
-import { useEffect, useState } from "react"
+import { LoadScript, Autocomplete } from "@react-google-maps/api"
+import { useEffect, useState, useRef } from "react"
 import { Send, CheckCircle, ChevronLeft } from "lucide-react"
 import { format, addMonths } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
@@ -24,15 +25,27 @@ type QuoteRequest = {
   lastName: string
   email: string
   phone: string
+
   pickupAddress: string
-  destination: string
+  pickupLat?: number
+  pickupLng?: number
+
+  destinationAddress: string
+  destinationLat?: number
+  destinationLng?: number
+
   pickupDate: string
   dropoffDate: string
   pickupTime: string
+
   passengers: string
+
   serviceId: string
+  vehicleCategory: string
+
   additionalRequirements?: string
 }
+
 
 export default function Quote() {
   const { mounted } = useLanguage()
@@ -41,28 +54,48 @@ export default function Quote() {
   const [success, setSuccess] = useState(false)
   const [step, setStep] = useState<FormStep>(1)
 
+  const pickupRef = useRef<google.maps.places.Autocomplete | null>(null)
+  const destinationRef = useRef<google.maps.places.Autocomplete | null>(null)
+
+
   const { services, loading: servicesLoading } = useServices()
 
 
 
   const [formData, setFormData] = useState<QuoteRequest>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    pickupAddress: "",
-    destination: "",
-    pickupDate: "",
-    dropoffDate: "",
-    pickupTime: "",
-    passengers: "",
-    serviceId: "",
-    additionalRequirements: "",
-  })
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
 
-  const updateField = (name: keyof QuoteRequest, value: string) => {
+      pickupAddress: "",
+      pickupLat: undefined,
+      pickupLng: undefined,
+
+      destinationAddress: "",
+      destinationLat: undefined,
+      destinationLng: undefined,
+
+      pickupDate: "",
+      dropoffDate: "",
+      pickupTime: "",
+
+      passengers: "",
+
+      serviceId: "",
+      vehicleCategory: "",
+
+      additionalRequirements: "",
+    })
+
+
+  const updateField = (
+    name: keyof QuoteRequest,
+    value: string | number | undefined
+  ) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -88,6 +121,7 @@ export default function Quote() {
   
     const parsed = QuoteClientSchema.safeParse(formData)
     if (!parsed.success) {
+      console.log(parsed.error.flatten())
       alert("Please complete all required fields correctly.")
       return
     }
@@ -96,27 +130,64 @@ export default function Quote() {
 
     try {
       const response = await fetch("/api/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+
+  body: JSON.stringify({
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phone: formData.phone,
+
+    pickupAddress: formData.pickupAddress,
+    pickupLat: formData.pickupLat ?? 0,
+    pickupLng: formData.pickupLng ?? 0,
+
+    destinationAddress: formData.destinationAddress,
+    destinationLat: formData.destinationLat ?? 0,
+    destinationLng: formData.destinationLng ?? 0,
+
+    pickupDate: formData.pickupDate,
+    dropoffDate: formData.dropoffDate,
+    pickupTime: formData.pickupTime,
+
+    passengers: Number(formData.passengers),
+
+    serviceId: formData.serviceId,
+    vehicleCategory: formData.vehicleCategory ?? "STANDARD",
+
+    additionalRequirements: formData.additionalRequirements,
+  }),
+})
+
 
       if (response.ok) {
         setSuccess(true)
         setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          pickupAddress: "",
-          destination: "",
-          pickupDate: "",
-          dropoffDate: "",
-          pickupTime: "",
-          passengers: "",
-          serviceId: "",
-          additionalRequirements: "",
-        })
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+
+        pickupAddress: "",
+        pickupLat: undefined,
+        pickupLng: undefined,
+
+        destinationAddress: "",
+        destinationLat: undefined,
+        destinationLng: undefined,
+
+        pickupDate: "",
+        dropoffDate: "",
+        pickupTime: "",
+
+        passengers: "",
+        serviceId: "",
+        vehicleCategory: "",
+
+        additionalRequirements: "",
+      })
+
         setStep(1)
         setTimeout(() => setSuccess(false), 5000)
       }
@@ -139,11 +210,16 @@ export default function Quote() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen bg-sky-950/10 py-10 text-foreground">
-      <FloatingElements />
+    <LoadScript
+      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+      libraries={["places"]}
+    >
+      {/* existing page JSX */}
+      <main className="min-h-screen bg-sky-950/10 py-10 text-foreground">
+        <FloatingElements />
 
-      <QuoteLoadingOverlay open={loading} />
-      <QuoteLoadingModal open={loading} />
+        <QuoteLoadingOverlay open={loading} />
+        <QuoteLoadingModal open={loading} />
 
       <section className="relative py-8 px-4 sm:px-6 lg:px-8">
         <div className="md:px-10 mx-auto">
@@ -192,7 +268,7 @@ export default function Quote() {
                           </label>
 
                           {servicesLoading ? (
-                            <div className="w-full h-[46px] rounded-lg bg-muted animate-pulse" />
+                            <div className="w-full h-[11.5] rounded-lg bg-muted animate-pulse" />
                           ) : (
                             <select
                               name="serviceId"
@@ -210,6 +286,25 @@ export default function Quote() {
                             </select>
                           )}
                        </div>
+                       <div>
+                          <label className="block text-xs font-semibold mb-2 uppercase">
+                            Vehicle Type <span className="text-red-500">*</span>
+                          </label>
+
+                          <select
+                            name="vehicleCategory"
+                            value={formData.vehicleCategory}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg text-sm"
+                          >
+                            <option value="">Select vehicle</option>
+                            <option value="SEDAN">Sedan (1–3 pax)</option>
+                            <option value="MINIBUS">Minibus (4–13 pax)</option>
+                            <option value="COACH_65">Coach 65-Seater</option>
+                          </select>
+                       </div>
+
                        <div>
                             <label className="block text-xs font-semibold mb-2 uppercase">
                               Number of Passengers <span className="text-red-500">*</span>
@@ -231,30 +326,61 @@ export default function Quote() {
                       <label className="block text-xs font-semibold mb-2 uppercase">
                         Pick-up Address <span className="text-red-500">*</span>
                       </label>
-                      <input
-                        type="text"
-                        name="pickupAddress"
-                        placeholder="Enter pick-up address"
-                        value={formData.pickupAddress}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                      />
+
+                      <Autocomplete
+                        onLoad={(auto) => (pickupRef.current = auto)}
+                        onPlaceChanged={() => {
+                          const place = pickupRef.current?.getPlace()
+                          if (!place?.geometry) return
+
+                          updateField("pickupAddress", place.formatted_address || "")
+                          updateField("pickupLat", place.geometry.location?.lat())
+                          updateField("pickupLng", place.geometry.location?.lng())
+                          
+                        }}
+                        options={{
+                          componentRestrictions: { country: "za" }, // South Africa
+                        }}
+                      >
+                        <input
+                          type="text"
+                          placeholder="Enter pick-up address"
+                          value={formData.pickupAddress}
+                          onChange={(e) => updateField("pickupAddress", e.target.value)}
+                          required
+                          className="w-full px-4 py-3 bg-background border rounded-lg text-sm"
+                        />
+                      </Autocomplete>
                     </div>
 
                     <div>
                       <label className="block text-xs font-semibold mb-2 uppercase">
-                        Destination <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="destination"
-                        placeholder="Enter destination"
-                        value={formData.destination}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                      />
+                          Destination <span className="text-red-500">*</span>
+                        </label>
+
+                        <Autocomplete
+                          onLoad={(auto) => (destinationRef.current = auto)}
+                          onPlaceChanged={() => {
+                            const place = destinationRef.current?.getPlace()
+                            if (!place?.geometry) return
+
+                            updateField("destinationAddress", place.formatted_address || "")
+                            updateField("destinationLat", place.geometry.location?.lat())
+                            updateField("destinationLng", place.geometry.location?.lng())
+                          }}
+                          options={{
+                            componentRestrictions: { country: "za" },
+                          }}
+                        >
+                          <input
+                            type="text"
+                            placeholder="Enter destination"
+                            value={formData.destinationAddress}
+                            onChange={(e) => updateField("destinationAddress", e.target.value)}
+                            required
+                            className="w-full px-4 py-3 bg-background border rounded-lg text-sm"
+                          />
+                        </Autocomplete>
                     </div>
                   </div>
 
@@ -445,5 +571,7 @@ export default function Quote() {
         </div>
       </section>
     </main>
+    </LoadScript>
+
   )
 }
