@@ -15,17 +15,10 @@ export default function CustomHero({ title, subTitle }: CustomHeroProps) {
           - preload="auto": Optimizes for immediate playback
       */}
       <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
+        autoPlay muted loop playsInline
         className="absolute inset-0 z-0 h-full w-full object-cover"
-        poster="/heritage.png" 
       >
         <source src="/video-collection.mp4" type="video/mp4" />
-        {/* Optional: Add a .webm source here for better compression/support */}
-        Your browser does not support the video tag.
       </video>
 
       {/* 2. Accessible Overlay - Ensures text contrast */}
