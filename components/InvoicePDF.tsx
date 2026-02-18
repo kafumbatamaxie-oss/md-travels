@@ -7,6 +7,25 @@ import {
   Image,
 } from '@react-pdf/renderer'
 
+
+export type InvoiceQuote = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  pickupAddress: string
+  destinationAddress: string
+  pickupDate: string | Date
+  passengers: number
+  vehicleCategory: string
+  total: number
+  service?: {
+    name: string
+  } | null
+}
+
+
 type Row = {
   date: string
   no: string
@@ -16,22 +35,7 @@ type Row = {
 }
 
 type Props = {
-  quote: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    pickupAddress: string
-    destinationAddress: string
-    pickupDate: Date | string
-    passengers: number
-    vehicleCategory: string
-    total: number
-    service?: {
-      name: string
-    }
-  }
+  quote: InvoiceQuote
 }
 
 export default function InvoicePDF({ quote }: Props) {

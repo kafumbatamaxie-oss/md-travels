@@ -7,6 +7,7 @@ import fs from "fs"
 import path from "path"
 import { renderToBuffer } from "@react-pdf/renderer"
 import InvoicePDF from "@/components/InvoicePDF"
+import type { InvoiceQuote } from "@/components/InvoicePDF"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -180,8 +181,25 @@ export async function POST(req: NextRequest) {
 
     
     /* ---------- GENERATE PDF FROM PRISMA RESPONSE ---------- */
+    const pdfQuote: InvoiceQuote = {
+        id: quote.id,
+        firstName: quote.firstName,
+        lastName: quote.lastName,
+        email: quote.email,
+        phone: quote.phone,
+        pickupAddress: quote.pickupAddress ?? "N/A",
+        destinationAddress: quote.destinationAddress ?? "N/A",
+        pickupDate: quote.pickupDate,
+        passengers: quote.passengers,
+        vehicleCategory: quote.vehicleCategory ?? "STANDARD",
+        total: Number(quote.total ?? 0),
+        service: quote.service
+          ? { name: quote.service.name }
+          : null,
+      }
 
-    const pdfBuffer = await renderToBuffer(<InvoicePDF quote={quote} />)
+
+    const pdfBuffer = await renderToBuffer(<InvoicePDF quote={pdfQuote} />)
 
     
 
