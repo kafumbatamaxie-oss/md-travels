@@ -57,7 +57,7 @@ export default function InvoicePDF({ quote }: Props) {
       <Page size="A4" style={styles.page}>
         {/* HEADER */}
         <View style={styles.header}>
-          <Image src="/logo.png" style={styles.logo} />
+          <Image src="https://teephynocutz.com/logo.png" style={styles.logo} />
 
           <View style={styles.headerRight}>
             <Text>44 Wrench Street</Text>
@@ -170,7 +170,7 @@ export default function InvoicePDF({ quote }: Props) {
           Managing Director{'\n'}
           060 641 1703
         </Text>
-         <Image src="/signature.jpg" style={styles.logo} />
+         <Image src="https://teephynocutz.com/signature.jpg" style={styles.logo} />
       </Page>
     </Document>
   )
