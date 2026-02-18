@@ -9,6 +9,7 @@ import { Navbar } from "@/components/navbar"
 import { ClerkProvider } from "@clerk/nextjs"
 import "./globals.css"
 import { ScrollToTop } from "@/components/ScrollToTop"
+import { usePathname } from "next/navigation";
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -63,16 +64,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  
+  const pathname = usePathname()
+
   const content = (
     <html lang="en" className="scroll-smooth">
       <body className={`${_geist.className} antialiased bg-background text-foreground`}>
         <LanguageProvider>
           <LenisProvider>
-            <Navbar />
+             {pathname !== "/quote" && <Navbar />}
+            
             <ScrollToTop />
             {children}
             <Footer />
+            
           </LenisProvider>
         </LanguageProvider>
         <Analytics />

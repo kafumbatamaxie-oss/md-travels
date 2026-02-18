@@ -16,7 +16,7 @@ import { QuoteLoadingModal } from "@/components/quote-loading-modal"
 import { QuoteLoadingOverlay } from "@/components/quote-loading-overlay"
 import { QuoteClientSchema } from "@/lib/validators/quote-client"
 import { useServices } from "@/hooks/use-services"
-
+import { usePathname } from "next/navigation";
 
 type FormStep = 1 | 2
 
@@ -49,7 +49,7 @@ type QuoteRequest = {
 
 export default function Quote() {
   const { mounted } = useLanguage()
-
+  const pathname = usePathname()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [step, setStep] = useState<FormStep>(1)
@@ -216,7 +216,8 @@ export default function Quote() {
     >
       {/* existing page JSX */}
       <main className="min-h-screen bg-sky-950/10 py-10 text-foreground">
-        <FloatingElements />
+        
+         {pathname !== "/quote" && <FloatingElements />}
 
         <QuoteLoadingOverlay open={loading} />
         <QuoteLoadingModal open={loading} />
