@@ -17,6 +17,7 @@ import { QuoteLoadingOverlay } from "@/components/quote-loading-overlay"
 import { QuoteClientSchema } from "@/lib/validators/quote-client"
 import { useServices } from "@/hooks/use-services"
 import { usePathname } from "next/navigation";
+import HideOnQuote from "@/components/HideOnQuote"
 
 type FormStep = 1 | 2
 
@@ -215,14 +216,15 @@ export default function Quote() {
       libraries={["places"]}
     >
       {/* existing page JSX */}
-      <main className="min-h-screen bg-sky-950/10 py-10 text-foreground">
+      <main className="min-h-screen bg-sky-950/10 py-1 text-foreground">
         
-         {pathname !== "/quote" && <FloatingElements />}
+   
+        <HideOnQuote Component={FloatingElements } />
 
         <QuoteLoadingOverlay open={loading} />
         <QuoteLoadingModal open={loading} />
 
-      <section className="relative py-8 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-2 px-4 sm:px-6 lg:px-8">
         <div className="md:px-10 mx-auto">
           <div className="grid md:grid-cols-6 gap-8 md:gap-12 items-start">
             <div className="md:col-span-2">
