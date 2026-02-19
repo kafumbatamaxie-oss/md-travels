@@ -8,6 +8,14 @@ export const HeroCarouselSection = () => {
     
       if (!mounted) return null
      const carouselSlides = [
+      {
+      id: 100,
+      title: t.hero.title,
+      subtitle: t.hero.subtitle,
+      cta: t.hero.cta1,
+      image: "/images/honda-9-seater.png",
+      mobileImage: "/images/honda-9-seater.png",
+    },
     {
       id: 1,
       title: t.hero.title,
@@ -29,8 +37,8 @@ export const HeroCarouselSection = () => {
       title: t.services.corporateTravel,
       subtitle: "Professional transportation for your business needs with experienced drivers and luxury vehicles",
       cta: t.hero.cta1,
-      image: "/quantum.jpg",
-      mobileImage: "/quantum.jpg",
+      image: "/images/toyota36seater_4x.png",
+      mobileImage: "/images/toyota36seater.png",
     },
     {
       id: 4,

@@ -97,13 +97,6 @@ export function Carousel({ slides }: { slides: CarouselSlide[] }) {
               <p className="text-sm sm:text-lg md:text-xl text-gray-200 mb-6">
                 {slide.subtitle}
               </p>
-
-              <Link
-                href="/quote"
-                className="inline-flex items-center justify-center px-7 py-3 sm:px-9 sm:py-4 bg-secondary text-primary rounded-lg font-semibold transition hover:scale-[1.03]"
-              >
-                {slide.cta}
-              </Link>
             </div>
           </div>
         </div>

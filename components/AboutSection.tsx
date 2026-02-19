@@ -36,7 +36,7 @@ export function AboutSection({
   const videoY = useTransform(scrollYProgress, [0, 0.8, 1], [0, 0, -200])
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-32 px-4 md:px-8 bg-white overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-32 px-4 md:px-8 bg-slate-900 overflow-hidden">
       <div
         className="absolute inset-0 z-0 opacity-5 pointer-events-none"
         style={{
@@ -50,8 +50,8 @@ export function AboutSection({
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-0 items-center">
           {/* Left Content */}
-          <div className="space-y-8 md:col-span-2">
-            <div>
+          <div className="space-y-8 md:col-span-3">
+            <div className="">
               <TextComponent  title={title}  desc1={description1} />
             </div>
             {/* CTA Buttons */}
@@ -72,7 +72,7 @@ export function AboutSection({
           </div>
 
           {/* Right Video Card with 3D Rotation and Shrink Effect */}
-          <div className="lg:grid-col md:col-span-4 flex items-center justify-center">
+          <div className="lg:grid-col md:col-span-3 flex items-center justify-center">
             <motion.div
               ref={videoCardRef}
               style={{
@@ -95,7 +95,7 @@ export function AboutSection({
                 {/* <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-gray-900 z-0" /> */}
 
                 <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
-                  <source src="/views.mp4" type="video/mp4" />
+                  <source src="/video-collection.mp4" type="video/mp4" />
                 </video>
 
                 {/* Glass Reflection Effect */}

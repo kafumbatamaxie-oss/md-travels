@@ -20,8 +20,8 @@ export const translations = {
     },
     aboutSection: {
       title: "About MD Travels",
-      description1: "MD Travels is a premier transportation company based in Cape Town, South Africa. We specialize in providing reliable, comfortable, and professional transportation services for both business and leisure travelers.",
-      description2: "With years of experience in the industry, we understand the importance of punctuality, safety, and comfort. Our mission is to make every journey memorable and stress-free for our clients.",
+      description1: "MD Travels is a Western Cape-based professional transport service provider offering safe, insured, and reliable passenger transport solutions.",
+      description2: " We are committed to delivering high-quality transport services that meet the strict compliance, safety, and reliability standards required by Government institutions, educational facilities, and corporate clients.",
     },
     // About
     about: {
