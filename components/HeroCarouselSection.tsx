@@ -13,8 +13,8 @@ export const HeroCarouselSection = () => {
       title: t.hero.title,
       subtitle: t.hero.subtitle,
       cta: t.hero.cta1,
-      image: "/images/honda-9-seater.png",
-      mobileImage: "/images/honda-9-seater.png",
+      image: "/quantum.jpeg",
+      mobileImage: "/quantum.jpeg",
     },
     {
       id: 1,

@@ -57,7 +57,7 @@ export function WhyChooseUs({ items, title }: WhyChooseMarqueeProps) {
               Our promise to you
             </p>
         <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight uppercase  italic tracking-tight text-sky-950">
-            Why Choose Us
+            Why Choose <span className="text-secondary">Us</span>
           </h2>
       </div>
 
