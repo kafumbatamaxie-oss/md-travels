@@ -148,7 +148,7 @@ export function Navbar() {
       </div>
 
       {/* ================= NAVBAR ================= */}
-      <nav className="sticky top-0 z-50 backdrop-blur-lg border-b border-border glass">
+      <nav className="top-0 z-50 backdrop-blur-lg border-b border-border glass">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
             {/* Logo */}
@@ -270,14 +270,14 @@ export function Navbar() {
       </nav>
 
       {/* Mobile Fixed CTA */}
-      <div className="lg:hidden sticky top-[56px] z-40 bg-background border-b border-border px-4 py-3">
+      {/* <div className="lg:hidden sticky top-[56px] z-40 bg-background border-b border-border px-4 py-3">
         <Link
           href="/quote"
           className="block w-full text-center bg-secondary text-primary py-3 rounded-lg font-semibold"
         >
           {t("nav.getQuote").toUpperCase()}
         </Link>
-      </div>
+      </div> */}
     </>
   )
 }
