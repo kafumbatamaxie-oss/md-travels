@@ -66,7 +66,7 @@ export default function Home() {
       {/* Hero Carousel Section */}
       <HeroCarouselSection />
 
-      <section className="h-10 w-full bg-secondary " >
+      <section className="h-10 w-full bg-white " >
 
       </section>
 
