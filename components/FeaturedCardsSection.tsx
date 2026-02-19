@@ -33,7 +33,7 @@ export function FeaturedCarsSection({
   const defaultCars: CarProps[] = [
     {
       id: 4,
-      name: "Honda H1 Minibus",
+      name: "Staria 2,2D H1 Minibus",
       category: "9 Seater",
       price: 2200,
       image: "/images/honda-9-seater.png",

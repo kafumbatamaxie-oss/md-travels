@@ -8,14 +8,7 @@ export const HeroCarouselSection = () => {
     
       if (!mounted) return null
      const carouselSlides = [
-      {
-      id: 100,
-      title: t.hero.title,
-      subtitle: t.hero.subtitle,
-      cta: t.hero.cta1,
-      image: "/quantum.jpeg",
-      mobileImage: "/quantum.jpeg",
-    },
+
     {
       id: 1,
       title: t.hero.title,
@@ -47,6 +40,14 @@ export const HeroCarouselSection = () => {
       image: "/hero-9.jpg",
       mobileImage: "/hero-mobile-4.jpg",
       cta: t.hero.cta1,
+    },
+      {
+      id: 100,
+      title: t.hero.title,
+      subtitle: t.hero.subtitle,
+      cta: t.hero.cta1,
+      image: "/quantum.jpeg",
+      mobileImage: "/quantum.jpeg",
     },
   ]
   return (
