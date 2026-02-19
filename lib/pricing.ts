@@ -1,6 +1,6 @@
 export const RATES = {
-  AIRPORT_TRANSFER_RETURN: 8500,
-  DAILY_TRIP_BASE: 4000, // R12,000 / 3 days
+  AIRPORT_TRANSFER_RETURN: 4500,
+  DAILY_TRIP_BASE: 2000, // R12,000 / 3 days
 };
 
 export function calculateBookingTotal(data: any) {

@@ -53,7 +53,9 @@ export default function Home() {
     },
   ]
  
-
+  const phoneNumber = "27606411703"; 
+  const message = "Hello MD Travels! 👋 I'm interested in your stransportation services and fleet. Could you help me with some details?";
+  const whatsappUrl = `https://wa.me/27606411703?text=${encodeURIComponent(message)}`;
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Search Section - First Body Section */}
@@ -66,7 +68,7 @@ export default function Home() {
       {/* Hero Carousel Section */}
       <HeroCarouselSection />
 
-      <section className="h-10 w-full bg-white " >
+      <section className="h- w-full bg-white " >
 
       </section>
 
@@ -117,7 +119,7 @@ export default function Home() {
               {t.nav.getQuote}
             </Link>
             <a
-              href="https://wa.me/27719455941"
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 sm:px-8 py-3 md:py-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white rounded-lg font-semibold transition-all hover:scale-105 text-sm sm:text-base"
@@ -128,7 +130,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <FloatingElements /> */}
+      <FloatingElements />
     </main>
   )
 }

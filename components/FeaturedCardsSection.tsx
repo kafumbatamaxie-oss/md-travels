@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { useRef, useState } from "react"
 import Link from "next/link"
-import { Zap, MapPin } from "lucide-react"
+import { Zap, MapPin, Users } from "lucide-react"
 
 interface CarProps {
   id: number
@@ -33,41 +33,40 @@ export function FeaturedCarsSection({
   const defaultCars: CarProps[] = [
     {
       id: 4,
-      name: "Hyundai H1",
-      category: "Luxury Minibus",
+      name: "Honda H1 Minibus",
+      category: "9 Seater",
       price: 2200,
-      image: "/Hyundai-h1-minibus.jpeg",
+      image: "/images/honda-9-seater.png",
+    },
+    {
+      id: 123,
+      name: "Toyota HiAce",
+      category: "11 Seater",
+      price: 2200,
+      image: "/images/toyota-hicae-11-seater.png"
     },
     {
       id: 1,
       name: "Mercedes CLA200",
       category: "Luxury Benz",
       price: 2500,
-      image: "/Mercedes-cla-200.jpg",
+      image: "images/mercedes-4seater.png",
       type: "Premium",
     },
     {
       id: 2,
-      name: "Toyota",
-      category: "Executive Quantum",
+      name: "Toyota Quantum",
+      category: "14 Seater",
       price: 2300,
-      image: "/toyota-bus.jpeg",
+      image: "images/toyota-qunatum-14-seater.png",
       type: "Premium",
-    },
-    {
-      id: 3,
-      name: "Mercedes C-180",
-      category: "Luxury Benz",
-      price: 2800,
-      image: "/mercedes-c180.jpg",
-      badge: "Popular",
     },
      {
       id: 30,
-      name: "Toyota Diesel",
-      category: "Quantum Collection",
+      name: "Toyota Bus",
+      category: "36 Seater",
       price: 2800,
-      image: "/toyotaquantumdiesel.jpeg",
+      image: "images/toyota36seater.png",
       badge: "Popular",
     }
   ]
@@ -88,7 +87,7 @@ export function FeaturedCarsSection({
           <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
             <MapPin className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
             <span className="text-xs md:text-sm font-semibold text-secondary uppercase tracking-wider">
-              Cape Town Only
+              Western Cape Transport Specialists
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 text-balance uppercase tracking-tight">
@@ -121,7 +120,7 @@ export function FeaturedCarsSection({
                   <img
                     src={car.image || "/placeholder.svg"}
                     alt={car.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                   />
 
                   {/* Gradient Overlay */}
@@ -144,8 +143,11 @@ export function FeaturedCarsSection({
                     <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2 group-hover:text-secondary transition-colors">
                       {car.name}
                     </h3>
-                    <p className="text-xs md:text-sm text-gray-300 mb-4 md:mb-6">{car.category}</p>
-
+                    {/* <p className="text-xs md:text-sm text-gray-300 mb-4 md:mb-6">{car.category}</p> */}
+                    <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground shadow-md">
+                      <Users className="h-3.5 w-3.5" />
+                      {car.category}
+                    </span>
                     {/* <div className="flex items-end justify-between">
                       <div>
                         <p className="text-xs text-gray-400 mb-1">FROM</p>
