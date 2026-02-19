@@ -17,6 +17,7 @@ const isPublicRoute = createRouteMatcher([
   "/search/(.*)",
   "/views.mp4",
   "/video-collection.mp4",
+  "/bg-video.mp4",
   '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|woff|woff2|ttf|mp4|webm)).*)'
   
 ])

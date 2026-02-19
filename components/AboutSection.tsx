@@ -36,7 +36,7 @@ export function AboutSection({
   const videoY = useTransform(scrollYProgress, [0, 0.8, 1], [0, 0, -200])
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-32 px-4 md:px-8 bg-slate-900 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-32 px-0 md:px-8 bg-slate-900 overflow-hidden">
       <div
         className="absolute inset-0 z-0 opacity-5 pointer-events-none"
         style={{
@@ -47,7 +47,7 @@ export function AboutSection({
         }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="min-w-full mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-0 items-center">
           {/* Left Content */}
           <div className="space-y-8 md:col-span-3">
@@ -72,7 +72,7 @@ export function AboutSection({
           </div>
 
           {/* Right Video Card with 3D Rotation and Shrink Effect */}
-          <div className="lg:grid-col md:col-span-3 flex items-center justify-center">
+          <div className="lg:grid-col md:col-span-3 flex items-center justify-center p-0">
             <motion.div
               ref={videoCardRef}
               style={{
@@ -86,7 +86,7 @@ export function AboutSection({
               className="w-full h-96 md:h-full"
             >
               <div
-                className="relative w-full h-96 md:h-[500px] bg-black rounded-3xl  overflow-hidden border-8 border-gray-900 group"
+                className="relative w-full h-96 md:h-[500px] bg-black m-0 p-0 rounded-3xl  overflow-hidden border-8 border-gray-900 group"
                 style={{
                   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
                 }}

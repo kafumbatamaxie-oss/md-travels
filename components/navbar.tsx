@@ -148,7 +148,7 @@ export function Navbar() {
       </div>
 
       {/* ================= NAVBAR ================= */}
-      <nav className="top-0 z-50 backdrop-blur-lg border-b border-border glass">
+      <nav className=" z-50 backdrop-blur-lg border-b border-border glass">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
             {/* Logo */}

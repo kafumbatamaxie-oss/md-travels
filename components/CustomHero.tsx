@@ -19,9 +19,9 @@ export default function CustomHero({ title, subTitle }: CustomHeroProps) {
         preload="auto"
         // This prevents the "black flash" before the video starts
         poster="/heritage.png" 
-        className="absolute inset-0 z-0 h-full w-full object-cover"
+        className="absolute inset-0 z-0 h-[300px] w-full object-cover"
       >
-        <source src="/views.mp4" type="video/mp4" />
+        <source src="/bg-video.mp4" type="video/mp4" />
       </video>
 
       {/* High-Contrast Overlay */}
