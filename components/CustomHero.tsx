@@ -9,7 +9,7 @@ interface CustomHeroProps {
 
 export default function CustomHero({ title, subTitle }: CustomHeroProps) {
   return (
-    <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden py-16 md:py-24 px-4">
+    <section className="relative max-h-[400px] w-full flex items-center justify-center overflow-hidden py-16 md:py-24 px-4">
       {/* Background Video */}
       <video
         autoPlay
@@ -19,7 +19,7 @@ export default function CustomHero({ title, subTitle }: CustomHeroProps) {
         preload="auto"
         // This prevents the "black flash" before the video starts
         poster="/heritage.png" 
-        className="absolute inset-0 z-0 h-[300px] w-full object-cover"
+        className="absolute inset-0 z-0 h-full w-full object-cover"
       >
         <source src="/bg-video.mp4" type="video/mp4" />
       </video>
