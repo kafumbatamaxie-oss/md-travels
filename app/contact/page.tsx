@@ -42,7 +42,7 @@ export default function Contact() {
     setSuccess(false)
 
     try {
-      const response = await fetch("/api/contacts", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -119,7 +119,7 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">
                         Phone Number
@@ -189,7 +189,7 @@ export default function Contact() {
                     transition={springConfig}
                     type="submit"
                     disabled={loading}
-                    className="w-full py-5 bg-foreground text-background rounded-2xl font-black uppercase tracking-widest hover:bg-secondary transition-colors flex items-center justify-center gap-3 disabled:opacity-70 group"
+                    className="w-full py-5 my-10 bg-foreground text-background rounded-2xl font-black uppercase tracking-widest hover:bg-secondary transition-colors flex items-center justify-center gap-3 disabled:opacity-70 group"
                   >
                     {loading ? (
                       <Loader2 className="w-6 h-6 animate-spin" />

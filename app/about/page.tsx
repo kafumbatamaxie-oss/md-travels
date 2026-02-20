@@ -5,16 +5,15 @@ import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import { CheckCircle } from "lucide-react"
 import CustomHero from "@/components/CustomHero"
-
+import { MdAboutSection } from "@/components/MdAboutSection"
 export default function About() {
   const { t, mounted } = useLanguage()
 
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="bg-background px-4  md:px-8">
     
-
       {/* Hero */}
       <CustomHero 
         title="About Us" 
@@ -22,7 +21,8 @@ export default function About() {
       
 
       {/* Mission & Vision */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
+      <MdAboutSection />
+      {/* <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             <div className="animate-slide-in-left">
@@ -31,7 +31,6 @@ export default function About() {
                 To provide safe, reliable, and luxurious transportation services that exceed our clients' expectations
                 while maintaining the highest standards of professionalism and customer service.
               </p>
-
               <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
               <p className="text-text-secondary leading-relaxed mb-8">
                 To become the leading transportation service provider in Cape Town, known for our commitment to
@@ -63,9 +62,9 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Why Choose Us */}
+      {/* Why Choose Us
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-surface/30">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16 text-balance">Why Choose MD Travels?</h2>
@@ -87,10 +86,10 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats Section */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
@@ -105,6 +104,24 @@ export default function About() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+       {/* ===== Contact ===== */}
+      <section className="rounded-2xl bg-primary text-primary-foreground py-10 text-center space-y-3  mb-20 md:px-20">
+        <h2 className="text-xl font-semibold">Contact Us</h2>
+
+        <p className="text-sm text-primary-foreground/90">
+          For bookings or a custom quote, get in touch today.
+        </p>
+
+        <div className="space-y-1 text-sm">
+          <p className="font-medium">Malipheze Dlunge Transport</p>
+          <p>📧 Info@mdshuttles.co.za</p>
+          <p>📞 +27 71 9455 941</p>
+          <p>📞 +27 606 411 703</p>
+          
+          <p>📍 129 Beaufort Street, Goodwood, Cape Town</p>
         </div>
       </section>
 

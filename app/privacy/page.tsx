@@ -1,7 +1,9 @@
 
 function PrivacyPage() {
   return (
-    <div>PrivacyPage</div>
+    <div>
+      <h1>Privacy Page<h1/>
+    </div>
   )
 }
 

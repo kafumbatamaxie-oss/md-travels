@@ -3,14 +3,14 @@
 import Image from "next/image"
 import { Shield, Users, Clock, CheckCircle } from "lucide-react"
 
-export function MdAboutPage() {
+export function MdAboutSection() {
   return (
-    <section className="bg-background px-4 py-16 md:px-8 lg:py-24">
+    <section className="bg-background px-4 py-10 md:px-8">
       <div className="mx-auto max-w-6xl space-y-16">
 
         {/* ===== Header ===== */}
         <div className="text-center space-y-4">
-          <span className="text-sm font-semibold uppercase tracking-widest text-accent">
+          <span className="text-sm font-semibold uppercase tracking-widest text-secondary">
             Company Profile
           </span>
 
@@ -28,7 +28,7 @@ export function MdAboutPage() {
         {/* ===== Leadership ===== */}
         <div className="space-y-10">
           <h2 className="text-2xl font-semibold text-center">
-            Our Leadership
+            Our  <span className="text-secondary">Leadership</span>
           </h2>
 
           <div className="grid gap-8 sm:grid-cols-2">
@@ -94,7 +94,7 @@ export function MdAboutPage() {
 
         {/* ===== Mission ===== */}
         <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-3">
-          <h2 className="text-xl font-semibold">Our Mission</h2>
+          <h2 className="text-xl font-semibold">Our <span className="text-secondary">Mission</span></h2>
 
           <p className="text-muted-foreground">
             To deliver exceptional transportation services that exceed
@@ -170,22 +170,6 @@ export function MdAboutPage() {
             <li>Long-term corporate transportation solutions</li>
             <li>Customized transport tailored to client needs</li>
           </ul>
-        </div>
-
-        {/* ===== Contact ===== */}
-        <div className="rounded-2xl bg-primary p-6 text-primary-foreground text-center space-y-3 md:p-8">
-          <h2 className="text-xl font-semibold">Contact Us</h2>
-
-          <p className="text-sm text-primary-foreground/90">
-            For bookings or a custom quote, get in touch today.
-          </p>
-
-          <div className="space-y-1 text-sm">
-            <p className="font-medium">Malipheze Dlunge Transport</p>
-            <p>📧 Info@mdshuttles.co.za</p>
-            <p>📞 073 835 8504</p>
-            <p>📍 129 Beaufort Street, Goodwood, Cape Town</p>
-          </div>
         </div>
 
       </div>
