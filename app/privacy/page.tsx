@@ -1,10 +1,8 @@
-
-function PrivacyPage() {
+export default function PrivacyPage() {
   return (
-    <section>
-      <h1>Privacy Page<h1/>
-    </section>
+    <main className="p-8">
+      <h1>Privacy Policy</h1>
+      <p>This is the privacy page.</p>
+    </main>
   )
 }
-
-export default PrivacyPage
