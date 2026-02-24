@@ -47,7 +47,7 @@ export function MdAboutSection() {
 
               <div>
                 <h3 className="text-lg font-semibold">
-                  Malipheze Dlunge
+                  Chief driver
                 </h3>
                 <p className="text-sm text-accent font-medium">
                   Founder & CEO
