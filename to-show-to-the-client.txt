@@ -1,0 +1,84 @@
+What we did : 
+Production-ready architecture
+✔ Prisma schema (FULL UPDATED)
+✔ Google distance integration
+✔ Zone pricing
+✔ Vehicle-based pricing
+✔ Service pricing
+✔ Clerk-ready logic
+✔ New Quote Engine module
+✔ Updated API route
+✔ Works with your current UI
+✔ Safe for production rollout
+
+
+Required for your quote page
+
+✔ Maps JavaScript API
+✔ Places API
+✔ Geocoding API (recommended)
+✔ Distance Matrix API (for pricing engine later)
+
+
+services = [
+    {
+        "name": "Airport Transfer",
+        "description": "Private shuttle to and from Cape Town International Airport. Includes driver, fuel, tolls, and parking.",
+        "pricingType": "DISTANCE",
+        "basePrice": 850
+    },
+    {
+        "name": "Daily Charter",
+        "description": "Vehicle hire with driver for events, conferences, school trips, and corporate transportation.",
+        "pricingType": "DAILY",
+        "basePrice": 5000
+    },
+    {
+        "name": "Cape Town Tour Package",
+        "description": "Guided tour to major attractions including the Winelands, coastal routes, and city highlights.",
+        "pricingType": "PACKAGE",
+        "basePrice": 3500
+        }
+];
+
+vehicle_types = [
+    {
+        "name": "Executive Sedan",
+        "brand": "Toyota Camry",
+        "category": "SEDAN",
+        "passengers": 3,
+        "perKmRate": 12,
+        "hourlyRate": 450,
+        "dailyRate": 2500,
+        "imageUrl": "/vehicles/sedan.jpg",
+        "status": "AVAILABLE",
+        "description": "Comfortable executive sedan ideal for airport transfers and business travel.",
+        "fuelType": "Petrol"
+    },
+    {
+        "name": "Toyota Quantum 2.8 GL",
+        "brand": "Toyota",
+        "category": "MINIBUS",
+        "passengers": 11,
+        "perKmRate": 18,
+        "hourlyRate": 750,
+        "dailyRate": 5000,
+        "imageUrl": "/vehicles/quantum.jpg",
+        "status": "AVAILABLE",
+        "description": "Popular 11-seater minibus ideal for tours, airport shuttles, and group transport.",
+        "fuelType": "Diesel"
+     },
+     {
+        "name": "Luxury 65-Seater Coach",
+        "brand": "Mercedes-Benz",
+        "category": "COACH_65",
+        "passengers": 65,
+        "perKmRate": 45,
+        "hourlyRate": 1800,
+        "dailyRate": 12000,
+        "imageUrl": "/vehicles/coach.jpg",
+        "status": "AVAILABLE",
+        "description": "Luxury air-conditioned coach for large groups, conferences, and long-distance travel.",
+        "fuelType": "Diesel"
+    }
+]

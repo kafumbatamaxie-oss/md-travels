@@ -22,7 +22,7 @@ export default function About() {
 
       {/* Mission & Vision */}
       <MdAboutSection />
-      {/* <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             <div className="animate-slide-in-left">
@@ -62,7 +62,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* Why Choose Us
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-surface/30">

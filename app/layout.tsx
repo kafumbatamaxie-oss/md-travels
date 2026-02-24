@@ -67,7 +67,8 @@ export default function RootLayout({
  
 
   const content = (
-    <html lang="en" className="scroll-smooth">
+    <ClerkProvider>
+      <html lang="en" className="scroll-smooth">
       <body className={`${_geist.className} antialiased bg-background text-foreground`}>
         <LanguageProvider>
           <LenisProvider>
@@ -82,6 +83,8 @@ export default function RootLayout({
         <Analytics />
       </body>
     </html>
+    </ClerkProvider>
+    
   )
 
   if (!clerkKey) {

@@ -10,7 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "6.36.4",
+    "@clerk/nextjs": "^6.36.4",
     "@emotion/is-prop-valid": "latest",
     "@googlemaps/google-maps-services-js": "^3.4.2",
     "@hookform/resolvers": "^3.10.0",

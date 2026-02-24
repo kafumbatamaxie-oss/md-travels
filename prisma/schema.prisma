@@ -6,33 +6,141 @@ datasource db {
   provider = "postgresql"
 }
 
+/**
+ * ================= VEHICLES =================
+ */
+
 model Vehicle {
-  id          String    @id @default(cuid())
-  name        String
-  brand       String
-  category    String
-  passengers  Int
-  pricePerDay Float
+  id         String @id @default(cuid())
+  name       String
+  brand      String
+  category   String
+  passengers Int
+
+  // Pricing
+  perKmRate  Float?
+  hourlyRate Float?
+  dailyRate  Float?
+
   imageUrl    String
-  status      String    @default("AVAILABLE")
+  status      String  @default("AVAILABLE")
   description String?
-  fuelType    String?   @default("Petrol")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  bookings    Booking[]
+  fuelType    String? @default("Petrol")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking[]
+  quotes   Quote[]
 }
 
+/**
+ * ================= BOOKINGS =================
+ */
+
 model Booking {
-  id          String   @id @default(cuid())
-  userId      String
-  vehicleId   String
-  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  id        String  @id @default(cuid())
+  userId    String
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
   pickupDate  DateTime
   dropoffDate DateTime
-  status      String   @default("PENDING")
+
+  status      String @default("PENDING")
   totalAmount Float
+
+  createdAt DateTime @default(now())
+}
+
+/**
+ * ================= SERVICES =================
+ */
+
+enum PricingType {
+  DISTANCE
+  DAILY
+  HOURLY
+  PACKAGE
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  pricingType PricingType
+  basePrice   Float?
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  quotes Quote[]
+}
+
+/**
+ * ================= ZONES =================
+ */
+
+model Zone {
+  id          String   @id @default(cuid())
+  name        String
+  multiplier  Float    @default(1)
+  extraFee    Float    @default(0)
+  description String?
   createdAt   DateTime @default(now())
 }
+
+/**
+ * ================= QUOTES =================
+ */
+
+model Quote {
+  id String @id @default(cuid())
+
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+
+  pickupAddress      String
+  destinationAddress String
+
+  pickupDate  DateTime
+  dropoffDate DateTime
+  pickupTime  String
+
+  passengers Int
+
+  /**
+   * ===== RELATIONS =====
+   */
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  /**
+   * =====================
+   */
+
+  additionalRequirements String?
+
+  distanceKm      Float
+  durationMinutes Float
+  zoneMultiplier  Float
+
+  total         Float
+  depositAmount Float
+
+  createdAt DateTime @default(now())
+}
+
+/**
+ * ================= INQUIRIES =================
+ */
 
 model Inquiry {
   id        String   @id @default(cuid())
@@ -42,61 +150,4 @@ model Inquiry {
   subject   String
   message   String
   createdAt DateTime @default(now())
-}
-
-model Quote {
-  id                     String   @id @default(cuid())
-
-  firstName              String
-  lastName               String
-  email                  String
-  phone                  String
-
-  // 📍 PICKUP LOCATION
-  pickupAddress          String
-  pickupLat              Float?    // OPTIONAL
-  pickupLng              Float?
-
-  // 📍 DESTINATION
-  destinationAddress     String?   // was "destination"
-  destinationLat         Float?
-  destinationLng         Float?
-
-  pickupDate             DateTime
-  dropoffDate            DateTime
-  pickupTime             String
-  passengers             Int
-
-  // 🚗 MANUAL VEHICLE SELECTION
-  vehicleCategory        String?   // OPTIONAL for old records
-
-  // OPTIONAL SERVICE TYPE
-  serviceId              String?
-  service                Service? @relation(fields: [serviceId], references: [id])
-
-  // 📊 ROUTE + PRICING DATA
-  distanceKm             Float?
-  estimatedPrice         Float?
-  pricingType            String?  // AIRPORT, DISTANCE, DAILY_PACKAGE
-
-  additionalRequirements String?
-
-  total Decimal? @db.Decimal(10, 2) // ✅ ADD THIS
-
-  // 📄 GENERATED PDF STORAGE
-  pdfUrl                 String?
-
-  status                 String   @default("NEW")
-  createdAt              DateTime @default(now())
-}
-
-
-model Service {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-
-  quotes Quote[]
 }

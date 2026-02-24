@@ -42,7 +42,7 @@ type QuoteRequest = {
   passengers: string
 
   serviceId: string
-  vehicleCategory: string
+  vehicleId: string
 
   additionalRequirements?: string
 }
@@ -61,7 +61,10 @@ export default function Quote() {
 
   const { services, loading: servicesLoading } = useServices()
 
+  const [vehicles, setVehicles] = useState<any[]>([])
+  const [vehiclesLoading, setVehiclesLoading] = useState(true)
 
+  
 
   const [formData, setFormData] = useState<QuoteRequest>({
       firstName: "",
@@ -84,10 +87,10 @@ export default function Quote() {
       passengers: "",
 
       serviceId: "",
-      vehicleCategory: "",
+      vehicleId: "",
 
       additionalRequirements: "",
-    })
+  })
 
 
   const updateField = (
@@ -119,7 +122,7 @@ export default function Quote() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-  
+    console.log(formData)
     const parsed = QuoteClientSchema.safeParse(formData)
     if (!parsed.success) {
       console.log(parsed.error.flatten())
@@ -155,7 +158,7 @@ export default function Quote() {
           passengers: Number(formData.passengers),
 
           serviceId: formData.serviceId,
-          vehicleCategory: formData.vehicleCategory ?? "STANDARD",
+          vehicleId: formData.vehicleId,
 
           additionalRequirements: formData.additionalRequirements,
         }),
@@ -184,7 +187,7 @@ export default function Quote() {
 
         passengers: "",
         serviceId: "",
-        vehicleCategory: "",
+        vehicleId: "",
 
         additionalRequirements: "",
       })
@@ -201,14 +204,30 @@ export default function Quote() {
 
   const progressValue = step === 1 ? 50 : 100
 
-  useEffect(() => {
-    document.body.style.overflow = loading ? "hidden" : ""
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [loading])
+    useEffect(() => {
+      document.body.style.overflow = loading ? "hidden" : ""
+      return () => {
+        document.body.style.overflow = ""
+      }
+    }, [loading])
 
-  if (!mounted) return null
+    useEffect(() => {
+      async function fetchVehicles() {
+        try {
+          const res = await fetch("/api/vehicles")
+          const data = await res.json()
+          setVehicles(data)
+        } catch (err) {
+          console.error("Failed to load vehicles", err)
+        } finally {
+          setVehiclesLoading(false)
+        }
+      }
+
+      fetchVehicles()
+    }, [])
+
+    if (!mounted) return null
 
   return (
     <LoadScript
@@ -294,20 +313,28 @@ export default function Quote() {
                               Vehicle Type <span className="text-red-500">*</span>
                             </label>
 
-                            <select
-                              name="vehicleCategory"
-                              value={formData.vehicleCategory}
-                              onChange={handleChange}
-                              required
-                              className="w-full px-4 py-3 border rounded-lg text-sm"
-                            >
-                              <option value="">Select vehicle</option>
-                              <option value="SEDAN">Sedan (1–3 pax)</option>
-                              <option value="MINIBUS">Minibus (4–13 pax)</option>
-                              <option value="COACH_65">Coach 65-Seater</option>
-                            </select>
-                        </div>
+                            {vehiclesLoading ? (
+                              <div className="w-full h-[48px] bg-muted rounded-lg animate-pulse" />
+                            ) : (
+                              <select
+                                name="vehicleId"
+                                value={formData.vehicleId}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 border rounded-lg text-sm"
+                              >
+                                <option value="">Select vehicle</option>
 
+                                {vehicles.map((vehicle) => (
+                                  <option key={vehicle.id} value={vehicle.id}>
+                                    {vehicle.name} — {vehicle.passengers} pax
+                                  </option>
+                                ))}
+                                
+
+                              </select>
+                            )}
+                          </div>
                         <div>
                               <label className="block text-xs font-semibold mb-2 uppercase">
                                 Number of Passengers <span className="text-red-500">*</span>
@@ -555,14 +582,14 @@ export default function Quote() {
                       </div>
                     </div>
                     {/* Step 2 unchanged – already correct */}
-                    <div className="flex items-center justify-center gap-4">
+                    <div className="flex gap-4">
                       <button type="button" onClick={handleBackStep} className="px-6 py-4 text-center bg-muted rounded-lg">
                         <ChevronLeft className="w-4 h-4" /> 
                       </button>
                       <button
                         type="submit"
                         disabled={loading}
-                        className="flex-1 px-8 py-4 bg-secondary text-white rounded-lg flex-2 font-bold uppercase"
+                        className="flex-1 px-8 py-4 bg-secondary text-white rounded-lg  font-bold uppercase"
                       >
                         {loading ? "Sending..." : <>Send Request <Send className="w-4 h-4" /></>}
                       </button>
