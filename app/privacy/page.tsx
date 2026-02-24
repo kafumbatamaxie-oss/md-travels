@@ -1,9 +1,9 @@
 
 function PrivacyPage() {
   return (
-    <div>
+    <section>
       <h1>Privacy Page<h1/>
-    </div>
+    </section>
   )
 }
 
