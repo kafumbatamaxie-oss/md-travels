@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { Shield, Users, Clock, CheckCircle } from "lucide-react"
 
-export function MdAboutPage() {
+export default function MdAboutPage() {
   return (
     <section className="bg-background px-4 py-16 md:px-8 lg:py-24">
       <div className="mx-auto max-w-6xl space-y-16">
