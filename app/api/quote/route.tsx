@@ -12,8 +12,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     console.log("REQUEST BODY:", body)
 
+    console.log("STEP 1: Starting calculateQuote")
     const result = await calculateQuote(body)
+    console.log("STEP 2: Quote calculated with total amount : ", result)
 
+    console.log("STEP 3: Creating quote in DB")
     const quote = await prisma.quote.create({
         data: {
           firstName: body.firstName,
@@ -47,12 +50,17 @@ export async function POST(req: NextRequest) {
           service: true,
         },
       })
+    
+    console.log("STEP 4: Quote saved")
 
+    console.log("STEP 5: Generating PDF")
     const pdfBuffer = await renderToBuffer(
       <InvoicePDF quote={quote as any} />
     )
-
-    await resend.emails.send({
+    
+    console.log("STEP 6: Resend api key : ", process.env.RESEND_FROM, " with api", process.env.RESEND_API_KEY)
+    console.log("STEP 7: Resend is about to send PDF to ", quote.email)
+    const emailResult = await resend.emails.send({
       from: process.env.RESEND_FROM!,
       to: quote.email,
       subject: `Quotation ${quote.id.slice(0, 6).toUpperCase()}`,
@@ -68,9 +76,12 @@ export async function POST(req: NextRequest) {
       ],
     })
 
+    console.log("STEP 8: Resend sent email with result:  ", emailResult.data)
+
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error(error)
+    console.error("FULL ERROR:", error)
+
     return NextResponse.json(
       { success: false },
       { status: 500 }

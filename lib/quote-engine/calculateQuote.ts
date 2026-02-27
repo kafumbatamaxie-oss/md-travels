@@ -3,16 +3,19 @@ import { getDistance } from "../google/getDistance"
 import { getZoneMultiplier } from "./getZoneMultiplier"
 
 export async function calculateQuote(data: any) {
+  console.log("STEP 1: Get the vehicle from DB")
   const vehicle = await prisma.vehicle.findUnique({
     where: { id: data.vehicleId },
   })
 
+  console.log("STEP 2: Get the service from DB")
   const service = await prisma.service.findUnique({
     where: { id: data.serviceId },
   })
 
   if (!vehicle || !service) throw new Error("Invalid selection")
 
+  console.log("STEP 3: call -> getDistance")
   const { distanceKm, durationMinutes } = await getDistance(
     data.pickupAddress,
     data.destinationAddress

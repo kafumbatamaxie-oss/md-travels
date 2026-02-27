@@ -10,7 +10,8 @@ export async function GET() {
 
     return NextResponse.json(vehicles)
   } catch (error) {
-    console.error("[VIHICLES_GET_ERROR]", error)
+    console.error("[VIHICLES_GET_ERROR]:", error)
+  
     return NextResponse.json(
       { message: "Failed to load vehicles" },
       { status: 500 }
