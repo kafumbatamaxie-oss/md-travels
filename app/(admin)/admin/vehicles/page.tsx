@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/prisma"
 import { deleteVehicle } from "./actions"
 import Link from "next/link"
