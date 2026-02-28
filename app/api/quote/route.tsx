@@ -57,6 +57,8 @@ export async function POST(req: NextRequest) {
     const pdfBuffer = await renderToBuffer(
       <InvoicePDF quote={quote as any} />
     )
+
+    const quoteRef = quote.id.slice(0, 6).toUpperCase()
     
     console.log("STEP 6: Resend api key : ", process.env.RESEND_FROM, " with api", process.env.RESEND_API_KEY)
     console.log("STEP 7: Resend is about to send PDF to ", quote.email)
@@ -77,6 +79,38 @@ export async function POST(req: NextRequest) {
     })
 
     console.log("STEP 8: Resend sent email with result:  ", emailResult.data)
+
+    // STEP 5: Send Notification to Staff
+    const staffEmails = [
+          "info@mdtravels.co.za",
+          "malipheze@mdtravels.co.za",
+          "iviwedlunge111@gmail.com",
+    ]
+
+    const staffEmail = await resend.emails.send({
+      from: process.env.RESEND_FROM!,
+      to: staffEmails,
+      subject: `🚨 New Quote Submitted - ${quoteRef}`,
+      html: `
+        <h3>New Quote Received</h3>
+        <p><strong>Quote ID:</strong> ${quote.id}</p>
+        <p><strong>Name:</strong> ${quote.firstName} ${quote.lastName}</p>
+        <p><strong>Email:</strong> ${quote.email}</p>
+        <p><strong>Phone:</strong> ${quote.phone}</p>
+        <p><strong>Pickup:</strong> ${quote.pickupAddress}</p>
+        <p><strong>Destination:</strong> ${quote.destinationAddress}</p>
+        <p><strong>Total:</strong> R${quote.total}</p>
+        <p>The official quotation PDF is attached.</p>
+      `,
+      attachments: [
+        {
+          filename: `Quotation-${quoteRef}.pdf`,
+          content: pdfBuffer,
+        },
+      ],
+    })
+
+    console.log("Staff notification sent:", staffEmail.data)
 
     return NextResponse.json({ success: true })
   } catch (error) {

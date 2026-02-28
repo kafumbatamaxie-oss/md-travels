@@ -238,7 +238,7 @@ export default function Quote() {
       <main className="min-h-screen bg-sky-950/10 py-1 text-foreground">
         
    
-        <HideOnQuote Component={FloatingElements } />
+        <HideOnQuote Component={FloatingElements } hidePath="/quote" />
 
         <QuoteLoadingOverlay open={loading} />
         <QuoteLoadingModal open={loading} />

@@ -4,13 +4,14 @@ import { usePathname } from "next/navigation"
 import React from "react"
 
 type ConditionalRenderProps = {
-  Component: React.ComponentType
+  Component: React.ComponentType,
+  hidePath: string
 }
 
-export default function HideOnQuote({ Component }: ConditionalRenderProps) {
+export default function HideOnQuote({ Component, hidePath }: ConditionalRenderProps) {
   const pathname = usePathname()
 
-  if (pathname === "/quote") return null
+  if (pathname === hidePath) return null
 
   return <Component />
 }

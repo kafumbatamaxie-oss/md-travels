@@ -69,20 +69,13 @@ export default function RootLayout({
   const content = (
     <ClerkProvider>
       <html lang="en" className="scroll-smooth">
-      <body className={`${_geist.className} antialiased bg-background text-foreground`}>
-        <LanguageProvider>
-          <LenisProvider>
-            <HideOnQuote Component={Navbar} />
-            <HideOnQuote Component={ScrollToTop} />
+      <body className={`${_geist.className} antialiased bg-background text-foreground`}>     
            
             {children}
-           
-            <HideOnQuote Component={Footer} />
-          </LenisProvider>
-        </LanguageProvider>
+      
         <Analytics />
       </body>
-    </html>
+      </html>
     </ClerkProvider>
     
   )

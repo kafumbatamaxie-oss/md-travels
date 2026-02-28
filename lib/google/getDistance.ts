@@ -5,12 +5,11 @@ export async function getDistance(
   const apiKey = process.env.GOOGLE_MAPS_API_KEY
 
   if (!apiKey) {
+    
     throw new Error("GOOGLE_MAPS_API_KEY is not defined")
   }
 
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(
-    origin
-  )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`
 
   const res = await fetch(url)
 
