@@ -149,12 +149,29 @@ model Quote {
  * ================= INQUIRIES =================
  */
 
-model Inquiry {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String
-  subject   String
-  message   String
-  createdAt DateTime @default(now())
+model Bookingpackage {
+  id             String   @id @default(cuid())
+
+  clientName     String
+  clientEmail    String
+  clientPhone    String
+  startDate      DateTime
+  numberOfDays   Int
+  packageType    PackageType
+
+  airportPrice   Float
+  dailyTripPrice Float
+  depositRate    Float
+
+  totalPrice     Float
+  depositDue     Float
+  balanceDue     Float
+
+  createdAt      DateTime @default(now())
+}
+
+enum PackageType {
+  AIRPORT_ONLY
+  DAILY_ONLY
+  FULL_PACKAGE
 }

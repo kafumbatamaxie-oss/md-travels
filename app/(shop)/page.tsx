@@ -11,6 +11,7 @@ import { FeaturedCarsSection } from "@/components/FeaturedCardsSection"
 import {OurHeritageSection} from "@/components/OurHeritageSection"
 import { WhyChooseUs } from "@/components/why-choose-us"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import SpecialPackageSection from "@/components/SpecialPackageSection"
 
 
 
@@ -69,7 +70,7 @@ export default function Home() {
       <HeroCarouselSection />
 
       <section className="h- w-full bg-white " >
-
+        <SpecialPackageSection />
       </section>
 
       {/* About Section */}
