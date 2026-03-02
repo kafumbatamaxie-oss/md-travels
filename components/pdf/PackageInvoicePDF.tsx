@@ -4,81 +4,279 @@ import {
   Text,
   View,
   StyleSheet,
+  Image,
 } from "@react-pdf/renderer";
 
-const styles = StyleSheet.create({
-  page: { padding: 30, fontSize: 11 },
-
-  title: {
-    fontSize: 18,
-    marginBottom: 10,
-    fontWeight: "bold",
-  },
-
-  section: { marginBottom: 12 },
-
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 5,
-  },
-
-  total: {
-    marginTop: 15,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-});
+type PackageBooking = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  people: string;
+  pickupDate: string;
+  days: number;
+  pricing: {
+    arrival: number;
+    returnTransfer: number;
+    dailyTotal: number;
+    total: number;
+  };
+};
 
 export default function PackageInvoicePDF({
   booking,
-}: any) {
+}: {
+  booking: PackageBooking;
+}) {
+  const invoiceDate = new Date().toLocaleDateString();
+  const refNumber = `MD-${booking.id}`;
+
+  const rows = [
+    {
+      date: new Date(booking.pickupDate).toLocaleDateString(),
+      no: "1",
+      vehicle: "65 Seater Luxury Bus",
+      destination: `Cape Town Special Package (${booking.days} Days)`,
+      rate: booking.pricing.total,
+    },
+  ];
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <Image src="https://mdtravels.co.za/logo.png" style={styles.logo} />
 
-        <Text style={styles.title}>
-          MD Travels — Package Invoice
+          <View style={styles.headerRight}>
+            <Text>44 Wrench Street</Text>
+            <Text>Parow West</Text>
+            <Text>Cape Town</Text>
+            <Text>7500</Text>
+            <Text>Email: info@mdtravel.co.za</Text>
+            <Text>24 Hours: 060 641 1703</Text>
+            <Text>Alt: 071 945 5941</Text>
+          </View>
+        </View>
+
+        {/* TITLE */}
+        <View style={styles.titleRow}>
+          <Text style={styles.invoiceTitle}>INVOICE</Text>
+
+          <View style={styles.metaRight}>
+            <Text>DATE: {invoiceDate}</Text>
+            <Text>REF NO: {refNumber}</Text>
+          </View>
+        </View>
+
+        {/* CLIENT + BANK */}
+        <View style={styles.metaSection}>
+          {/* CLIENT */}
+          <View style={styles.clientBox}>
+            <Text style={styles.bold}>Attention:</Text>
+            <Text>{booking.name}</Text>
+            <Text>{booking.email}</Text>
+            <Text>{booking.phone}</Text>
+            <Text>Passengers: {booking.people}</Text>
+            <Text>Service: Cape Town Special Package</Text>
+
+            <View style={styles.spacer} />
+
+            <Text>1 × 65 Seater Luxury Bus</Text>
+            <Text>1 × Professional driver with PDP</Text>
+          </View>
+
+          {/* BANKING (UNCHANGED) */}
+          <View style={styles.bankBox}>
+            <Text style={styles.bold}>Banking Details</Text>
+            <Text>Bank Name: DLUNGE TRANSPORT SERVICE</Text>
+            <Text>Branch Name: FNB POP BRANCH</Text>
+            <Text>DELOTTERY</Text>
+            <Text>Swift Code: FIRNZAJJ</Text>
+            <Text>Account Type: GOLD BUSINESS</Text>
+            <Text>Account No: 62828522294</Text>
+            <Text>Branch Code: 203209</Text>
+          </View>
+        </View>
+
+        <Text style={styles.thankYou}>
+          THANK YOU FOR YOUR BOOKING
         </Text>
 
-        {/* CUSTOMER */}
-        <View style={styles.section}>
-          <Text>Name: {booking.name}</Text>
-          <Text>Email: {booking.email}</Text>
-          <Text>Phone: {booking.phone}</Text>
-          <Text>Passengers: {booking.people}</Text>
-          <Text>Pickup Date: {booking.pickupDate}</Text>
-        </View>
-
-        {/* PACKAGE */}
-        <View style={styles.section}>
-          <Text>Vehicle: Luxury 65-Seater Bus</Text>
-          <Text>Days Booked: {booking.days}</Text>
-        </View>
-
-        {/* PRICING */}
-        <View style={styles.section}>
-          <View style={styles.row}>
-            <Text>Airport Transfer (Arrival)</Text>
-            <Text>R{booking.pricing.arrival}</Text>
+        {/* TABLE */}
+        <View style={styles.table}>
+          <View style={styles.trHeader}>
+            <Text style={styles.th}>DATE</Text>
+            <Text style={styles.th}>NO</Text>
+            <Text style={styles.th}>VEHICLE</Text>
+            <Text style={styles.th}>DESTINATION</Text>
+            <Text style={styles.thRight}>RATE</Text>
           </View>
 
-          <View style={styles.row}>
-            <Text>Daily Trips</Text>
-            <Text>R{booking.pricing.dailyTotal}</Text>
-          </View>
+          {rows.map((row, i) => (
+            <View key={i} style={styles.tr}>
+              <Text style={styles.td}>{row.date}</Text>
+              <Text style={styles.td}>{row.no}</Text>
+              <Text style={styles.td}>{row.vehicle}</Text>
+              <Text style={styles.td}>{row.destination}</Text>
+              <Text style={styles.tdRight}>
+                R {row.rate.toFixed(2)}
+              </Text>
+            </View>
+          ))}
 
-          <View style={styles.row}>
-            <Text>Airport Transfer (Return)</Text>
-            <Text>R{booking.pricing.returnTransfer}</Text>
+          <View style={styles.totalRow}>
+            <Text style={styles.vatText}>
+              ALL PASSENGER TRANSPORT IS EXEMPT OF VAT
+            </Text>
+            <Text style={styles.totalText}>
+              TOTAL&nbsp;&nbsp;R{" "}
+              {booking.pricing.total.toFixed(2)}
+            </Text>
           </View>
-
-          <Text style={styles.total}>
-            TOTAL: R{booking.pricing.total}
-          </Text>
         </View>
 
+        {/* TERMS (UNCHANGED) */}
+        <View style={styles.terms}>
+          <Text style={styles.bold}>TERMS & CONDITIONS:</Text>
+          <Text>• Bookings are confirmed once payment or deposit is received.</Text>
+          <Text>• Payment is due before or on the day of travel unless agreed.</Text>
+          <Text>• Cancellations within 24 hours may be charged.</Text>
+          <Text>• Airport pickups include reasonable waiting time.</Text>
+          <Text>• Vehicles are fully insured and professionally driven.</Text>
+          <Text>• Delays beyond our control cannot be guaranteed.</Text>
+          <Text>• Passenger belongings remain their responsibility.</Text>
+          <Text>• Route changes or extra stops may incur extra charges.</Text>
+          <Text>• Acceptance of service confirms agreement to these terms.</Text>
+          <Text>• Services are governed by South African law.</Text>
+        </View>
+
+        {/* FOOTER */}
+        <Text style={styles.noDrive}>NO SELF-DRIVE</Text>
+
+        <Text style={styles.signature}>
+          Malipheze Dlunge{"\n"}
+          Managing Director{"\n"}
+          060 641 1703
+        </Text>
+
+        <Image
+          src="https://mdtravels.co.za/signature.jpg"
+          style={styles.logo}
+        />
       </Page>
     </Document>
   );
 }
+
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+    fontSize: 9.5,
+    fontFamily: 'Helvetica',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  logo: {
+    width: 90,
+  },
+  headerRight: {
+    textAlign: 'right',
+  },
+  titleRow: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  invoiceTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+  },
+  metaRight: {
+    textAlign: 'right',
+  },
+  metaSection: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  clientBox: {
+    width: '55%',
+  },
+  bankBox: {
+    width: '40%',
+    borderWidth: 1,
+    padding: 6,
+  },
+  thankYou: {
+    marginTop: 6,
+    marginBottom: 6,
+    textAlign: 'center',
+    color: 'red',
+  },
+  table: {
+    borderWidth: 1,
+    marginTop: 6,
+  },
+  trHeader: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    backgroundColor: '#eee',
+  },
+  tr: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    minHeight: 22,
+  },
+  th: {
+    flex: 1,
+    padding: 4,
+    fontWeight: 'bold',
+  },
+  thRight: {
+    flex: 1,
+    padding: 4,
+    fontWeight: 'bold',
+    textAlign: 'right',
+  },
+  td: {
+    flex: 1,
+    padding: 4,
+  },
+  tdRight: {
+    flex: 1,
+    padding: 4,
+    textAlign: 'right',
+  },
+  totalRow: {
+    padding: 6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  vatText: {
+    fontWeight: 'bold',
+  },
+  totalText: {
+    fontWeight: 'bold',
+  },
+  terms: {
+    marginTop: 10,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  noDrive: {
+    marginTop: 12,
+    fontWeight: 'bold',
+  },
+  signature: {
+    marginTop: 10,
+  },
+  spacer: {
+    marginVertical: 6,
+  },
+})

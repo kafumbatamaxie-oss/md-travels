@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { bookSpecialPackage } from "@/app/actions/booking";
+import SubmitButton from "@/components/SubmitButton";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 export default function BookingDialog() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -22,9 +25,13 @@ export default function BookingDialog() {
               Complete Booking
             </h2>
 
-            {/* ✅ SERVER ACTION FORM */}
-            <form action={bookSpecialPackage} className="space-y-3">
-
+            <form
+              action={async (formData) => {
+                setLoading(true);
+                await bookSpecialPackage(formData);
+              }}
+              className="space-y-3"
+            >
               <input
                 name="name"
                 placeholder="Full Name"
@@ -54,15 +61,6 @@ export default function BookingDialog() {
                 required
                 className="w-full border p-2 rounded"
               />
-              
-              <input
-                  name="days"
-                  type="number"
-                  min={1}
-                  placeholder="Number of Days"
-                  required
-                  className="w-full border p-2 rounded"
-              />
 
               <input
                 name="pickupDate"
@@ -71,13 +69,17 @@ export default function BookingDialog() {
                 className="w-full border p-2 rounded"
               />
 
+              <input
+                name="days"
+                type="number"
+                min={1}
+                placeholder="Number of Days"
+                required
+                className="w-full border p-2 rounded"
+              />
+
               <div className="flex gap-3 pt-3">
-                <button
-                  type="submit"
-                  className="bg-green-600 text-white px-4 py-2 rounded"
-                >
-                  Confirm Booking
-                </button>
+                <SubmitButton />
 
                 <button
                   type="button"
@@ -91,6 +93,9 @@ export default function BookingDialog() {
           </div>
         </div>
       )}
+
+      {/* ✅ Loading Overlay */}
+      <LoadingOverlay show={loading} />
     </>
   );
 }
