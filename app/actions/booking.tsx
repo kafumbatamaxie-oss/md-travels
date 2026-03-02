@@ -43,7 +43,8 @@ export async function bookSpecialPackage(formData: FormData) {
   // =============================
   // EMAIL CLIENT
   // =============================
-  await resend.emails.send({
+  console.log("Sending email to ->> ", email)
+  const firstEmail = await resend.emails.send({
     from: process.env.RESEND_FROM!,
     to: email,
     subject: `Your Package Booking - ${ref}`,
@@ -59,6 +60,10 @@ export async function bookSpecialPackage(formData: FormData) {
       },
     ],
   });
+
+  if (!firstEmail.error){
+    console.log("Email sent successfully")
+  }
 
   // =============================
   // EMAIL ADMIN
