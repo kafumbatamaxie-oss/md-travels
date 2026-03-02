@@ -8,35 +8,44 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function submitProposal(formData: FormData) {
   const data = {
-    clientName: formData.get("clientName"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    contractType: formData.get("contractType"),
-    busCount: formData.get("busCount"),
-    passengers: formData.get("passengers"),
-    pickup: formData.get("pickup"),
-    destination: formData.get("destination"),
-    startDate: formData.get("startDate"),
-    endDate: formData.get("endDate"),
-    notes: formData.get("notes"),
+    clientName: formData.get("clientName") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    contractType: formData.get("contractType") as string,
+    busCount: formData.get("busCount") as string,
+    passengers: formData.get("passengers") as string,
+    pickup: formData.get("pickup") as string,
+    destination: formData.get("destination") as string,
+    startDate: formData.get("startDate") as string,
+    endDate: formData.get("endDate") as string,
+    notes: formData.get("notes") as string,
   };
 
-  // ✅ Generate PDF
-  const pdfBuffer = await generateProposalPDF(data);
+  const { pdfBuffer, id } = await generateProposalPDF(data);
 
-  // ✅ Send Email with Attachment
+  const filename = `Proposal-${id}.pdf`;
+
+  // ✅ CLIENT EMAIL
   await resend.emails.send({
-    from: "MD Shuttles <onboarding@resend.dev>",
-    to: ["Info@mdshuttles.co.za"],
-    subject: "New Transport Proposal Request",
-    html: `<h2>New Proposal Request</h2>
-           Client: ${data.clientName}`,
-    attachments: [
-      {
-        filename: "proposal.pdf",
-        content: pdfBuffer,
-      },
+    from: process.env.RESEND_FROM!,
+    to: data.email,
+    subject: "Your Transport Proposal Request",
+    html: `<p>Dear ${data.clientName},</p>
+           <p>Please find your transport proposal request attached.</p>`,
+    attachments: [{ filename, content: pdfBuffer }],
+  });
+
+  // ✅ ADMIN EMAIL
+  await resend.emails.send({
+    from: process.env.RESEND_FROM!,
+    to: [
+      "info@mdtravels.co.za",
+      "malipheze@mdtravels.co.za",
     ],
+    subject: `🚨 New Proposal Request - ${id}`,
+    html: `<h3>New Proposal Submitted</h3>
+           Client: ${data.clientName}`,
+    attachments: [{ filename, content: pdfBuffer }],
   });
 
   redirect("/success");
