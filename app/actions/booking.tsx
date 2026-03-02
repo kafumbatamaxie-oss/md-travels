@@ -31,9 +31,16 @@ export async function bookSpecialPackage(formData: FormData) {
   };
 
   // ✅ GENERATE PDF
-  const pdfBuffer = await renderToBuffer(
-    <PackageInvoicePDF booking={booking} />
-  );
+  const bookingId = Math.random()
+  .toString(36)
+  .substring(2, 8)
+  .toUpperCase();
+
+const pdfBuffer = await renderToBuffer(
+  <PackageInvoicePDF
+    booking={{ ...booking, id: bookingId }}
+  />
+);
 
   const ref = Math.random()
     .toString(36)
