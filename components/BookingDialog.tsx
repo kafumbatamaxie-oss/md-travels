@@ -54,6 +54,15 @@ export default function BookingDialog() {
                 required
                 className="w-full border p-2 rounded"
               />
+              
+              <input
+                  name="days"
+                  type="number"
+                  min={1}
+                  placeholder="Number of Days"
+                  required
+                  className="w-full border p-2 rounded"
+              />
 
               <input
                 name="pickupDate"

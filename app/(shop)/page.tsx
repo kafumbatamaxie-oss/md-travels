@@ -12,6 +12,10 @@ import {OurHeritageSection} from "@/components/OurHeritageSection"
 import { WhyChooseUs } from "@/components/why-choose-us"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import SpecialPackageSection from "@/components/SpecialPackageSection"
+import ProposalSection from "@/components/ProposalSection"
+import StariaQuoteSection from "@/components/StariaQuoteSection"
+import WinelandsSection from "@/components/WinelandsSection"
+import ContractSection from "@/components/ContractSection"
 
 
 
@@ -68,11 +72,6 @@ export default function Home() {
 
       {/* Hero Carousel Section */}
       <HeroCarouselSection />
-
-      <section className="h- w-full bg-white " >
-        <SpecialPackageSection />
-      </section>
-
       {/* About Section */}
       <AboutSection title={t.aboutSection.title}
         description1={t.aboutSection.description1}
@@ -82,6 +81,25 @@ export default function Home() {
 
       {/* Our Heritage Section with GIF background and Parallax */}
       <OurHeritageSection t={t} />
+
+
+
+      <section className="h- w-full bg-white " >
+        <SpecialPackageSection />
+      </section>
+
+      <section className="h- w-full bg-white " >
+        <ProposalSection />
+      </section>
+      <section className="h- w-full bg-white " >
+        <StariaQuoteSection />
+      </section>
+      <section>
+        <WinelandsSection />
+      </section>
+      <section>
+        <ContractSection />
+      </section>
 
        {/* Why Choose Us - Mobile First Marquee */}
       <ScrollReveal className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8">

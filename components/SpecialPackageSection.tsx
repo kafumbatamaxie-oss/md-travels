@@ -7,7 +7,7 @@ export default function SpecialPackage() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center px-6">
 
         <Image
-          src="/bus.jpg"
+          src="/images/toyota36seater.png"
           alt="65 Seater Bus"
           width={600}
           height={400}
@@ -26,7 +26,7 @@ export default function SpecialPackage() {
 
           <ul className="space-y-2 mb-6">
             <li>✅ Airport Transfer (Arrival)</li>
-            <li>✅ Daily Trips – 3 Days</li>
+            <li>✅ Daily Trips – from 1+ Days</li>
             <li>✅ Return Airport Transfer</li>
             <li>✅ Professional Driver</li>
             <li>✅ Fuel & Parking Included</li>

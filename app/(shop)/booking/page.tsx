@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-
+import { bookSpecialPackage } from "@/app/actions/booking";
 export default function BookPage() {
+  
   const [packageType, setPackageType] = useState("FULL_PACKAGE")
 
   return (
@@ -12,7 +13,7 @@ export default function BookPage() {
       </h1>
 
       <form
-        action="/api/booking"
+        action={bookSpecialPackage}
         method="POST"
         className="space-y-4"
       >
