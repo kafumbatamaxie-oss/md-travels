@@ -16,6 +16,7 @@ import ProposalSection from "@/components/ProposalSection"
 import StariaQuoteSection from "@/components/StariaQuoteSection"
 import WinelandsSection from "@/components/WinelandsSection"
 import ContractSection from "@/components/ContractSection"
+import PartnershipArea from "@/components/PartnershipArea"
 
 
 
@@ -84,8 +85,7 @@ export default function Home() {
       <SpecialPackageSection /> 
       <ProposalSection />
       <StariaQuoteSection /> 
-      <WinelandsSection />
-      <ContractSection />
+      <PartnershipArea />
       {/* Why Choose Us - Mobile First Marquee */}
       <ScrollReveal className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8">
         <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
