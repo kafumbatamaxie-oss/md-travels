@@ -40,17 +40,7 @@ export function FloatingElements() {
         </a>
       )}
 
-      {/* Back to Top Button */}
-      {showTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-2 left-2 md:bottom-12 md:left-8 z-40 animate-slide-up"
-        >
-          <div className="w-14 h-14 md:w-14 md:h-14 bg-secondary hover:opacity-90 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110">
-            <ArrowUp className="w-6 h-6 md:w-7 md:h-7 text-primary" />
-          </div>
-        </button>
-      )}
+      
     </>
   )
 }

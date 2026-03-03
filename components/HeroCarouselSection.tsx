@@ -47,7 +47,7 @@ export const HeroCarouselSection = () => {
       subtitle: t.hero.subtitle,
       cta: t.hero.cta1,
       image: "/quantum.jpeg",
-      mobileImage: "/quantum.jpeg",
+      mobileImage: "/quantum.jpg",
     },
   ]
   return (
