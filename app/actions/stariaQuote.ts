@@ -2,36 +2,48 @@
 
 import { Resend } from "resend";
 import { redirect } from "next/navigation";
-import { generateQuotePDF } from "@/lib/generateStariaQuotePDF";
+import { generateStariaInvoicePDF } from "@/lib/generateStariaInvoicePDF";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function submitStariaQuote(formData: FormData) {
   const data = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    tripDate: formData.get("tripDate"),
-    pickupLocation: formData.get("pickupLocation"),
-    pickupTime: formData.get("pickupTime"),
-    destination: formData.get("destination"),
-    eveningPickupLocation: formData.get("eveningPickupLocation"),
-    eveningPickupTime: formData.get("eveningPickupTime"),
-    eveningDropoffLocation: formData.get("eveningDropoffLocation"),
+    name: String(formData.get("name")),
+    email: String(formData.get("email")),
+    phone: String(formData.get("phone")),
+    tripDate: String(formData.get("tripDate")),
+    pickupLocation: String(formData.get("pickupLocation")),
+    pickupTime: String(formData.get("pickupTime")),
+    destination: String(formData.get("destination")),
+    eveningPickupLocation: String(
+      formData.get("eveningPickupLocation")
+    ),
+    eveningPickupTime: String(
+      formData.get("eveningPickupTime")
+    ),
+    eveningDropoffLocation: String(
+      formData.get("eveningDropoffLocation")
+    ),
   };
 
-  const pdf = await generateQuotePDF(data);
+  /* ✅ CREATE INVOICE PDF */
+  const invoicePDF = await generateStariaInvoicePDF(data);
 
+  /* ✅ SEND EMAIL WITH INVOICE */
   await resend.emails.send({
     from: "MD Shuttles <onboarding@resend.dev>",
     to: ["Info@mdshuttles.co.za"],
     subject: "New Hyundai Staria Booking",
-    html: `<h2>New Booking Request</h2>
-           Client: ${data.name}`,
+    html: `
+      <h2>New Staria Booking</h2>
+      <p><strong>Client:</strong> ${data.name}</p>
+      <p><strong>Date:</strong> ${data.tripDate}</p>
+      <p>${data.pickupLocation} → ${data.destination}</p>
+    `,
     attachments: [
       {
-        filename: "quotation.pdf",
-        content: pdf,
+        filename: "staria-invoice.pdf",
+        content: invoicePDF,
       },
     ],
   });

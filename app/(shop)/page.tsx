@@ -81,27 +81,12 @@ export default function Home() {
 
       {/* Our Heritage Section with GIF background and Parallax */}
       <OurHeritageSection t={t} />
-
-
-
-      <section className="h- w-full bg-white " >
-        <SpecialPackageSection />
-      </section>
-
-      <section className="h- w-full bg-white " >
-        <ProposalSection />
-      </section>
-      <section className="h- w-full bg-white " >
-        <StariaQuoteSection />
-      </section>
-      <section>
-        <WinelandsSection />
-      </section>
-      <section>
-        <ContractSection />
-      </section>
-
-       {/* Why Choose Us - Mobile First Marquee */}
+      <SpecialPackageSection /> 
+      <ProposalSection />
+      <StariaQuoteSection /> 
+      <WinelandsSection />
+      <ContractSection />
+      {/* Why Choose Us - Mobile First Marquee */}
       <ScrollReveal className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8">
         <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
       </ScrollReveal>

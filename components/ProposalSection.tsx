@@ -4,7 +4,7 @@ import ProposalDialog from "./ProposalDialog";
 export default function ProposalSection() {
   return (
     <section className="py-24 bg-gray-100">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center px-6">
 
         <FleetSlider />
 
