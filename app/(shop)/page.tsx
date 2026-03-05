@@ -17,6 +17,7 @@ import StariaQuoteSection from "@/components/StariaQuoteSection"
 import WinelandsSection from "@/components/WinelandsSection"
 import ContractSection from "@/components/ContractSection"
 import PartnershipArea from "@/components/PartnershipArea"
+import CorollaSection from "@/components/CorollaSection"
 
 
 
@@ -62,16 +63,9 @@ export default function Home() {
   const phoneNumber = "27606411703"; 
   const message = "Hello MD Travels! 👋 I'm interested in your stransportation services and fleet. Could you help me with some details?";
   const whatsappUrl = `https://wa.me/27606411703?text=${encodeURIComponent(message)}`;
+  
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* Search Section - First Body Section */}
-      {/* <section className="px-0 p-0">
-        <div className="w-full mx-auto">
-          <SearchForm />
-        </div>
-      </section> */}
-
-      {/* Hero Carousel Section */}
       <HeroCarouselSection />
       {/* About Section */}
       <AboutSection title={t.aboutSection.title}
@@ -83,6 +77,7 @@ export default function Home() {
       {/* Our Heritage Section with GIF background and Parallax */}
       <OurHeritageSection t={t} />
       <SpecialPackageSection /> 
+      <CorollaSection />
       <ProposalSection />
       <StariaQuoteSection /> 
       <PartnershipArea />
