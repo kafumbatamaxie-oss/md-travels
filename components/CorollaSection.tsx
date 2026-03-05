@@ -9,7 +9,7 @@ export default function CorollaSection() {
         {/* LEFT IMAGE */}
         <div className="w-full">
           <Image
-            src="/corolla.png"
+            src="/corola-4seater.jpg"
             alt="Toyota Corolla"
             width={600}
             height={400}
