@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { submitCorollaBooking } from "@/app/actions/corollaBooking";
+import { corollaBooking } from "@/app/actions/corollaBooking";
 
 export default function CorollaDialog() {
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function CorollaDialog() {
           <form
             action={async (formData) => {
               setLoading(true);
-              await submitCorollaBooking(formData);
+              await corollaBooking(formData);
             }}
             className="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto"
           >
