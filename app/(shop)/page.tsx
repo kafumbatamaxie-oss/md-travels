@@ -18,6 +18,7 @@ import WinelandsSection from "@/components/WinelandsSection"
 import ContractSection from "@/components/ContractSection"
 import PartnershipArea from "@/components/PartnershipArea"
 import CorollaSection from "@/components/CorollaSection"
+import RomionSection from "@/components/RomionSection"
 
 
 
@@ -78,6 +79,7 @@ export default function Home() {
       <OurHeritageSection t={t} />
       <SpecialPackageSection /> 
       <CorollaSection />
+      <RomionSection />
       <ProposalSection />
       <StariaQuoteSection /> 
       <PartnershipArea />
