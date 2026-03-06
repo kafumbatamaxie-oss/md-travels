@@ -1,91 +1,53 @@
-"use server";
+"use client";
 
-import { Resend } from "resend";
-import { redirect } from "next/navigation";
-import { generateRomionInvoicePDF } from "@/lib/generateRomionInvoicePDF";
+import { useState } from "react";
+import RomionDialog from "./RomionDialog";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export default function RomionSection() {
+  const [open, setOpen] = useState(false);
 
-export async function submitRomionBooking(formData: FormData) {
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const phone = formData.get("phone") as string;
-  const people = formData.get("people") as string;
-  const pickupDate = formData.get("pickupDate") as string;
-  const pickupTime = formData.get("pickupTime") as string;
-  const dropoffDate = formData.get("dropoffDate") as string;
-  const dropoffTime = formData.get("dropoffTime") as string;
-  const days = Number(formData.get("days"));
-  const notes = formData.get("notes") as string;
+  return (
+    <div className="w-full bg-white rounded-xl shadow-lg p-4 md:p-6">
+      <div className="flex flex-col md:flex-row gap-4 items-center">
 
-  const bookingId = Math.random().toString(36).substring(2, 8).toUpperCase();
+        {/* LEFT IMAGE */}
 
-  // Generate PDF invoice
-  const pdfBuffer = await generateRomionInvoicePDF({
-    id: bookingId,
-    name,
-    email,
-    phone,
-    people,
-    pickupDate,
-    pickupTime,
-    dropoffDate,
-    dropoffTime,
-    days,
-    notes,
-  });
+        <div className="w-full md:w-1/2">
+          <img
+            src="/romion.png"
+            alt="Toyota Romion"
+            className="rounded-lg w-full object-cover"
+          />
+        </div>
 
-  const ref = Math.random().toString(36).substring(2, 8).toUpperCase();
+        {/* RIGHT CONTENT */}
 
-  // ==============================
-  // EMAIL CLIENT
-  // ==============================
-  await resend.emails.send({
-    from: process.env.RESEND_FROM!,
-    to: email,
-    subject: `Your Romion Booking - ${ref}`,
-    html: `
-      <p>Dear ${name},</p>
-      <p>Thank you for booking the Toyota Romion 7-Seater.</p>
-      <p>Your invoice is attached.</p>
-    `,
-    attachments: [
-      {
-        filename: `Romion-${ref}.pdf`,
-        content: pdfBuffer,
-      },
-    ],
-  });
+        <div className="w-full md:w-1/2 space-y-3">
+          <h2 className="text-2xl font-bold">
+            Toyota Romion – 7 Seater
+          </h2>
 
-  // ==============================
-  // EMAIL ADMIN
-  // ==============================
-  await resend.emails.send({
-    from: process.env.RESEND_FROM!,
-    to: [
-      "info@mdtravels.co.za",
-      "malipheze@mdtravels.co.za",
-      "iviwedlunge111@gmail.com",
-    ],
-    subject: `🚨 New Romion Booking - ${ref}`,
-    html: `
-      <h3>New Romion Booking</h3>
-      <p>Name: ${name}</p>
-      <p>Email: ${email}</p>
-      <p>Phone: ${phone}</p>
-      <p>Passengers: ${people}</p>
-      <p>Pickup: ${pickupDate} ${pickupTime}</p>
-      <p>Dropoff: ${dropoffDate} ${dropoffTime}</p>
-      <p>Days: ${days}</p>
-      <p>Notes: ${notes}</p>
-    `,
-    attachments: [
-      {
-        filename: `Romion-${ref}.pdf`,
-        content: pdfBuffer,
-      },
-    ],
-  });
+          <p className="text-sm text-gray-600">
+            Spacious and comfortable transport ideal for families
+            and small groups exploring Cape Town. Professional
+            driver included.
+          </p>
 
-  redirect("/success");
+          <div className="text-sm">
+            <p>Half Day: <strong>R2100</strong></p>
+            <p>Full Day: <strong>R4200</strong></p>
+          </div>
+
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-black text-white px-5 py-3 rounded-lg w-full md:w-auto"
+          >
+            Book Now
+          </button>
+        </div>
+      </div>
+
+      {open && <RomionDialog close={() => setOpen(false)} />}
+    </div>
+  );
 }

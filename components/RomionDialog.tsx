@@ -1,57 +1,111 @@
 "use client";
 
 import { useState } from "react";
-import { submitRomionBooking } from "@/app/actions/submitRomionBooking";
+import { corollaBooking } from "@/app/actions/romionBooking";
 
-export default function RomionDialog() {
-  const [open, setOpen] = useState(false);
+export default function RomionDialog({ close }: { close: () => void }) {
   const [loading, setLoading] = useState(false);
 
+  async function handleSubmit(formData: FormData) {
+    setLoading(true);
+    await corollaBooking(formData);
+  }
+
   return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        className="bg-black text-white px-6 py-3 rounded-xl"
-      >
-        Book Romion
-      </button>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
 
-      {open && (
-        <div className="fixed inset-0 bg-black/60 flex justify-center items-center p-4">
-          <form
-            action={submitRomionBooking}
-            className="bg-white p-6 rounded-xl space-y-3 w-full max-w-md"
-            onSubmit={() => setLoading(true)}
+      <div className="bg-white rounded-xl w-full max-w-md p-6">
+
+        <h2 className="text-xl font-bold mb-4">
+          Romion Booking
+        </h2>
+
+        <form action={handleSubmit} className="space-y-3">
+
+          <input
+            name="name"
+            placeholder="Full Name"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <input
+            name="email"
+            placeholder="Email"
+            type="email"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <input
+            name="phone"
+            placeholder="Phone"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <input
+            name="people"
+            placeholder="Passengers"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <label className="text-sm">Pickup Date</label>
+          <input
+            name="pickupDate"
+            type="date"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <label className="text-sm">Pickup Time</label>
+          <input
+            name="pickupTime"
+            type="time"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <label className="text-sm">Dropoff Date</label>
+          <input
+            name="dropoffDate"
+            type="date"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <label className="text-sm">Dropoff Time</label>
+          <input
+            name="dropoffTime"
+            type="time"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <input
+            name="days"
+            type="number"
+            placeholder="How many days"
+            required
+            className="border p-3 rounded w-full"
+          />
+
+          <button
+            disabled={loading}
+            className="bg-black text-white w-full py-3 rounded"
           >
-            <h2 className="text-xl font-bold">Romion 7-Seater Booking</h2>
+            {loading ? "Creating Invoice..." : "Book Now"}
+          </button>
+        </form>
 
-            <input name="name" placeholder="Full Name" required className="input"/>
-            <input name="email" type="email" placeholder="Email" required className="input"/>
-            <input name="phone" placeholder="Phone" required className="input"/>
-            <input name="people" type="number" placeholder="Number of Passengers" required className="input"/>
-
-            <label>Pickup Date & Time</label>
-            <input name="pickupDate" type="date" required className="input"/>
-            <input name="pickupTime" type="time" required className="input"/>
-
-            <label>Dropoff Date & Time</label>
-            <input name="dropoffDate" type="date" required className="input"/>
-            <input name="dropoffTime" type="time" required className="input"/>
-
-            <label>Days of Hire</label>
-            <input name="days" type="number" min={1} defaultValue={1} required className="input"/>
-
-            <textarea name="notes" placeholder="Additional Notes" className="input"/>
-
-            <button
-              disabled={loading}
-              className="bg-green-600 text-white w-full py-2 rounded"
-            >
-              {loading ? "Processing..." : "Confirm Booking"}
-            </button>
-          </form>
-        </div>
-      )}
-    </>
+        <button
+          onClick={close}
+          className="mt-4 text-sm text-gray-500"
+        >
+          Close
+        </button>
+      </div>
+    </div>
   );
 }
