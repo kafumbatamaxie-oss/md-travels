@@ -78,8 +78,8 @@ export default function Home() {
       {/* Our Heritage Section with GIF background and Parallax */}
       <OurHeritageSection t={t} />
       <SpecialPackageSection /> 
-      <CorollaSection />
       <RomionSection />
+      <CorollaSection />
       <ProposalSection />
       <StariaQuoteSection /> 
       <PartnershipArea />

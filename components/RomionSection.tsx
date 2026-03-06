@@ -8,7 +8,7 @@ export default function RomionSection() {
 
   return (
     <div className="w-full bg-white rounded-xl shadow-lg p-4 md:p-6">
-      <div className="flex flex-col md:flex-row gap-4 items-center">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center px-6">
 
         {/* LEFT IMAGE */}
 
