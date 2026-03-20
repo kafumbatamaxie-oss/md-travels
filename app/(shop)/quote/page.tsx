@@ -1,607 +1,276 @@
 "use client"
 
 import type React from "react"
-
+import { useEffect, useState, useRef, useMemo } from "react"
+import { LoadScript, Autocomplete } from "@react-google-maps/api"
+import { motion, AnimatePresence } from "framer-motion"
+import { useServices } from "@/hooks/use-services"
+import { QuoteClientSchema } from "@/lib/validators/quote-client"
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
-import { LoadScript, Autocomplete } from "@react-google-maps/api"
-import { useEffect, useState, useRef } from "react"
-import { Send, CheckCircle, ChevronLeft } from "lucide-react"
-import { format, addMonths } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { QuoteLoadingModal } from "@/components/quote-loading-modal"
-import { QuoteLoadingOverlay } from "@/components/quote-loading-overlay"
-import { QuoteClientSchema } from "@/lib/validators/quote-client"
-import { useServices } from "@/hooks/use-services"
-import { usePathname } from "next/navigation";
 import HideOnQuote from "@/components/HideOnQuote"
-
-type FormStep = 1 | 2
+import Link from "next/link"
+import { 
+  ChevronRight, ChevronLeft, CheckCircle2, Loader2, 
+  Calendar, MapPin, User, Car, Clock, Phone, Mail, Info, Home
+} from "lucide-react"
 
 type QuoteRequest = {
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-
-  pickupAddress: string
-  pickupLat?: number
-  pickupLng?: number
-
-  destinationAddress: string
-  destinationLat?: number
-  destinationLng?: number
-
-  pickupDate: string
-  dropoffDate: string
-  pickupTime: string
-
-  passengers: string
-
-  serviceId: string
-  vehicleId: string
-
-  additionalRequirements?: string
+  firstName: string; lastName: string; email: string; phone: string;
+  pickupAddress: string; destinationAddress: string;
+  pickupDate: string; dropoffDate: string; pickupTime: string;
+  passengers: string; hours?: string;
+  serviceId: string; vehicleId: string;
+  additionalRequirements?: string;
 }
 
+const LIBRARIES: ("places")[] = ["places"]
 
 export default function Quote() {
   const { mounted } = useLanguage()
-  const pathname = usePathname()
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [step, setStep] = useState<FormStep>(1)
+  const { services } = useServices()
+  const [step, setStep] = useState(1)
+  const [direction, setDirection] = useState(0)
 
   const pickupRef = useRef<google.maps.places.Autocomplete | null>(null)
   const destinationRef = useRef<google.maps.places.Autocomplete | null>(null)
 
-
-  const { services, loading: servicesLoading } = useServices()
-
-  const [vehicles, setVehicles] = useState<any[]>([])
-  const [vehiclesLoading, setVehiclesLoading] = useState(true)
-
-  
+  const today = useMemo(() => new Date().toISOString().split("T")[0], [])
 
   const [formData, setFormData] = useState<QuoteRequest>({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-
-      pickupAddress: "",
-      pickupLat: undefined,
-      pickupLng: undefined,
-
-      destinationAddress: "",
-      destinationLat: undefined,
-      destinationLng: undefined,
-
-      pickupDate: "",
-      dropoffDate: "",
-      pickupTime: "",
-
-      passengers: "",
-
-      serviceId: "",
-      vehicleId: "",
-
-      additionalRequirements: "",
+    firstName: "", lastName: "", email: "", phone: "",
+    pickupAddress: "", destinationAddress: "",
+    pickupDate: today, dropoffDate: today, pickupTime: "09:00",
+    passengers: "", hours: "", serviceId: "", vehicleId: "",
+    additionalRequirements: "",
   })
 
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
-  const updateField = (
-    name: keyof QuoteRequest,
-    value: string | number | undefined
-  ) => {
+  // Stable Derived State
+  const selectedService = useMemo(() => services.find((s) => s.id === formData.serviceId), [services, formData.serviceId])
+  const vehicles = useMemo(() => selectedService?.vehicles || [], [selectedService])
+  const selectedVehicle = useMemo(() => vehicles.find(v => v.id === formData.vehicleId), [vehicles, formData.vehicleId])
+  const pricingModel = selectedService?.pricingModel
+
+  const isDistanceBased = pricingModel === "SINGLE_TRIP" || pricingModel === "AIRPORT_TRANSFER"
+  const isHourly = pricingModel === "HOURLY"
+
+  useEffect(() => {
+    setFormData(prev => ({ ...prev, vehicleId: "", pickupAddress: "", destinationAddress: "" }))
+  }, [formData.serviceId])
+
+  const updateField = (name: keyof QuoteRequest, value: string | number) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target
-    updateField(name as keyof QuoteRequest, value)
-  }
-
-  const today = new Date()
-  const maxDate = addMonths(today, 6)
-
-  const handleNextStep = () => {
-    if (!formData.serviceId) return
-    setStep(2)
-  }
-
-  const handleBackStep = () => {
-    setStep(1)
+  const isStepValid = () => {
+    if (step === 1) return formData.serviceId && formData.vehicleId
+    if (step === 2) return (!isDistanceBased || (formData.pickupAddress && formData.destinationAddress)) && formData.pickupDate
+    if (step === 3) return formData.firstName && formData.email && formData.phone && formData.passengers
+    return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(formData)
-    const parsed = QuoteClientSchema.safeParse(formData)
+    if (step !== 4) return
+    setLoading(true)
+    
+    const cleanedData = { ...formData, pricingModel, phone: formData.phone.trim() }
+    const parsed = QuoteClientSchema.safeParse(cleanedData)
+    
     if (!parsed.success) {
-      console.log(parsed.error.flatten())
-      alert("Please complete all required fields correctly.")
+      alert("Please check your input.")
+      setLoading(false)
       return
     }
 
-    setLoading(true)
-
     try {
-      const response = await fetch("/api/quote", {
+      const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-
-          pickupAddress: formData.pickupAddress,
-          pickupLat: formData.pickupLat ?? 0,
-          pickupLng: formData.pickupLng ?? 0,
-
-          destinationAddress: formData.destinationAddress,
-          destinationLat: formData.destinationLat ?? 0,
-          destinationLng: formData.destinationLng ?? 0,
-
-          pickupDate: formData.pickupDate,
-          dropoffDate: formData.dropoffDate,
-          pickupTime: formData.pickupTime,
-
-          passengers: Number(formData.passengers),
-
-          serviceId: formData.serviceId,
-          vehicleId: formData.vehicleId,
-
-          additionalRequirements: formData.additionalRequirements,
-        }),
+        body: JSON.stringify(cleanedData),
       })
-
-
-      if (response.ok) {
-        setSuccess(true)
-        setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-
-        pickupAddress: "",
-        pickupLat: undefined,
-        pickupLng: undefined,
-
-        destinationAddress: "",
-        destinationLat: undefined,
-        destinationLng: undefined,
-
-        pickupDate: "",
-        dropoffDate: "",
-        pickupTime: "",
-
-        passengers: "",
-        serviceId: "",
-        vehicleId: "",
-
-        additionalRequirements: "",
-      })
-
-        setStep(1)
-        setTimeout(() => setSuccess(false), 5000)
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error)
+      if (res.ok) setSuccess(true)
+    } catch (err) {
+      console.error(err)
     } finally {
       setLoading(false)
     }
   }
 
-  const progressValue = step === 1 ? 50 : 100
-
-    useEffect(() => {
-      document.body.style.overflow = loading ? "hidden" : ""
-      return () => {
-        document.body.style.overflow = ""
-      }
-    }, [loading])
-
-    useEffect(() => {
-      async function fetchVehicles() {
-        try {
-          const res = await fetch("/api/vehicles")
-          const data = await res.json()
-          setVehicles(data)
-        } catch (err) {
-          console.error("Failed to load vehicles", err)
-        } finally {
-          setVehiclesLoading(false)
-        }
-      }
-
-      fetchVehicles()
-    }, [])
-
-    if (!mounted) return null
+  if (!mounted) return null
 
   return (
-    <LoadScript
-      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-      libraries={["places"]}
-    >
-      {/* existing page JSX */}
-      <main className="min-h-screen bg-sky-950/10 py-1 text-foreground">
+    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={LIBRARIES}>
+      <main className="relative min-h-[100dvh] flex items-center justify-center py-10 px-4 overflow-hidden">
         
-   
-        <HideOnQuote Component={FloatingElements } hidePath="/quote" />
+        {/* VIDEO BACKGROUND */}
+        <div className="absolute inset-0 z-0">
+          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+            <source src="/bg-video.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
+        </div>
 
-        <QuoteLoadingOverlay open={loading} />
-        <QuoteLoadingModal open={loading} />
+        <HideOnQuote Component={FloatingElements} hidePath="/quote" />
 
-        <section className="relative py-2 px-4 sm:px-6 lg:px-8">
-          <div className="md:px-10 mx-auto">
-            <div className="grid md:grid-cols-6 gap-8 md:gap-12 items-start">
-              <div className="md:col-span-2">
-                <p className="text-secondary text-sm font-semibold mb-2 uppercase">
-                  Ready to go?
-                </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-sky-950">
-                  Request A Quote Now
-                </h1>
-              </div>
-
-              <div className="bg-card border md:col-span-4 rounded-xl p-6 md:p-8 shadow-lg">
-                <div className="mb-6">
-                  <p className="text-sm text-sky-950 mb-2">
-                    Step {step} of 2 – {step === 1 ? "Rental Information" : "Contact Information"}
-                  </p>
-                  <div className="relative">
-                    <Progress value={progressValue} className="h-8 rounded-full" />
-                    <span
-                      className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white"
-                      style={{ width: `${progressValue}%` }}
-                    >
-                      {progressValue}%
-                    </span>
-                  </div>
-                </div>
-
-                {success && (
-                  <div className="mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-lg flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-green-600 text-sm">
-                      Quote request sent! We'll contact you soon.
-                    </span>
-                  </div>
-                )}
-
-                {step === 1 && (
-                  <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleNextStep() }}>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-xs font-semibold mb-2 uppercase">
-                              Select Service <span className="text-red-500">*</span>
-                            </label>
-
-                            {servicesLoading ? (
-                              <div className="w-full h-[11.5] rounded-lg bg-muted animate-pulse" />
-                            ) : (
-                              <select
-                                name="serviceId"
-                                value={formData.serviceId}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border rounded-lg text-sm"
-                              >
-                                <option value="">Select a service</option>
-                                {services.map((service) => (
-                                  <option key={service.id} value={service.id}>
-                                    {service.name}
-                                  </option>
-                                ))}
-                              </select>
-                            )}
-                        </div>
-                        <div>
-                            <label className="block text-xs font-semibold mb-2 uppercase">
-                              Vehicle Type <span className="text-red-500">*</span>
-                            </label>
-
-                            {vehiclesLoading ? (
-                              <div className="w-full h-[48px] bg-muted rounded-lg animate-pulse" />
-                            ) : (
-                              <select
-                                name="vehicleId"
-                                value={formData.vehicleId}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border rounded-lg text-sm"
-                              >
-                                <option value="">Select vehicle</option>
-
-                                {vehicles.map((vehicle) => (
-                                  <option key={vehicle.id} value={vehicle.id}>
-                                    {vehicle.name} — {vehicle.passengers} pax
-                                  </option>
-                                ))}
-                                
-
-                              </select>
-                            )}
-                          </div>
-                        <div>
-                              <label className="block text-xs font-semibold mb-2 uppercase">
-                                Number of Passengers <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                min="1"
-                                name="passengers"
-                                value={formData.passengers}
-                                onChange={handleChange}
-                                required
-                                placeholder="5"
-                                className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                              />
-                          </div>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Pick-up Address <span className="text-red-500">*</span>
-                        </label>
-
-                        <Autocomplete
-                          onLoad={(auto) => (pickupRef.current = auto)}
-                          onPlaceChanged={() => {
-                            const place = pickupRef.current?.getPlace()
-                            if (!place?.geometry) return
-
-                            updateField("pickupAddress", place.formatted_address || "")
-                            updateField("pickupLat", place.geometry.location?.lat())
-                            updateField("pickupLng", place.geometry.location?.lng())
-                            
-                          }}
-                          options={{
-                            componentRestrictions: { country: "za" }, // South Africa
-                          }}
-                        >
-                          <input
-                            type="text"
-                            placeholder="Enter pick-up address"
-                            value={formData.pickupAddress}
-                            onChange={(e) => updateField("pickupAddress", e.target.value)}
-                            required
-                            className="w-full px-4 py-3 bg-background border rounded-lg text-sm"
-                          />
-                        </Autocomplete>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                            Destination <span className="text-red-500">*</span>
-                          </label>
-
-                          <Autocomplete
-                            onLoad={(auto) => (destinationRef.current = auto)}
-                            onPlaceChanged={() => {
-                              const place = destinationRef.current?.getPlace()
-                              if (!place?.geometry) return
-
-                              updateField("destinationAddress", place.formatted_address || "")
-                              updateField("destinationLat", place.geometry.location?.lat())
-                              updateField("destinationLng", place.geometry.location?.lng())
-                            }}
-                            options={{
-                              componentRestrictions: { country: "za" },
-                            }}
-                          >
-                            <input
-                              type="text"
-                              placeholder="Enter destination"
-                              value={formData.destinationAddress}
-                              onChange={(e) => updateField("destinationAddress", e.target.value)}
-                              required
-                              className="w-full px-4 py-3 bg-background border rounded-lg text-sm"
-                            />
-                          </Autocomplete>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Pick-up Date <span className="text-red-500">*</span>
-                        </label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal bg-transparent"
-                            >
-                              {formData.pickupDate ? format(new Date(formData.pickupDate), "dd/MM/yyyy") : "dd/mm/yyyy"}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={formData.pickupDate ? new Date(formData.pickupDate) : undefined}
-                              onSelect={(date) =>{
-                                if (!date) return
-                                updateField("pickupDate", date.toISOString())
-                              }}
-                              disabled={(date) => date < today || date > maxDate}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Drop-off Date <span className="text-red-500">*</span>
-                        </label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal bg-transparent"
-                            >
-                              {formData.dropoffDate ? format(new Date(formData.dropoffDate), "dd/MM/yyyy") : "dd/mm/yyyy"}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={formData.dropoffDate ? new Date(formData.dropoffDate) : undefined}
-                              onSelect={(date) => {
-                                  if (!date) return
-                                  updateField("dropoffDate", date.toISOString())
-                              }
-                                
-                              }
-                              disabled={(date) =>
-                                date < today ||
-                                date > maxDate 
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Pick-up Time <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="time"
-                          name="pickupTime"
-                          value={formData.pickupTime}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={servicesLoading || !formData.serviceId}
-                      className="w-full px-8 py-4 bg-sky-950 text-white rounded-lg font-bold uppercase disabled:opacity-50"
-                    >
-                      Next Step
-                    </button>
-                  </form>
-                )}
-
-                {step === 2 && (
-                  <form className="space-y-4" onSubmit={handleSubmit}>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Your First Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="firstName"
-                          placeholder="First name"
-                          value={formData.firstName}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                        />
-                      </div>
-
-                      <div className="flex items-end">
-                        <input
-                          type="text"
-                          name="lastName"
-                          placeholder="Last name"
-                          value={formData.lastName}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Your Email Address <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Enter email address"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">
-                          Contact Number <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          placeholder="+27"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid">
-                      
-
-                      <div>
-                        <label className="block text-xs font-semibold mb-2 uppercase">Additional Requirements</label>
-                        <textarea
-                          name="additionalRequirements"
-                          placeholder="Do you have any special requests or requirements?"
-                          value={formData.additionalRequirements}
-                          onChange={handleChange}
-                          rows={4}
-                          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition resize-none text-sm"
-                        />
-                      </div>
-                    </div>
-                    {/* Step 2 unchanged – already correct */}
-                    <div className="flex gap-4">
-                      <button type="button" onClick={handleBackStep} className="px-6 py-4 text-center bg-muted rounded-lg">
-                        <ChevronLeft className="w-4 h-4" /> 
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="flex-1 px-8 py-4 bg-secondary text-white rounded-lg  font-bold uppercase"
-                      >
-                        {loading ? "Sending..." : <>Send Request <Send className="w-4 h-4" /></>}
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
-            </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
+        >
+          {/* PROGRESS */}
+          <div className="h-1.5 w-full bg-slate-100">
+            <motion.div className="h-full bg-black" animate={{ width: `${(step / 4) * 100}%` }} transition={{ duration: 0.5 }} />
           </div>
-        </section>
-    </main>
-    </LoadScript>
 
+          <div className="p-8 md:p-12">
+            {success ? (
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 flex flex-col items-center">
+                <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle2 className="w-10 h-10 text-green-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-slate-900">Request Sent!</h2>
+                <p className="text-slate-500 mt-4 mb-10 text-lg leading-relaxed px-4 text-center">Your request has been received. <br/>Check your email for a response shortly.</p>
+                <Link href="/" className="flex items-center gap-3 bg-black text-white px-10 py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all">
+                  <Home className="w-5 h-5" /> Back to Home
+                </Link>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-[460px]">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={step}
+                    custom={direction}
+                    initial={{ x: direction > 0 ? 40 : -40, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: direction < 0 ? 40 : -40, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="flex-1"
+                  >
+                    {/* STEP 1: SERVICE & VEHICLE */}
+                    {step === 1 && (
+                      <div className="space-y-8">
+                        <header><h1 className="text-3xl font-extrabold text-slate-900">Start Your Journey</h1></header>
+                        <div className="space-y-4">
+                          <select required value={formData.serviceId} onChange={e => updateField("serviceId", e.target.value)} className="w-full px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none appearance-none cursor-pointer">
+                            <option value="">Select Service Type</option>
+                            {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                          </select>
+                          
+                          <select required disabled={!selectedService} value={formData.vehicleId} onChange={e => updateField("vehicleId", e.target.value)} className="w-full px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none appearance-none cursor-pointer disabled:opacity-40">
+                            <option value="">Choose Your Vehicle</option>
+                            {vehicles.map(v => <option key={v.id} value={v.id}>{v.name} ({v.capacity} pax)</option>)}
+                          </select>
+
+                          {selectedVehicle && (
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="p-4 bg-slate-50 rounded-[2rem] border border-slate-100 flex items-center gap-6">
+                              <div className="w-32 h-20 bg-white rounded-2xl shadow-sm overflow-hidden flex items-center justify-center p-1">
+                                <img 
+                                  src={selectedVehicle.images?.[0] || "https://placehold.co"} 
+                                  alt={selectedVehicle.name} 
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-slate-900 text-lg leading-tight">{selectedVehicle.name}</p>
+                                <p className="text-xs text-slate-500 font-medium mt-1">Comfortable for up to {selectedVehicle.capacity} passengers</p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* STEP 2: TRIP */}
+                    {step === 2 && (
+                      <div className="space-y-8">
+                        <header><h1 className="text-3xl font-extrabold text-slate-900">Route & Date</h1></header>
+                        <div className="space-y-4">
+                          {isDistanceBased && (
+                            <>
+                              <Autocomplete onLoad={a => (pickupRef.current = a)} onPlaceChanged={() => updateField("pickupAddress", pickupRef.current?.getPlace()?.formatted_address || "")}>
+                                <div className="relative"><MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" /><input defaultValue={formData.pickupAddress} placeholder="Pickup Location" className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none" /></div>
+                              </Autocomplete>
+                              <Autocomplete onLoad={a => (destinationRef.current = a)} onPlaceChanged={() => updateField("destinationAddress", destinationRef.current?.getPlace()?.formatted_address || "")}>
+                                <div className="relative"><MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" /><input defaultValue={formData.destinationAddress} placeholder="Destination" className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none" /></div>
+                              </Autocomplete>
+                            </>
+                          )}
+                          <div className="grid grid-cols-2 gap-4">
+                            <input type="date" value={formData.pickupDate} onChange={e => updateField("pickupDate", e.target.value)} className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm" />
+                            <input type="time" value={formData.pickupTime} onChange={e => updateField("pickupTime", e.target.value)} className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm" />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* STEP 3: CONTACT */}
+                    {step === 3 && (
+                      <div className="space-y-6">
+                        <header><h1 className="text-3xl font-extrabold text-slate-900">Personal Info</h1></header>
+                        <div className="grid grid-cols-2 gap-3">
+                          <input placeholder="First Name" value={formData.firstName} onChange={e => updateField("firstName", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none" />
+                          <input placeholder="Last Name" value={formData.lastName} onChange={e => updateField("lastName", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none" />
+                        </div>
+                        <input type="email" placeholder="Email Address" value={formData.email} onChange={e => updateField("email", e.target.value)} className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none" />
+                        <div className="grid grid-cols-2 gap-3">
+                          <input placeholder="Phone Number" value={formData.phone} onChange={e => updateField("phone", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none" />
+                          <input type="number" placeholder="Pax" value={formData.passengers} onChange={e => updateField("passengers", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none" />
+                        </div>
+                        <textarea placeholder="Special Requirements (e.g. luggage, baby seats)" value={formData.additionalRequirements} onChange={e => updateField("additionalRequirements", e.target.value)} className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none h-24 resize-none" />
+                      </div>
+                    )}
+
+                    {/* STEP 4: REVIEW */}
+                    {step === 4 && (
+                      <div className="space-y-8">
+                        <header><h1 className="text-3xl font-extrabold text-slate-900">Final Summary</h1></header>
+                        <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white space-y-6 shadow-2xl relative overflow-hidden">
+                           <div className="pb-4 border-b border-white/10">
+                              <p className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-1">Service & Vehicle</p>
+                              <p className="text-xl font-bold">{selectedService?.name}</p>
+                              <p className="text-white/60 text-sm italic">{selectedVehicle?.name}</p>
+                           </div>
+                           <div className="grid grid-cols-2 gap-6 text-sm">
+                              <div><p className="text-white/40 font-bold mb-1 uppercase text-[10px]">Pickup</p><p className="font-semibold">{formData.pickupDate} @ {formData.pickupTime}</p></div>
+                              <div><p className="text-white/40 font-bold mb-1 uppercase text-[10px]">Group</p><p className="font-semibold">{formData.passengers} Passengers</p></div>
+                           </div>
+                           <div className="pt-4 border-t border-white/10 flex gap-3 items-center">
+                              <Info className="w-5 h-5 text-white/30 shrink-0" />
+                              <p className="text-[11px] text-white/50 leading-relaxed font-medium">Please review carefully. No payment will be taken at this stage.</p>
+                           </div>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* NAV */}
+                <div className="flex items-center justify-between pt-10 mt-auto">
+                  {step > 1 ? (
+                    <button type="button" onClick={() => { setDirection(-1); setStep(s => s - 1); }} className="px-6 py-4 text-slate-400 font-bold hover:text-black transition-all">
+                      <ChevronLeft className="w-6 h-6" /> Back
+                    </button>
+                  ) : <div />}
+
+                  <button
+                    type={step === 4 ? "submit" : "button"}
+                    disabled={loading || !isStepValid()}
+                    onClick={() => { if (step < 4) { setDirection(1); setStep(s => s + 1); }}}
+                    className="flex items-center gap-3 bg-black text-white px-10 py-5 rounded-2xl font-bold shadow-xl hover:bg-zinc-800 transition-all disabled:opacity-20"
+                  >
+                    {step === 4 ? (loading ? <Loader2 className="animate-spin" /> : "Submit Request") : "Continue"}
+                    {step < 4 && <ChevronRight className="w-5 h-5" />}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </motion.div>
+      </main>
+    </LoadScript>
   )
 }

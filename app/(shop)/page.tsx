@@ -19,6 +19,7 @@ import ContractSection from "@/components/ContractSection"
 import PartnershipArea from "@/components/PartnershipArea"
 import CorollaSection from "@/components/CorollaSection"
 import RomionSection from "@/components/RomionSection"
+import ServiceFleetSection from "@/components/shop/services/ServiceFleetSection"
 
 
 
@@ -76,19 +77,21 @@ export default function Home() {
       />
 
       {/* Our Heritage Section with GIF background and Parallax */}
+      
+      <ServiceFleetSection /> 
       <OurHeritageSection t={t} />
-      <SpecialPackageSection /> 
+      {/* <SpecialPackageSection /> 
       <RomionSection />
       <CorollaSection />
       <ProposalSection />
       <StariaQuoteSection /> 
-      <PartnershipArea />
+      <PartnershipArea /> */}
       {/* Why Choose Us - Mobile First Marquee */}
       <ScrollReveal className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8">
         <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
       </ScrollReveal>
 
-      
+
       {/* Featured Cars Showcase - NEW */}
       <FeaturedCarsSection
         title="THE PERFECT CAR FOR YOUR NEXT TRIP"

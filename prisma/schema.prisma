@@ -6,172 +6,293 @@ datasource db {
   provider = "postgresql"
 }
 
+
+/****************                     ********
+ * ================= CUSTOMERS =================
+ */
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+
+  quotes    Quote[]
+  bookings  Booking[]
+
+  createdAt DateTime @default(now())
+}
+
+
+/**
+ * ================= SERVICES =================
+ */
+model Service {
+  id            String   @id @default(uuid())
+  name          String
+  description   String?
+  pricingModel  PricingModel
+
+  basePrice     Float?
+  pricePerKm    Float?
+  pricePerDay   Float?
+
+  vehicles      ServiceVehicle[]
+  quoteItems    QuoteItem[]   // ✅ ADD THIS
+  bookings      Booking[]     // recommended
+  createdAt     DateTime @default(now())
+}
+
+enum PricingModel {
+  AIRPORT_TRANSFER
+  SINGLE_TRIP
+  DAILY_TRIP
+  HALF_DAY_TRIP
+  HOURLY
+}
+
+enum ServiceCategory {
+  TRANSFER
+  SHUTTLE
+  TOUR
+  RENTAL
+}
+
+
+
+
 /**
  * ================= VEHICLES =================
  */
 
 model Vehicle {
-  id         String @id @default(cuid())
-  name       String
-  brand      String
-  category   String
-  passengers Int
+  id            String   @id @default(uuid())
 
-  // Pricing
-  perKmRate  Float?
-  hourlyRate Float?
-  dailyRate  Float?
+  name          String
+  type          String
+  capacity      Int
 
-  status      String  @default("AVAILABLE")
-  description String?
-  fuelType    String? @default("Petrol")
+  basePrice     Float?
+  perKmPrice    Float?
+  perDayPrice   Float?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status        VehicleStatus
 
-  images   VehicleImage[]
-  bookings Booking[]
-  quotes   Quote[]
+  bookings      Booking[]
+  quoteItems    QuoteItem[]   // ✅ ADD THIS
+  services      ServiceVehicle[]
+
+  images        VehicleImage[]   // 👈 ADD THIS
+
+  createdAt     DateTime @default(now())
 }
 
-model VehicleImage {
-  id        String   @id @default(cuid())
-  url       String
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
-  vehicleId String
-  createdAt DateTime @default(now())
+enum VehicleStatus {
+  ACTIVE
+  MAINTENANCE
+  DISABLED
 }
+
 /**
- * ================= BOOKINGS =================
- */
+  * =============Vehicle Image
+*/
+model VehicleImage {
+  id        String   @id @default(uuid())
 
-model Booking {
-  id        String  @id @default(cuid())
-  userId    String
   vehicleId String
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  url       String
+  publicId  String
+
+  order     Int      @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+}
+
+
+
+model ServiceVehicle {
+  serviceId String
+  vehicleId String
+
+  service   Service @relation(fields: [serviceId], references: [id])
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
-  pickupDate  DateTime
-  dropoffDate DateTime
+  @@id([serviceId, vehicleId])
+}
 
-  status      String @default("PENDING")
-  totalAmount Float
+
+
+
+/**
+ * ================= DRIVERS =================
+ */
+
+model Driver {
+  id        String   @id @default(uuid())
+
+  name      String
+  phone     String
+
+  license   String?
+  licenseType String?
+
+  status    DriverStatus
+
+  maxDailyHours Int   @default(10)
+
+  bookings  Booking[]
 
   createdAt DateTime @default(now())
 }
 
-/**
- * ================= SERVICES =================
- */
-
-enum PricingType {
-  DISTANCE
-  DAILY
-  HOURLY
-  PACKAGE
+enum DriverStatus {
+  ACTIVE
+  OFF_DUTY
+  ON_LEAVE
+  SUSPENDED
 }
 
-model Service {
-  id          String  @id @default(cuid())
-  name        String  @unique
-  description String?
 
-  pricingType PricingType
-  basePrice   Float?
 
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-
-  quotes Quote[]
-}
-
-/**
- * ================= ZONES =================
- */
-
-model Zone {
-  id          String   @id @default(cuid())
-  name        String
-  multiplier  Float    @default(1)
-  extraFee    Float    @default(0)
-  description String?
-  createdAt   DateTime @default(now())
-}
 
 /**
  * ================= QUOTES =================
  */
-
 model Quote {
-  id String @id @default(cuid())
+  id           String   @id @default(uuid())
 
-  firstName String
-  lastName  String
-  email     String
-  phone     String
+  quoteNumber  String   @unique
 
-  pickupAddress      String
-  destinationAddress String
+  customerId   String
+  customer     Customer @relation(fields: [customerId], references: [id])
 
-  pickupDate  DateTime
-  dropoffDate DateTime
-  pickupTime  String
+  status       QuoteStatus
 
-  passengers Int
+  totalPrice   Float
 
-  /**
-   * ===== RELATIONS =====
-   */
+  expiresAt    DateTime?
 
-  serviceId String
-  service   Service @relation(fields: [serviceId], references: [id])
+  items        QuoteItem[]
 
-  vehicleId String
-  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  bookings     Booking[]   // ← ADD THIS (fix)
 
-  /**
-   * =====================
-   */
+  invoices     Invoice[]
 
-  additionalRequirements String?
+  createdAt    DateTime @default(now())
 
-  distanceKm      Float
-  durationMinutes Float
-  zoneMultiplier  Float
-
-  total         Float
-  depositAmount Float
-
-  createdAt DateTime @default(now())
+  @@index([customerId])
 }
+
+enum QuoteStatus {
+  PENDING
+  SENT
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+model QuoteItem {
+  id          String @id @default(uuid())
+
+  quoteId     String
+  quote       Quote  @relation(fields: [quoteId], references: [id])
+
+  serviceId   String
+  service     Service @relation(fields: [serviceId], references: [id])
+
+  vehicleId   String?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  description String?
+
+  passengers  Int
+
+  pickup      String?
+  destination String?
+
+  startDate   DateTime?
+  endDate     DateTime?
+
+  distanceKm  Float?
+
+  price       Float
+}
+
 
 /**
- * ================= INQUIRIES =================
+ * ================= BOOKING =================
  */
 
-model Bookingpackage {
-  id             String   @id @default(cuid())
+model Booking {
+  id           String @id @default(uuid())
 
-  clientName     String
-  clientEmail    String
-  clientPhone    String
-  startDate      DateTime
-  numberOfDays   Int
-  packageType    PackageType
+  bookingRef   String @unique
 
-  airportPrice   Float
-  dailyTripPrice Float
-  depositRate    Float
+  customerId   String
+  customer     Customer @relation(fields: [customerId], references: [id])
 
-  totalPrice     Float
-  depositDue     Float
-  balanceDue     Float
+  vehicleId    String
+  vehicle      Vehicle @relation(fields: [vehicleId], references: [id])
 
-  createdAt      DateTime @default(now())
+  driverId     String?
+  driver       Driver? @relation(fields: [driverId], references: [id])
+
+  serviceId    String
+  service      Service @relation(fields: [serviceId], references: [id])
+
+  quoteId      String?
+  quote        Quote? @relation(fields: [quoteId], references: [id])
+
+  passengers   Int
+
+  pickup       String
+  destination  String?
+
+  startDate    DateTime
+  endDate      DateTime?
+
+  distanceKm   Float?
+
+  price        Float
+
+  status       BookingStatus
+
+  invoices     Invoice[]
+
+  createdAt    DateTime @default(now())
+
+  @@index([vehicleId, startDate, endDate])   // ADD THIS
 }
 
-enum PackageType {
-  AIRPORT_ONLY
-  DAILY_ONLY
-  FULL_PACKAGE
+
+enum BookingStatus {
+  QUOTE_HOLD
+  RESERVED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+
+/**
+ * ================= INVOICE =================
+ */
+
+model Invoice {
+  id         String  @id @default(uuid())
+
+  quoteId    String?
+  quote      Quote?  @relation(fields: [quoteId], references: [id])
+
+  bookingId  String?
+  booking    Booking? @relation(fields: [bookingId], references: [id])
+
+  amount     Float
+
+  pdfUrl     String?
+
+  issuedAt   DateTime @default(now())
 }

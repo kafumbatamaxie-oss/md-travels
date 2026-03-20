@@ -1,10 +1,22 @@
 // hooks/useServices.ts
+import { PricingModel } from "@/lib/types"
 import { useEffect, useState } from "react"
+
+type Vehicle = {
+  id: string
+  name: string
+  type: string
+  capacity: number
+  images?: { url: string }[]
+}
 
 type Service = {
   id: string
   name: string
   description?: string
+  pricingModel: PricingModel
+
+  vehicles: Vehicle[]
 }
 
 export function useServices() {

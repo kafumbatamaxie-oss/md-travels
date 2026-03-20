@@ -1,36 +1,46 @@
-import "dotenv/config"
-import { PrismaClient } from "@prisma/client"
-import { withAccelerate } from "@prisma/extension-accelerate"
+import { PrismaClient, PricingModel } from "@prisma/client"
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient().$extends(
-    withAccelerate()
-  )
-
+const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.service.upsert({
-    where: { name: "Airport Transfers" },
-    update: {},
-    create: {
-      name: "Airport Transfers",
-      description: "Reliable airport pickup and drop-off",
-    },
-  })
 
-  console.log("✅ Services seeded")
+  await prisma.service.createMany({
+    data: [
+      {
+        name: "Airport Transfer",
+        description: "Airport pickup and drop-off service",
+        pricingModel: PricingModel.AIRPORT_TRANSFER,
+        basePrice: 450
+      },
+
+      {
+        name: "City Point to Point",
+        description: "Transport between locations within the city",
+        pricingModel: PricingModel.SINGLE_TRIP
+      },
+
+      {
+        name: "Event Shuttle",
+        description: "Hourly shuttle service for events",
+        pricingModel: PricingModel.HOURLY,
+        basePrice: 650
+      },
+
+      {
+        name: "Long Distance Transfer",
+        description: "Inter-city long distance travel",
+        pricingModel: PricingModel.SINGLE_TRIP,
+        pricePerKm: 12
+      }
+    ],
+    skipDuplicates: true
+  })
 }
 
 main()
-  .catch((e) => {
+  .then(() => prisma.$disconnect())
+  .catch(async (e) => {
     console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
     await prisma.$disconnect()
+    process.exit(1)
   })

@@ -27,3 +27,10 @@ export type UiVehicle = {
   transmission: string
   features: string[]
 }
+
+export type PricingModel =
+  | "AIRPORT_TRANSFER"
+  | "SINGLE_TRIP"
+  | "DAILY_TRIP"
+  | "HALF_DAY_TRIP"
+  | "HOURLY"

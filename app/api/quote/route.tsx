@@ -10,114 +10,172 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    console.log("REQUEST BODY:", body)
 
-    console.log("STEP 1: Starting calculateQuote")
-    const result = await calculateQuote(body)
-    console.log("STEP 2: Quote calculated with total amount : ", result)
+    console.log("QUOTE BODY:", body)
 
-    console.log("STEP 3: Creating quote in DB")
-    const quote = await prisma.quote.create({
+    // ✅ SAFETY: ensure required fields
+    if (!body.serviceId || !body.vehicleId) {
+      throw new Error("Missing service or vehicle")
+    }
+
+    // 1. Calculate quote (SAFE WRAP)
+    let result
+    try {
+      result = await calculateQuote(body)
+    } catch (err) {
+      console.error("CALCULATION ERROR:", err)
+      throw new Error("Quote calculation failed")
+    }
+
+    // 2. Customer
+    let customer = await prisma.customer.findFirst({
+      where: { email: body.email },
+    })
+
+    if (!customer) {
+      customer = await prisma.customer.create({
         data: {
-          firstName: body.firstName,
-          lastName: body.lastName,
+          name: `${body.firstName} ${body.lastName}`,
           email: body.email,
           phone: body.phone,
+        },
+      })
+    }
 
-          pickupAddress: body.pickupAddress,
-          destinationAddress: body.destinationAddress,
+    // 3. Quote number
+    const quoteNumber = `QT-${Date.now()}`
 
-          pickupDate: new Date(body.pickupDate),
-          dropoffDate: new Date(body.dropoffDate),
-          pickupTime: body.pickupTime,
+    // ✅ SAFE DATE HANDLING
+    const pickupDate = body.pickupDate
+      ? new Date(body.pickupDate)
+      : new Date()
 
-          passengers: Number(body.passengers),
+    const dropoffDate = body.dropoffDate
+      ? new Date(body.dropoffDate)
+      : null
 
+    // 4. Create quote
+    const quote = await prisma.quote.create({
+      data: {
+        quoteNumber,
+        customerId: customer.id,
+        status: "PENDING",
+        totalPrice: result.total,
+        items: {
+        create: result.breakdown.map((item) => ({
           serviceId: body.serviceId,
           vehicleId: body.vehicleId,
 
-          additionalRequirements: "",
+          description: item.label,
 
-          distanceKm: result.distanceKm,
-          durationMinutes: result.durationMinutes,
-          zoneMultiplier: result.zoneMultiplier,
+          passengers: Number(body.passengers || 0),
 
-          total: result.total,
-          depositAmount: result.deposit,
+          pickup: body.pickupAddress || "",
+          destination: body.destinationAddress || "",
+
+          startDate: pickupDate,
+          endDate: dropoffDate,
+
+          distanceKm: result.distanceKm || 0,
+
+          price: item.amount,
+        })),
+      },
+       
+      },
+      include: {
+        customer: true,
+        items: {
+          include: {
+            service: true,
+            vehicle: true,
+          },
         },
-        include: {
-          vehicle: true,
-          service: true,
-        },
+      },
+    })
+
+    // 5. Generate PDF (SAFE)
+    let pdfBuffer: Buffer | null = null
+
+    try {
+      console.log("Altrotech here is the quote data: ", quote)
+      pdfBuffer = await renderToBuffer(
+        <InvoicePDF quote={quote as any} />
+      )
+    } catch (err) {
+      console.error("PDF ERROR:", err)
+    }
+
+    const quoteRef = quote.quoteNumber
+
+    // 6. Email client
+    try {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM!,
+        to: quote.customer.email,
+        subject: `Quotation ${quoteRef}`,
+        html: `
+          <p>Dear ${quote.customer.name},</p>
+          <p>Please find your quotation attached.</p>
+        `,
+        attachments: pdfBuffer
+          ? [
+              {
+                filename: `Quotation-${quoteRef}.pdf`,
+                content: pdfBuffer,
+              },
+            ]
+          : [],
       })
-    
-    console.log("STEP 4: Quote saved")
+    } catch (err) {
+      console.error("CLIENT EMAIL ERROR:", err)
+    }
 
-    console.log("STEP 5: Generating PDF")
-    const pdfBuffer = await renderToBuffer(
-      <InvoicePDF quote={quote as any} />
-    )
+    // 7. Staff email
+    try {
+      const staffEmails = [
+        "info@mdtravels.co.za",
+        "malipheze@mdtravels.co.za",
+        "iviwedlunge111@gmail.com",
+      ]
 
-    const quoteRef = quote.id.slice(0, 6).toUpperCase()
-    
-    console.log("STEP 6: Resend api key : ", process.env.RESEND_FROM, " with api", process.env.RESEND_API_KEY)
-    console.log("STEP 7: Resend is about to send PDF to ", quote.email)
-    const emailResult = await resend.emails.send({
-      from: process.env.RESEND_FROM!,
-      to: quote.email,
-      subject: `Quotation ${quote.id.slice(0, 6).toUpperCase()}`,
-      html: `
-        <p>Dear ${quote.firstName},</p>
-        <p>Please find your official quotation attached.</p>
-      `,
-      attachments: [
-        {
-          filename: `Quotation-${quote.id.slice(0, 6)}.pdf`,
-          content: pdfBuffer,
-        },
-      ],
+      await resend.emails.send({
+        from: process.env.RESEND_FROM!,
+        to: staffEmails,
+        subject: `🚨 New Quote - ${quoteRef}`,
+        html: `
+          <h3>New Quote Received</h3>
+          <p><strong>Quote:</strong> ${quoteRef}</p>
+          <p><strong>Name:</strong> ${quote.customer.name}</p>
+          <p><strong>Email:</strong> ${quote.customer.email}</p>
+          <p><strong>Total:</strong> R${quote.totalPrice}</p>
+        `,
+        attachments: pdfBuffer
+          ? [
+              {
+                filename: `Quotation-${quoteRef}.pdf`,
+                content: pdfBuffer,
+              },
+            ]
+          : [],
+      })
+    } catch (err) {
+      console.error("STAFF EMAIL ERROR:", err)
+    }
+
+    return NextResponse.json({
+      success: true,
+      total: result.total,
+      deposit: result.deposit,
     })
-
-    console.log("STEP 8: Resend sent email with result:  ", emailResult.data)
-
-    // STEP 5: Send Notification to Staff
-    const staffEmails = [
-          "info@mdtravels.co.za",
-          "malipheze@mdtravels.co.za",
-          "iviwedlunge111@gmail.com",
-    ]
-
-    const staffEmail = await resend.emails.send({
-      from: process.env.RESEND_FROM!,
-      to: staffEmails,
-      subject: `🚨 New Quote Submitted - ${quoteRef}`,
-      html: `
-        <h3>New Quote Received</h3>
-        <p><strong>Quote ID:</strong> ${quote.id}</p>
-        <p><strong>Name:</strong> ${quote.firstName} ${quote.lastName}</p>
-        <p><strong>Email:</strong> ${quote.email}</p>
-        <p><strong>Phone:</strong> ${quote.phone}</p>
-        <p><strong>Pickup:</strong> ${quote.pickupAddress}</p>
-        <p><strong>Destination:</strong> ${quote.destinationAddress}</p>
-        <p><strong>Total:</strong> R${quote.total}</p>
-        <p>The official quotation PDF is attached.</p>
-      `,
-      attachments: [
-        {
-          filename: `Quotation-${quoteRef}.pdf`,
-          content: pdfBuffer,
-        },
-      ],
-    })
-
-    console.log("Staff notification sent:", staffEmail.data)
-
-    return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("FULL ERROR:", error)
+    console.error("QUOTE ERROR:", error)
 
     return NextResponse.json(
-      { success: false },
+      {
+        success: false,
+        error: (error as Error).message,
+      },
       { status: 500 }
     )
   }

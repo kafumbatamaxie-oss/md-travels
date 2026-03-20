@@ -1,0 +1,187 @@
+const services = [
+    {
+  "name": "Airport Transfer",
+  "description": "Private transport between airport and destination with luggage support.",
+  "pricingModel": "AIRPORT_TRANSFER",
+  "basePrice": 450,
+  "pricePerKm": 12,
+  "pricePerDay": null
+},
+
+1️⃣ Airport Transfer
+{
+  "name": "Airport Transfer",
+  "description": "Private transport between airport and destination with luggage support.",
+  "pricingModel": "AIRPORT_TRANSFER",
+  "basePrice": 450,
+  "pricePerKm": 12,
+  "pricePerDay": null
+}
+
+Use for:
+
+Airport → Hotel
+
+Airport → City
+
+Hotel → Airport
+
+2️⃣ City Point-to-Point Transfer
+{
+  "name": "City Point to Point",
+  "description": "One-way transport between two locations within the city.",
+  "pricingModel": "SINGLE_TRIP",
+  "basePrice": 250,
+  "pricePerKm": 10,
+  "pricePerDay": null
+}
+
+Example:
+
+Hotel → Restaurant
+Office → Airport
+3️⃣ Full Day Private Hire
+{
+  "name": "Full Day Hire",
+  "description": "Vehicle and driver available for a full day.",
+  "pricingModel": "DAILY_TRIP",
+  "basePrice": null,
+  "pricePerKm": null,
+  "pricePerDay": 3500
+}
+
+Example:
+
+Tours
+Corporate transport
+Events
+4️⃣ Half Day Hire
+{
+  "name": "Half Day Hire",
+  "description": "Vehicle and driver available for half day bookings.",
+  "pricingModel": "HALF_DAY_TRIP",
+  "basePrice": null,
+  "pricePerKm": null,
+  "pricePerDay": 1800
+}
+
+Example:
+
+City tour
+Corporate meeting transport
+5️⃣ Hourly Chauffeur
+{
+  "name": "Hourly Chauffeur",
+  "description": "Luxury chauffeur service charged per hour.",
+  "pricingModel": "HOURLY",
+  "basePrice": 300,
+  "pricePerKm": null,
+  "pricePerDay": null
+}
+
+Example:
+
+Business meetings
+VIP transport
+Weddings
+6️⃣ Event Shuttle Service
+{
+  "name": "Event Shuttle",
+  "description": "Shuttle service for weddings, conferences and events.",
+  "pricingModel": "HOURLY",
+  "basePrice": 400,
+  "pricePerKm": null,
+  "pricePerDay": null
+}
+7️⃣ Long Distance Transfer
+{
+  "name": "Long Distance Transfer",
+  "description": "Transport between cities or long-distance destinations.",
+  "pricingModel": "SINGLE_TRIP",
+  "basePrice": 500,
+  "pricePerKm": 14,
+  "pricePerDay": null
+}
+
+]
+
+const vehicles = [
+    1️⃣ Toyota Quantum 14 Seater
+{
+  "name": "Toyota Quantum 14 Seater",
+  "type": "Minibus",
+  "capacity": 14,
+  "basePrice": 500,
+  "perKmPrice": 12,
+  "perDayPrice": 3500,
+  "status": "ACTIVE"
+}
+
+Common for:[airport transfers,group transport, tours]
+
+2️⃣ Mercedes Sprinter 19 Seater
+{
+  "name": "Mercedes Sprinter 19 Seater",
+  "type": "Minibus",
+  "capacity": 19,
+  "basePrice": 650,
+  "perKmPrice": 14,
+  "perDayPrice": 4200,
+  "status": "ACTIVE"
+}
+
+Used for:[corporate transport, events, airport shuttles],
+
+3️⃣ Toyota Corolla Sedan
+{
+  "name": "Toyota Corolla",
+  "type": "Sedan",
+  "capacity": 4,
+  "basePrice": 250,
+  "perKmPrice": 8,
+  "perDayPrice": 1200,
+  "status": "ACTIVE"
+}
+
+Used for:[VIP airport transfers, private transport],
+
+
+]
+
+6️⃣ Hyundai H1
+{
+  "name": "Hyundai H1",
+  "type": "Minibus",
+  "capacity": 9,
+  "basePrice": 450,
+  "perKmPrice": 11,
+  "perDayPrice": 2800,
+  "status": "ACTIVE"
+}
+
+Used for:
+
+airport transfers
+
+family transport
+
+7️⃣ Volkswagen Kombi
+{
+  "name": "VW Kombi",
+  "type": "Minibus",
+  "capacity": 8,
+  "basePrice": 400,
+  "perKmPrice": 10,
+  "perDayPrice": 2500,
+  "status": "ACTIVE"
+}
+8️⃣ Toyota Coaster Bus
+{
+  "name": "Toyota Coaster Bus",
+  "type": "Bus",
+  "capacity": 22,
+  "basePrice": 900,
+  "perKmPrice": 18,
+  "perDayPrice": 5500,
+  "status": "ACTIVE"
+}

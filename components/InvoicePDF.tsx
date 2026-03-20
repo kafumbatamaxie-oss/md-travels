@@ -1,30 +1,27 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-} from '@react-pdf/renderer'
-
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer'
 
 export type InvoiceQuote = {
   id: string
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  pickupAddress: string
-  destinationAddress: string
-  pickupDate: string | Date
-  passengers: number
-  vehicleCategory: string
-  total: number
-  service?: {
+  quoteNumber?: string
+  customer?: {
     name: string
-  } | null
+    email: string
+    phone: string
+  }
+  items: Array<{
+    id: string
+    description: string
+    passengers: number
+    pickup?: string
+    destination?: string
+    startDate: string | Date
+    endDate?: string | Date
+    price: number
+    service?: { name: string }
+    vehicle?: { category: string }
+  }>
+  totalPrice: number
 }
-
 
 type Row = {
   date: string
@@ -34,23 +31,23 @@ type Row = {
   rate: number
 }
 
-type Props = {
-  quote: InvoiceQuote
-}
+type Props = { quote: InvoiceQuote }
 
 export default function InvoicePDF({ quote }: Props) {
-    const invoiceDate = new Date().toLocaleDateString()
-    const refNumber = `MD-${quote.id.slice(0, 6).toUpperCase()}`
+  const invoiceDate = new Date().toLocaleDateString()
+  const refNumber = `MD-${quote.id.slice(0, 6).toUpperCase()}`
 
-    const rows = [
-    {
-        date: new Date(quote.pickupDate).toLocaleDateString(),
-        no: "1",
-        vehicle: quote.vehicleCategory,
-        destination: `${quote.pickupAddress} → ${quote.destinationAddress}`,
-        rate: Number(quote.total),
-    },
-    ]
+  // Build rows dynamically from items
+  const rows: Row[] = quote.items.map((item, index) => ({
+    date: new Date(item.startDate).toLocaleDateString(),
+    no: (index + 1).toString(),
+    vehicle: item.vehicle?.category || 'Transport Vehicle',
+    destination: `${item.pickup || 'N/A'} → ${item.destination || 'N/A'}`,
+    rate: Number(item.price),
+  }))
+
+  // Use first item for client meta if needed
+  const firstItem = quote.items[0]
 
   return (
     <Document>
@@ -58,7 +55,6 @@ export default function InvoicePDF({ quote }: Props) {
         {/* HEADER */}
         <View style={styles.header}>
           <Image src="https://mdtravels.co.za/logo.png" style={styles.logo} />
-
           <View style={styles.headerRight}>
             <Text>44 Wrench Street</Text>
             <Text>Parow West</Text>
@@ -73,7 +69,6 @@ export default function InvoicePDF({ quote }: Props) {
         {/* TITLE + META */}
         <View style={styles.titleRow}>
           <Text style={styles.invoiceTitle}>INVOICE</Text>
-
           <View style={styles.metaRight}>
             <Text>DATE: {invoiceDate}</Text>
             <Text>REF NO: {refNumber}</Text>
@@ -85,16 +80,16 @@ export default function InvoicePDF({ quote }: Props) {
           {/* CLIENT */}
           <View style={styles.clientBox}>
             <Text style={styles.bold}>Attention:</Text>
-            <Text>{quote.firstName} {quote.lastName}</Text>
-            <Text>{quote.email}</Text>
-            <Text>{quote.phone}</Text>
-            <Text>Passengers: {quote.passengers}</Text>
-            <Text>Service: {quote.service?.name ?? "Transport Service"}</Text>
-
+            <Text>{quote.customer?.name || 'N/A'}</Text>
+            <Text>{quote.customer?.email || 'N/A'}</Text>
+            <Text>{quote.customer?.phone || 'N/A'}</Text>
+            <Text>Passengers: {firstItem?.passengers || 'N/A'}</Text>
+            <Text>Service: {firstItem?.service?.name || 'Transport Service'}</Text>
+            {firstItem?.description && <Text>Additional: {firstItem.description}</Text>}
 
             <View style={styles.spacer} />
 
-            <Text>1 × 14 Seater luxury Toyota Quantum</Text>
+            <Text>1 × {firstItem?.vehicle?.category || 'Transport Vehicle'}</Text>
             <Text>1 × Professional driver with PDP</Text>
           </View>
 
@@ -129,21 +124,13 @@ export default function InvoicePDF({ quote }: Props) {
               <Text style={styles.td}>{row.no}</Text>
               <Text style={styles.td}>{row.vehicle}</Text>
               <Text style={styles.td}>{row.destination}</Text>
-              <Text style={styles.tdRight}>
-                R {row.rate.toFixed(2)}
-              </Text>
+              <Text style={styles.tdRight}>R {row.rate.toFixed(2)}</Text>
             </View>
           ))}
 
           <View style={styles.totalRow}>
-            <Text style={styles.vatText}>
-              ALL PASSENGER TRANSPORT IS EXEMPT OF VAT
-            </Text>
-            <Text style={styles.totalText}>
-              {/* TOTAL&nbsp;&nbsp;R {total.toFixed(2)} */}
-              TOTAL&nbsp;&nbsp;R {Number(quote.total).toFixed(2)}
-
-            </Text>
+            <Text style={styles.vatText}>ALL PASSENGER TRANSPORT IS EXEMPT OF VAT</Text>
+            <Text style={styles.totalText}>TOTAL&nbsp;&nbsp;R {Number(quote.totalPrice).toFixed(2)}</Text>
           </View>
         </View>
 
@@ -164,125 +151,40 @@ export default function InvoicePDF({ quote }: Props) {
 
         {/* FOOTER */}
         <Text style={styles.noDrive}>NO SELF-DRIVE</Text>
-
         <Text style={styles.signature}>
-          Malipheze Dlunge{'\n'}
-          Managing Director{'\n'}
-          060 641 1703
+          Malipheze Dlunge{'\n'}Managing Director{'\n'}060 641 1703
         </Text>
-         <Image src="https://mdtravels.co.za/signature.jpg" style={styles.logo} />
+        <Image src="https://mdtravels.co.za/signature.jpg" style={styles.logo} />
       </Page>
     </Document>
   )
 }
 
 const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-    fontSize: 9.5,
-    fontFamily: 'Helvetica',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  logo: {
-    width: 90,
-  },
-  headerRight: {
-    textAlign: 'right',
-  },
-  titleRow: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  invoiceTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    letterSpacing: 2,
-  },
-  metaRight: {
-    textAlign: 'right',
-  },
-  metaSection: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  clientBox: {
-    width: '55%',
-  },
-  bankBox: {
-    width: '40%',
-    borderWidth: 1,
-    padding: 6,
-  },
-  thankYou: {
-    marginTop: 6,
-    marginBottom: 6,
-    textAlign: 'center',
-    color: 'red',
-  },
-  table: {
-    borderWidth: 1,
-    marginTop: 6,
-  },
-  trHeader: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    backgroundColor: '#eee',
-  },
-  tr: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    minHeight: 22,
-  },
-  th: {
-    flex: 1,
-    padding: 4,
-    fontWeight: 'bold',
-  },
-  thRight: {
-    flex: 1,
-    padding: 4,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
-  td: {
-    flex: 1,
-    padding: 4,
-  },
-  tdRight: {
-    flex: 1,
-    padding: 4,
-    textAlign: 'right',
-  },
-  totalRow: {
-    padding: 6,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  vatText: {
-    fontWeight: 'bold',
-  },
-  totalText: {
-    fontWeight: 'bold',
-  },
-  terms: {
-    marginTop: 10,
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  noDrive: {
-    marginTop: 12,
-    fontWeight: 'bold',
-  },
-  signature: {
-    marginTop: 10,
-  },
-  spacer: {
-    marginVertical: 6,
-  },
+  page: { padding: 30, fontSize: 9.5, fontFamily: 'Helvetica' },
+  header: { flexDirection: 'row', justifyContent: 'space-between' },
+  logo: { width: 90 },
+  headerRight: { textAlign: 'right' },
+  titleRow: { marginTop: 10, flexDirection: 'row', justifyContent: 'space-between' },
+  invoiceTitle: { fontSize: 18, fontWeight: 'bold', letterSpacing: 2 },
+  metaRight: { textAlign: 'right' },
+  metaSection: { marginTop: 10, flexDirection: 'row', justifyContent: 'space-between' },
+  clientBox: { width: '55%' },
+  bankBox: { width: '40%', borderWidth: 1, padding: 6 },
+  thankYou: { marginTop: 6, marginBottom: 6, textAlign: 'center', color: 'red' },
+  table: { borderWidth: 1, marginTop: 6 },
+  trHeader: { flexDirection: 'row', borderBottomWidth: 1, backgroundColor: '#eee' },
+  tr: { flexDirection: 'row', borderBottomWidth: 1, minHeight: 22 },
+  th: { flex: 1, padding: 4, fontWeight: 'bold' },
+  thRight: { flex: 1, padding: 4, fontWeight: 'bold', textAlign: 'right' },
+  td: { flex: 1, padding: 4 },
+  tdRight: { flex: 1, padding: 4, textAlign: 'right' },
+  totalRow: { padding: 6, flexDirection: 'row', justifyContent: 'space-between' },
+  vatText: { fontWeight: 'bold' },
+  totalText: { fontWeight: 'bold' },
+  terms: { marginTop: 10 },
+  bold: { fontWeight: 'bold' },
+  noDrive: { marginTop: 12, fontWeight: 'bold' },
+  signature: { marginTop: 10 },
+  spacer: { marginVertical: 6 },
 })

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { Menu } from "lucide-react"
 
@@ -12,12 +13,18 @@ export default function AdminNavbar({ onMenuClick }: Props) {
 
   const firstName = user?.firstName || "Admin"
 
-  const getGreeting = () => {
+  const [greeting, setGreeting] = useState("")
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
     const hour = new Date().getHours()
-    if (hour < 12) return "Good Morning"
-    if (hour < 18) return "Good Afternoon"
-    return "Good Evening"
-  }
+
+    if (hour < 12) setGreeting("Good Morning")
+    else if (hour < 18) setGreeting("Good Afternoon")
+    else setGreeting("Good Evening")
+
+    setMounted(true)
+  }, [])
 
   return (
     <div className="w-full bg-white border-b px-4 md:px-6 h-16 flex items-center justify-between">
@@ -36,7 +43,7 @@ export default function AdminNavbar({ onMenuClick }: Props) {
         {/* Greeting */}
         <div className="min-w-0">
           <p className="text-xs sm:text-sm text-gray-500 truncate">
-            {getGreeting()}
+            {greeting}
           </p>
 
           <p className="text-sm sm:text-lg font-semibold truncate">
@@ -47,13 +54,15 @@ export default function AdminNavbar({ onMenuClick }: Props) {
 
       {/* RIGHT SIDE */}
       <div className="flex items-center">
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: "w-9 h-9 sm:w-10 sm:h-10",
-            },
-          }}
-        />
+        {mounted && (
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "w-9 h-9 sm:w-10 sm:h-10",
+              },
+            }}
+          />
+        )}
       </div>
     </div>
   )
