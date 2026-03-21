@@ -109,7 +109,7 @@ export default function About() {
 
        {/* ===== Contact ===== */}
       <section className="rounded-2xl bg-primary text-primary-foreground py-10 text-center space-y-3  mb-20 md:px-20">
-        <h2 className="text-xl font-semibold">Contact Us</h2>
+        <h2 className="text-2xl font-semibold">Contact Us</h2>
 
         <p className="text-sm text-primary-foreground/90">
           For bookings or a custom quote, get in touch today.
@@ -117,9 +117,17 @@ export default function About() {
 
         <div className="space-y-1 text-sm">
           <p className="font-medium">Malipheze Dlunge Transport</p>
-          <p>📧 Info@mdshuttles.co.za</p>
-          <p>📞 +27 71 9455 941</p>
-          <p>📞 +27 606 411 703</p>
+          <div className="flex flex-1 my-4 bg-secondary/10 gap-4 items-center justify-center p-10 rounded-2xl text-xl">
+            <div className="">      
+            <p>📧 info@mdtravels.co.za</p>
+            <p>📧 malipheze@mdtravels.co.za</p>  
+          </div>
+          <div>
+            <p>📞 +27 71 9455 941</p>
+            <p>📞 +27 606 411 703</p>
+          </div>
+          </div>
+          
           
           <p>📍 129 Beaufort Street, Goodwood, Cape Town</p>
         </div>

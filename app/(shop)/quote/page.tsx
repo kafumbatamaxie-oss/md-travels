@@ -111,7 +111,7 @@ export default function Quote() {
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
             <source src="/bg-video.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-black/75 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
         </div>
 
         <HideOnQuote Component={FloatingElements} hidePath="/quote" />
@@ -119,11 +119,11 @@ export default function Quote() {
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
+          className="relative z-10 w-full max-w-xl bg-white/50 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
         >
           {/* PROGRESS HEADER */}
-          <div className="h-1.5 w-full bg-slate-100">
-            <motion.div className="h-full bg-black" animate={{ width: `${(step / 4) * 100}%` }} transition={{ duration: 0.5 }} />
+          <div className="h-2 w-full bg-slate-100">
+            <motion.div className="h-full bg-secondary" animate={{ width: `${(step / 4) * 100}%` }} transition={{ duration: 0.5 }} />
           </div>
 
           <div className="p-8 md:p-12">
@@ -223,7 +223,7 @@ export default function Quote() {
                         <input type="email" placeholder="Email" value={formData.email} onChange={e => updateField("email", e.target.value)} className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" />
                         <div className="grid grid-cols-2 gap-3">
                           <input placeholder="Phone" value={formData.phone} onChange={e => updateField("phone", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" />
-                          <input type="number" placeholder="Pax" value={formData.passengers} onChange={e => updateField("passengers", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" />
+                          <input type="number" placeholder="Number of people" value={formData.passengers} onChange={e => updateField("passengers", e.target.value)} className="px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" />
                         </div>
                         <textarea placeholder="Additional Notes (Luggage, baby seats, etc.)" value={formData.additionalRequirements} onChange={e => updateField("additionalRequirements", e.target.value)} className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-semibold border-none outline-none h-24 resize-none focus:ring-4 focus:ring-black/5" />
                       </div>
