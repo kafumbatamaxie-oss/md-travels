@@ -1,8 +1,9 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef } from "react"
 import Link from "next/link"
+import { ArrowRight, MessageCircle,  Car } from "lucide-react"
 import TextComponent from "./Text-Component"
 
 interface AboutSectionProps {
@@ -20,90 +21,123 @@ export function AboutSection({
   quoteLabel,
 }: AboutSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const videoCardRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start center", "end center"],
+    offset: ["start end", "end start"],
   })
 
-  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10])
-  const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [10, 0, -10])
-  const z = useTransform(scrollYProgress, [0, 0.5, 1], [-30, 0, -30])
-
-  const videoScale = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.8, 0.3])
-  const videoOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0])
-  const videoY = useTransform(scrollYProgress, [0, 0.8, 1], [0, 0, -200])
+  // Smooth Parallax & Scaling
+  const contentY = useTransform(scrollYProgress, [0, 1], [50, -50])
+  const videoScale = useTransform(scrollYProgress, [0, 0.5, 0.8], [0.8, 1, 0.9])
+  const videoRotate = useTransform(scrollYProgress, [0, 0.5], [5, 0])
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-32 px-0 md:px-8 bg-slate-900 overflow-hidden">
-      <div
-        className="absolute inset-0 z-0 opacity-5 pointer-events-none"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=1920&h=1080&fit=crop')",
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+    <section 
+      ref={sectionRef} 
+      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-[#0a0a0c] overflow-hidden"
+    >
+      {/* Dynamic Background Pattern */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c] via-transparent to-[#0a0a0c]" />
+      </div>
 
-      <div className="min-w-full mx-auto relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-0 items-center">
-          {/* Left Content */}
-          <div className="space-y-8 md:col-span-3">
-            <div className="">
-              <TextComponent  title={title}  desc1={description1} />
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Left Content: Text & CTAs */}
+          <motion.div 
+            style={{ y: contentY, opacity }}
+            className="lg:col-span-6 space-y-10 order-2 lg:order-1"
+          >
+            <div className="relative group">
+              {/* Subtle accent line */}
+              <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-white/40 to-transparent hidden md:block" />
+              
+              <TextComponent 
+                title={title} 
+                desc1={description1}
+                // Assuming TextComponent handles its own colors, otherwise wrap in a div
+              />
             </div>
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link
-                href="/contact"
-                className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-lg font-semibold transition-all hover:scale-105 shadow-lg text-center"
-              >
-                {contactLabel}
-              </Link>
+
+            {/* Premium CTA Block */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/quote"
-                className="px-6 py-3 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white rounded-lg font-semibold transition-all hover:scale-105 text-center"
+                className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-bold transition-all hover:bg-slate-200 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               >
                 {quoteLabel}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              
+              <Link
+                href="/contact"
+                className="flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-bold backdrop-blur-md transition-all hover:bg-white/10 active:scale-95"
+              >
+                <MessageCircle className="w-5 h-5 text-white/60" />
+                {contactLabel}
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Video Card with 3D Rotation and Shrink Effect */}
-          <div className="lg:grid-col md:col-span-3 flex items-center justify-center p-0">
+          {/* Right Content: The Cinematic "TV" Card */}
+          <div className="lg:col-span-6 order-1 lg:order-2 flex justify-center">
             <motion.div
-              ref={videoCardRef}
-              style={{
-                rotateX,
-                rotateY,
-                z,
+              style={{ 
                 scale: videoScale,
-                opacity: videoOpacity,
-                y: videoY,
+                rotateZ: videoRotate,
+                opacity
               }}
-              className="w-full h-96 md:h-full"
+              className="relative w-full max-w-[550px] aspect-[4/5] md:aspect-square lg:aspect-[4/5]"
             >
-              <div
-                className="relative w-full h-96 md:h-[500px] bg-black m-0 p-0 rounded-3xl  overflow-hidden border-8 border-gray-900 group"
-                style={{
-                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                {/* TV Bezel Effect */}
-                {/* <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-gray-900 z-0" /> */}
+              {/* Outer Glow Decoration */}
+              <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full opacity-50" />
 
-                <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
+              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-[12px] border-slate-900/80 shadow-2xl bg-black group">
+                
+                {/* Video Layer */}
+                <video 
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
+                  autoPlay muted loop playsInline
+                >
                   <source src="/video-collection.mp4" type="video/mp4" />
                 </video>
 
-                {/* Glass Reflection Effect */}
-                <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
+                {/* Lighting Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-white/10 pointer-events-none" />
+                
+                {/* Bezel "Glass" Highlight */}
+                <div className="absolute inset-0 border border-white/20 rounded-[2rem] pointer-events-none" />
 
-                {/* Bezel Bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 bg-linear-to-b from-gray-800 to-gray-900" />
+                {/* Bottom Status Bar (Pro UX Touch) */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent">
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                    ))}
+                  </div>
+                  <p className="text-[10px] font-bold text-white/40 tracking-[0.3em] uppercase">Cinematic Experience</p>
+                </div>
               </div>
+
+              {/* Floating Floating Elements (Optional 3D effect) */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-6 -right-6 w-20 h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center shadow-2xl hidden md:flex"
+              >
+                <Car className="w-8 h-8 text-white/60" />
+              </motion.div>
             </motion.div>
           </div>
         </div>

@@ -1,30 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { KeenSliderPlugin, useKeenSlider } from "keen-slider/react"
+import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import cloudinaryLoader from "@/lib/cloudinary-loader"
+import { Users, Info, ArrowRight, CarFront } from "lucide-react"
+import Link from "next/link"
 
+// Types (Unchanged Business Logic)
 type VehicleImage = { url: string }
-
-type Vehicle = {
-  id: string
-  name: string
-  type: string
-  capacity: number
-  images?: VehicleImage[]
-}
-
-type Service = {
-  id: string
-  name: string
-  description?: string | null
-  pricingModel: string
-  vehicles?: Vehicle[]
-}
+type Vehicle = { id: string; name: string; type: string; capacity: number; images?: VehicleImage[] }
+type Service = { id: string; name: string; description?: string | null; pricingModel: string; vehicles?: Vehicle[] }
 
 export default function ServiceFleetSection() {
   const [services, setServices] = useState<Service[]>([])
@@ -43,30 +32,38 @@ export default function ServiceFleetSection() {
         setLoading(false)
       }
     }
-
     fetchServices()
   }, [])
 
-  const visibleServices = services.filter(
-    (s) => s.vehicles && s.vehicles.length > 0
-  )
+  const visibleServices = useMemo(() => 
+    services.filter((s) => s.vehicles && s.vehicles.length > 0), 
+  [services])
 
   return (
-    <section className="py-16 px-4 sm:px-6 md:px-8 bg-white">
+    <section className="py-24 px-4 sm:px-6 bg-[#fcfcfd] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="mb-20 text-center lg:text-left lg:flex lg:items-end lg:justify-between gap-8"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-sky-950">
-            Our Transport Services
-          </h2>
-          <p className="text-sky-700 mt-3 max-w-2xl mx-auto">
-            Explore our premium fleet tailored for every journey in Cape Town.
-          </p>
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-slate-400 mb-4 block">
+              Premium Fleet
+            </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Our Transport Services
+            </h2>
+            <p className="text-slate-500 mt-4 text-lg font-medium leading-relaxed">
+              Explore a curated selection of vehicles tailored for every Cape Town journey.
+            </p>
+          </div>
+          <div className="hidden lg:block pb-2">
+            <Link href="/quote" className="flex items-center gap-2 font-bold text-sm group">
+              VIEW FULL PRICING <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </motion.div>
 
         {loading ? <SkeletonServices /> : <ServicesList services={visibleServices} />}
@@ -75,29 +72,32 @@ export default function ServiceFleetSection() {
   )
 }
 
-// Services List with carousel
 function ServicesList({ services }: { services: Service[] }) {
   return (
-    <div className="space-y-16">
-      {services.map((service) => (
+    <div className="space-y-24">
+      {services.map((service, idx) => (
         <motion.div
           key={service.id}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          {/* Service Header */}
-          <div className="mb-8">
-            <h3 className="text-2xl sm:text-3xl font-semibold text-sky-950">
-              {service.name}
-            </h3>
-            {service.description && (
-              <p className="text-sky-700 mt-2 max-w-xl">{service.description}</p>
-            )}
+          {/* Service Header with Accent */}
+          <div className="mb-10 flex items-start gap-6">
+            <div className="w-1 h-12 bg-black rounded-full mt-1 shrink-0" />
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-900">
+                {service.name}
+              </h3>
+              {service.description && (
+                <p className="text-slate-500 mt-2 max-w-2xl font-medium">
+                  {service.description}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Swipeable Carousel */}
           <VehicleCarousel vehicles={service.vehicles || []} />
         </motion.div>
       ))}
@@ -105,92 +105,96 @@ function ServicesList({ services }: { services: Service[] }) {
   )
 }
 
-// Carousel Component
 function VehicleCarousel({ vehicles }: { vehicles: Vehicle[] }) {
-  const router = useRouter()
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    slides: { perView: 1.3, spacing: 16 },
+    slides: { perView: 1.15, spacing: 16 }, // Mobile peek-ahead
     breakpoints: {
-      "(min-width: 640px)": { slides: { perView: 2.2, spacing: 16 } },
-      "(min-width: 1024px)": { slides: { perView: 3, spacing: 24 } },
+      "(min-width: 640px)": { slides: { perView: 2.1, spacing: 20 } },
+      "(min-width: 1024px)": { slides: { perView: 3, spacing: 30 } },
     },
   })
 
   return (
-    <div ref={sliderRef} className="keen-slider">
+    <div ref={sliderRef} className="keen-slider !overflow-visible">
       {vehicles.map((vehicle) => (
         <div key={vehicle.id} className="keen-slider__slide">
-          <VehicleCard vehicle={vehicle} onClick={() => router.push(`/vehicles/${vehicle.id}`)} />
+          <VehicleCard vehicle={vehicle} />
         </div>
       ))}
     </div>
   )
 }
 
-// Vehicle Card clickable
-function VehicleCard({
-  vehicle,
-  onClick,
-}: {
-  vehicle: Vehicle
-  onClick?: () => void
-}) {
+function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
+  const router = useRouter()
   const image = vehicle.images?.[0]?.url
 
   return (
     <motion.div
-      onClick={onClick}
-      variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 200 }}
-      className="cursor-pointer rounded-xl overflow-hidden bg-white border border-gray-100 shadow-md hover:shadow-xl transition-shadow"
+      onClick={() => router.push(`/vehicles/${vehicle.id}`)}
+      whileHover={{ y: -10 }}
+      className="group relative cursor-pointer bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 overflow-hidden"
     >
-      <div className="relative h-48 w-full bg-gray-200">
+      {/* Image Container with Zoom Effect */}
+      <div className="relative h-64 w-full bg-slate-100 overflow-hidden">
         {image ? (
           <Image
             loader={cloudinaryLoader}
             src={image}
             alt={vehicle.name}
             fill
-            sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-            className="object-cover"
-            placeholder="blur"
-            blurDataURL={image.replace("/upload/", "/upload/e_blur:1000,q_1,w_50/")}
+            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
           />
         ) : (
-          <div className="w-full h-full bg-gray-300" />
+          <div className="w-full h-full flex items-center justify-center bg-slate-100">
+            <CarFront className="w-12 h-12 text-slate-300" />
+          </div>
         )}
+        
+        {/* Floating Badge */}
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-sm border border-white/20">
+          <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+            <Users className="w-3.5 h-3.5" />
+            {vehicle.capacity} PAX
+          </div>
+        </div>
       </div>
 
-      <div className="p-4">
-        <h4 className="font-semibold text-lg text-sky-950">{vehicle.name}</h4>
-        <p className="text-sm text-sky-700">{vehicle.type}</p>
-        <p className="text-sm text-sky-700">Capacity: {vehicle.capacity} passengers</p>
+      {/* Content */}
+      <div className="p-8">
+        <div className="flex justify-between items-start mb-2">
+          <div>
+            <h4 className="font-bold text-xl text-slate-900 group-hover:text-black transition-colors">
+              {vehicle.name}
+            </h4>
+            <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest mt-1">
+              {vehicle.type}
+            </p>
+          </div>
+          <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+            <Info className="w-5 h-5" />
+          </div>
+        </div>
       </div>
     </motion.div>
   )
 }
 
-// Skeleton Loader remains the same
 function SkeletonServices() {
   return (
-    <div className="space-y-16">
-      {[1, 2].map((section) => (
-        <div key={section}>
-          <div className="h-6 w-40 bg-gray-200 rounded mb-8 animate-pulse" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((card) => (
-              <div
-                key={card}
-                className="rounded-xl border border-gray-100 shadow-sm overflow-hidden"
-              >
-                <div className="h-48 bg-gray-200 animate-pulse" />
-                <div className="p-4 space-y-3">
-                  <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
-                  <div className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
-                  <div className="h-3 w-20 bg-gray-200 rounded animate-pulse" />
-                </div>
-              </div>
+    <div className="space-y-24">
+      {[1, 2].map((i) => (
+        <div key={i}>
+          <div className="flex gap-6 mb-10">
+            <div className="w-1 h-12 bg-slate-100 rounded-full animate-pulse" />
+            <div className="space-y-3">
+              <div className="h-8 w-48 bg-slate-100 rounded-lg animate-pulse" />
+              <div className="h-4 w-72 bg-slate-100 rounded-lg animate-pulse" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((j) => (
+              <div key={j} className="h-96 rounded-[2.5rem] bg-slate-50 animate-pulse border border-slate-100" />
             ))}
           </div>
         </div>
