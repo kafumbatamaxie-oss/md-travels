@@ -18,17 +18,22 @@ export type InvoiceQuote = {
     endDate?: string | Date
     price: number
     service?: { name: string }
-    vehicle?: { category: string }
+    vehicle?: {
+      name?: string
+      type?: string
+      category?: string
+      capacity?: number
+    }
   }>
   totalPrice: number
 }
 
 type Row = {
   date: string
-  no: string
+  serviceDetails: string[]
   vehicle: string
-  destination: string
-  rate: number
+  route: string
+  amount: number
 }
 
 type Props = { quote: InvoiceQuote }
@@ -38,16 +43,65 @@ export default function InvoicePDF({ quote }: Props) {
   const refNumber = `MD-${quote.id.slice(0, 6).toUpperCase()}`
 
   // Build rows dynamically from items
-  const rows: Row[] = quote.items.map((item, index) => ({
-    date: new Date(item.startDate).toLocaleDateString(),
-    no: (index + 1).toString(),
-    vehicle: item.vehicle?.category || 'Transport Vehicle',
-    destination: `${item.pickup || 'N/A'} → ${item.destination || 'N/A'}`,
-    rate: Number(item.price),
-  }))
+  const rows: Row[] = quote.items.map((item, index) => {
+    const start = new Date(item.startDate).toLocaleDateString()
+    const end = item.endDate
+      ? new Date(item.endDate).toLocaleDateString()
+      : null
+
+    const duration =
+      end && end !== start ? `${start} → ${end}` : start
+
+    return {
+      date: start,
+
+      serviceDetails: [
+        `Service: ${item.service?.name || "Transport Service"}`,
+        `Passengers: ${item.passengers || 0}`,
+        duration ? `Trip Date: ${duration}` : "",
+        item.description ? `Notes: ${item.description}` : "",
+      ].filter(Boolean),
+
+      vehicle:
+        item.vehicle?.name ||
+        item.vehicle?.type ||
+        item.vehicle?.category ||
+        "Transport Vehicle",
+
+      route: `${item.pickup || "N/A"} → ${item.destination || "N/A"}`,
+
+      amount: Number(item.price),
+    }
+  })
 
   // Use first item for client meta if needed
   const firstItem = quote.items[0]
+
+  // -----------------------------
+// Trip Summary Data
+// -----------------------------
+const tripSummary = firstItem
+  ? {
+      service: firstItem.service?.name || "Transport Service",
+
+      vehicle:
+        firstItem.vehicle?.name ||
+        firstItem.vehicle?.type ||
+        "Transport Vehicle",
+
+      passengers: firstItem.passengers ?? "N/A",
+
+      route: `${firstItem.pickup || "N/A"} → ${
+        firstItem.destination || "N/A"
+      }`,
+
+      travelDate: firstItem.endDate
+        ? `${new Date(firstItem.startDate).toLocaleDateString()} → ${new Date(
+            firstItem.endDate
+          ).toLocaleDateString()}`
+        : new Date(firstItem.startDate).toLocaleDateString(),
+    }
+  : null
 
   return (
     <Document>
@@ -107,24 +161,52 @@ export default function InvoicePDF({ quote }: Props) {
         </View>
 
         <Text style={styles.thankYou}>THANK YOU FOR YOUR BOOKING</Text>
+        {/* TRIP SUMMARY */}
+        {tripSummary && (
+          <View style={styles.summaryBox}>
+            <Text style={styles.summaryTitle}>TRIP SUMMARY</Text>
+
+            <View style={styles.summaryGrid}>
+              <Text>Service: {tripSummary.service}</Text>
+              <Text>Vehicle: {tripSummary.vehicle}</Text>
+              <Text>Passengers: {tripSummary.passengers}</Text>
+              <Text>Route: {tripSummary.route}</Text>
+              <Text>Travel Date: {tripSummary.travelDate}</Text>
+            </View>
+          </View>
+        )}
 
         {/* TABLE */}
         <View style={styles.table}>
           <View style={styles.trHeader}>
-            <Text style={styles.th}>DATE</Text>
-            <Text style={styles.th}>NO</Text>
-            <Text style={styles.th}>VEHICLE</Text>
-            <Text style={styles.th}>DESTINATION</Text>
-            <Text style={styles.thRight}>RATE</Text>
+            <Text style={[styles.th, { flex: 1.2 }]}>DATE</Text>
+            <Text style={[styles.th, { flex: 2.5 }]}>SERVICE DETAILS</Text>
+            <Text style={[styles.th, { flex: 1.5 }]}>VEHICLE</Text>
+            <Text style={[styles.th, { flex: 3 }]}>ROUTE</Text>
+            <Text style={[styles.thRight, { flex: 1.3 }]}>AMOUNT</Text>
           </View>
 
           {rows.map((row, i) => (
             <View key={i} style={styles.tr}>
-              <Text style={styles.td}>{row.date}</Text>
-              <Text style={styles.td}>{row.no}</Text>
-              <Text style={styles.td}>{row.vehicle}</Text>
-              <Text style={styles.td}>{row.destination}</Text>
-              <Text style={styles.tdRight}>R {row.rate.toFixed(2)}</Text>
+              <Text style={[styles.td, { flex: 1.2 }]}>{row.date}</Text>
+
+              <View style={[styles.td, { flex: 2.5 }]}>
+                {row.serviceDetails.map((line, idx) => (
+                  <Text key={idx}>{line}</Text>
+                ))}
+              </View>
+
+              <Text style={[styles.td, { flex: 1.5 }]}>
+                {row.vehicle}
+              </Text>
+
+              <Text style={[styles.td, { flex: 3 }]}>
+                {row.route}
+              </Text>
+
+              <Text style={[styles.tdRight, { flex: 1.3 }]}>
+                R {row.amount.toFixed(2)}
+              </Text>
             </View>
           ))}
 
@@ -137,16 +219,22 @@ export default function InvoicePDF({ quote }: Props) {
         {/* TERMS */}
         <View style={styles.terms}>
           <Text style={styles.bold}>TERMS & CONDITIONS:</Text>
-          <Text>• Bookings are confirmed once payment or deposit is received.</Text>
-          <Text>• Payment is due before or on the day of travel unless agreed.</Text>
-          <Text>• Cancellations within 24 hours may be charged.</Text>
-          <Text>• Airport pickups include reasonable waiting time.</Text>
-          <Text>• Vehicles are fully insured and professionally driven.</Text>
-          <Text>• Delays beyond our control cannot be guaranteed.</Text>
-          <Text>• Passenger belongings remain their responsibility.</Text>
-          <Text>• Route changes or extra stops may incur extra charges.</Text>
-          <Text>• Acceptance of service confirms agreement to these terms.</Text>
-          <Text>• Services are governed by South African law.</Text>
+          <View style={styles.termsrow}>
+            <View>
+              <Text>• Bookings are confirmed once payment or deposit is received.</Text>
+              <Text>• Payment is due before or on the day of travel unless agreed.</Text>
+              <Text>• Cancellations within 24 hours may be charged.</Text>
+              <Text>• Airport pickups include reasonable waiting time.</Text>
+              <Text>• Vehicles are fully insured and professionally driven.</Text>
+            </View>
+            <View>
+              <Text>• Delays beyond our control cannot be guaranteed.</Text>
+              <Text>• Passenger belongings remain their responsibility.</Text>
+              <Text>• Route changes or extra stops may incur extra charges.</Text>
+              <Text>• Acceptance of service confirms agreement to these terms.</Text>
+              <Text>• Services are governed by South African law.</Text>
+            </View>
+          </View>
         </View>
 
         {/* FOOTER */}
@@ -166,6 +254,7 @@ const styles = StyleSheet.create({
   logo: { width: 90 },
   headerRight: { textAlign: 'right' },
   titleRow: { marginTop: 10, flexDirection: 'row', justifyContent: 'space-between' },
+  termsrow: { flexDirection: 'row', justifyContent: 'space-between'},
   invoiceTitle: { fontSize: 18, fontWeight: 'bold', letterSpacing: 2 },
   metaRight: { textAlign: 'right' },
   metaSection: { marginTop: 10, flexDirection: 'row', justifyContent: 'space-between' },
@@ -187,4 +276,19 @@ const styles = StyleSheet.create({
   noDrive: { marginTop: 12, fontWeight: 'bold' },
   signature: { marginTop: 10 },
   spacer: { marginVertical: 6 },
+  summaryBox: {
+  borderWidth: 1,
+  padding: 8,
+  marginBottom: 6,
+},
+
+summaryTitle: {
+  fontWeight: "bold",
+  marginBottom: 4,
+  fontSize: 10,
+},
+
+summaryGrid: {
+  gap: 2,
+},
 })
