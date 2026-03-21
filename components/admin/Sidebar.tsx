@@ -23,7 +23,6 @@ interface SidebarProps {
 const menuItems = [
   { name: "Vehicles", href: "/admin/vehicles", icon: Car },
   { name: "Services", href: "/admin/services", icon: Settings },
-  { name: "Zones", href: "/admin/zones", icon: MapPin },
   { name: "Bookings", href: "/admin/bookings", icon: Calendar },
   { name: "Quotes", href: "/admin/quotes", icon: FileText },
   { name: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },
