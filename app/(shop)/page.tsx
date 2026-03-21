@@ -93,10 +93,10 @@ export default function Home() {
 
 
       {/* Featured Cars Showcase - NEW */}
-      <FeaturedCarsSection
+    {/* ''''''''''''''  <FeaturedCarsSection
         title="THE PERFECT CAR FOR YOUR NEXT TRIP"
         subtitle="Discover our premium fleet exclusively available in Cape Town"
-      />
+      />'''''''''''''' */}
 
 
 
