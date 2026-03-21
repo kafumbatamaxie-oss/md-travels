@@ -189,24 +189,111 @@ export default function Quote() {
                       </div>
                     )}
 
+                    
                     {/* STEP 2: ROUTE */}
                     {step === 2 && (
                       <div className="space-y-8">
-                        <header><h1 className="text-3xl font-extrabold text-slate-900">Trip Details</h1></header>
+                        <header>
+                          <h1 className="text-3xl font-extrabold text-slate-900">
+                            Trip Details
+                          </h1>
+                        </header>
+
                         <div className="space-y-4">
                           {isDistanceBased && (
                             <>
-                              <Autocomplete onLoad={a => (pickupRef.current = a)} onPlaceChanged={() => updateField("pickupAddress", pickupRef.current?.getPlace()?.formatted_address || "")}>
-                                <div className="relative"><MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" /><input defaultValue={formData.pickupAddress} placeholder="Pickup Address" className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" /></div>
+                              {/* PICKUP ADDRESS */}
+                              <Autocomplete
+                                onLoad={(autocomplete) => {
+                                  pickupRef.current = autocomplete
+
+                                  // ✅ Restrict to South Africa
+                                  autocomplete.setComponentRestrictions({
+                                    country: ["za"],
+                                  })
+
+                                  // optional → better local accuracy
+                                  autocomplete.setFields([
+                                    "formatted_address",
+                                    "geometry",
+                                    "name",
+                                  ])
+                                }}
+                                onPlaceChanged={() => {
+                                  const place = pickupRef.current?.getPlace()
+
+                                  updateField(
+                                    "pickupAddress",
+                                    place?.formatted_address || ""
+                                  )
+                                }}
+                              >
+                                <div className="relative">
+                                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                  <input
+                                    defaultValue={formData.pickupAddress}
+                                    placeholder="Pickup Address (South Africa)"
+                                    className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5"
+                                  />
+                                </div>
                               </Autocomplete>
-                              <Autocomplete onLoad={a => (destinationRef.current = a)} onPlaceChanged={() => updateField("destinationAddress", destinationRef.current?.getPlace()?.formatted_address || "")}>
-                                <div className="relative"><MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" /><input defaultValue={formData.destinationAddress} placeholder="Destination Address" className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5" /></div>
+
+                              {/* DESTINATION ADDRESS */}
+                              <Autocomplete
+                                onLoad={(autocomplete) => {
+                                  destinationRef.current = autocomplete
+
+                                  // ✅ South Africa only
+                                  autocomplete.setComponentRestrictions({
+                                    country: ["za"],
+                                  })
+
+                                  autocomplete.setFields([
+                                    "formatted_address",
+                                    "geometry",
+                                    "name",
+                                  ])
+                                }}
+                                onPlaceChanged={() => {
+                                  const place = destinationRef.current?.getPlace()
+
+                                  updateField(
+                                    "destinationAddress",
+                                    place?.formatted_address || ""
+                                  )
+                                }}
+                              >
+                                <div className="relative">
+                                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                  <input
+                                    defaultValue={formData.destinationAddress}
+                                    placeholder="Destination Address (South Africa)"
+                                    className="w-full pl-12 pr-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none focus:ring-4 focus:ring-black/5"
+                                  />
+                                </div>
                               </Autocomplete>
                             </>
                           )}
+
+                          {/* DATE + TIME */}
                           <div className="grid grid-cols-2 gap-4">
-                            <input type="date" value={formData.pickupDate} onChange={e => updateField("pickupDate", e.target.value)} className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm focus:ring-4 focus:ring-black/5" />
-                            <input type="time" value={formData.pickupTime} onChange={e => updateField("pickupTime", e.target.value)} className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm focus:ring-4 focus:ring-black/5" />
+                            <input
+                              type="date"
+                              value={formData.pickupDate}
+                              onChange={(e) =>
+                                updateField("pickupDate", e.target.value)
+                              }
+                              className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm focus:ring-4 focus:ring-black/5"
+                            />
+
+                            <input
+                              type="time"
+                              value={formData.pickupTime}
+                              onChange={(e) =>
+                                updateField("pickupTime", e.target.value)
+                              }
+                              className="px-6 py-5 bg-slate-50 rounded-2xl font-semibold border-none outline-none text-sm focus:ring-4 focus:ring-black/5"
+                            />
                           </div>
                         </div>
                       </div>

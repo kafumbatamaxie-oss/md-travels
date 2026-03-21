@@ -109,7 +109,7 @@ export default function About() {
 
        {/* ===== Contact ===== */}
       <section className="rounded-2xl bg-primary text-primary-foreground py-10 text-center space-y-3  mb-20 md:px-20">
-        <h2 className="text-2xl font-semibold">Contact Us</h2>
+        <h2 className="text-2xl font-bold ">Contact Us</h2>
 
         <p className="text-sm text-primary-foreground/90">
           For bookings or a custom quote, get in touch today.
