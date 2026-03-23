@@ -90,6 +90,13 @@ export function Footer() {
 
               <li className="flex items-center gap-3 group">
                 <FaPhone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
+                <a href="tel:+27719455941" className="hover:text-white transition">
+                  +27 60 6411 703
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3 group">
+                <FaPhone className="w-5 h-5 text-secondary group-hover:scale-110 transition" />
                 <a href="tel:+27606411703" className="hover:text-white transition">
                   +27 606 411 703
                 </a>

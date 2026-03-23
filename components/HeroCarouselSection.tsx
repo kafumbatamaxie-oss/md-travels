@@ -78,7 +78,7 @@ export const HeroCarouselSection = () => {
       <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
       
       {/* 24/7 Availability Badge */}
-      <div className="absolute top-8 left-8 z-20 hidden lg:block">
+      <div className="absolute bottom-8 left-8 z-20 hidden lg:block">
         <div className="bg-white/5 backdrop-blur-md border border-white/10 px-5 py-2 rounded-full shadow-2xl">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
