@@ -20,7 +20,7 @@ export default function ProfessionalTransport() {
   return (
     <>
       
-      <section className="relative flex min-h-[90vh] items-center bg-primary pt-16">
+      <section className="relative flex h-[80vh] items-center bg-primary pt-16">
         <video
         ref={videoRef}
         autoPlay
@@ -47,9 +47,7 @@ export default function ProfessionalTransport() {
             Professional Transport{" "}
             <span className="text-accent">Services Proposal</span>
           </h1>
-          <p className="max-w-2xl text-lg leading-relaxed text-primary-foreground/70 md:text-xl">
-            Safe &bull; Reliable &bull; Fully Compliant &bull; 24/7 Operations
-          </p>
+       
           <div className="flex flex-col gap-4 sm:flex-row">
             <a
               href="#contact"
