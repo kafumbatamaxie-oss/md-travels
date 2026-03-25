@@ -1,188 +1,167 @@
 "use client"
 
+import { motion } from "framer-motion"
 import Image from "next/image"
-import { Shield, Users, Clock, CheckCircle } from "lucide-react"
+import { Shield, Users, Clock, CheckCircle, Target, CarFront, Award } from "lucide-react"
 
 export function MdAboutSection() {
   return (
-    <section className="bg-background px-4 py-10 md:px-8">
-      <div className="mx-auto max-w-6xl space-y-16">
+    <section className="relative bg-[#fcfcfd] py-24 md:py-32 overflow-hidden">
+      {/* Subtle Background Decoration */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
 
-        {/* ===== Header ===== */}
-        <div className="text-center space-y-4">
-          <span className="text-sm font-semibold uppercase tracking-widest text-secondary">
-            Company Profile
-          </span>
+      <div className="container relative z-10 mx-auto px-6 max-w-7xl">
+        
+        {/* ===== Header: The Vision ===== */}
+        <div className="text-center space-y-6 mb-24">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary"
+          >
+            Corporate Identity
+          </motion.span>
 
-          <h1 className="text-3xl font-bold md:text-4xl">
-            Malipheze Dlunge Transport
-          </h1>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl font-black tracking-tighter text-slate-900 md:text-6xl lg:text-7xl leading-tight"
+          >
+            Malipheze Dlunge <br />
+            <span className="text-slate-400">Logistics & Transport</span>
+          </motion.h1>
 
-          <p className="mx-auto max-w-2xl text-muted-foreground">
-            A reputable transportation company based in Cape Town,
-            providing safe, reliable, and efficient services to individuals,
-            groups, and organizations across the Western Cape.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="mx-auto max-w-2xl text-lg font-medium text-slate-500 leading-relaxed"
+          >
+            A premier Cape Town-based enterprise providing safe, reliable, and 
+            efficient logistics to individuals and global organizations 
+            across the Western Cape.
+          </motion.p>
         </div>
 
-        {/* ===== Leadership ===== */}
-        <div className="space-y-10">
-          <h2 className="text-2xl font-semibold text-center">
-            Our  <span className="text-secondary">Leadership</span>
-          </h2>
+        {/* ===== Leadership: The Foundation ===== */}
+        <div className="space-y-12 mb-32">
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-black tracking-tight text-slate-900 uppercase">Executive Leadership</h2>
+            <div className="h-px flex-1 bg-slate-100" />
+          </div>
 
-          <div className="grid gap-8 sm:grid-cols-2">
-
-            {/* CEO */}
-            <div className="rounded-2xl border bg-card p-6 shadow-sm text-center space-y-4">
-              <div className="mx-auto h-40 w-40 overflow-hidden rounded-full">
-                <Image
-                  src="/ceo.jpeg"   // <-- replace with real image
-                  alt="CEO"
-                  width={160}
-                  height={160}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold">
-                  Chief driver
-                </h3>
-                <p className="text-sm text-accent font-medium">
-                  Founder & CEO
-                </p>
-              </div>
-
-              <p className="text-sm text-muted-foreground">
-                Visionary leader committed to delivering safe,
-                reliable transportation solutions while building
-                long-term relationships with clients across Cape Town.
-              </p>
-            </div>
-
-            {/* Tech Manager */}
-            <div className="rounded-2xl border bg-card p-6 shadow-sm text-center space-y-4">
-              <div className="mx-auto h-40 w-40 overflow-hidden rounded-full">
-                <Image
-                  src="/ceo_2.jpg"  // <-- replace
-                  alt="Tech Manager"
-                  width={160}
-                  height={160}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold">
-                  Tech Manager
-                </h3>
-                <p className="text-sm text-accent font-medium">
-                  Technology & Systems
-                </p>
-              </div>
-
-              <p className="text-sm text-muted-foreground">
-                Oversees digital systems, automation, and website
-                infrastructure to ensure seamless operations and
-                efficient customer service.
-              </p>
-            </div>
-
+          <div className="grid gap-8 md:grid-cols-2">
+            <LeadershipCard 
+              image="/ceo.jpeg"
+              name="Chief Driver"
+              role="Founder & CEO"
+              description="A visionary strategist committed to gold-standard safety and long-term client partnerships."
+            />
+            <LeadershipCard 
+              image="/ceo_2.jpg"
+              name="Tech Manager"
+              role="Systems & Infrastructure"
+              description="Engineering seamless digital operations to ensure 24/7 reliability and efficient dispatch."
+            />
           </div>
         </div>
 
-        {/* ===== Mission ===== */}
-        <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-3">
-          <h2 className="text-xl font-semibold">Our <span className="text-secondary">Mission</span></h2>
+        {/* ===== Bento Grid: Mission & Fleet ===== */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="md:col-span-7 bg-slate-950 rounded-[3rem] p-10 md:p-14 text-white relative overflow-hidden group shadow-2xl"
+          >
+            <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 transition-transform">
+               <Target className="w-32 h-32 text-secondary" />
+            </div>
+            <div className="relative z-10 space-y-6">
+              <span className="text-[10px] font-black uppercase tracking-widest text-secondary">Our Purpose</span>
+              <h2 className="text-4xl font-black tracking-tight leading-tight">Driven by <br/> Excellence.</h2>
+              <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-md">
+                To deliver exceptional transportation services that exceed expectations 
+                through professional, reliable, and high-compliance solutions.
+              </p>
+            </div>
+          </motion.div>
 
-          <p className="text-muted-foreground">
-            To deliver exceptional transportation services that exceed
-            expectations while building long-term partnerships through
-            personalized, reliable, and professional solutions.
-          </p>
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="md:col-span-5 bg-white border border-slate-100 rounded-[3rem] p-10 shadow-xl flex flex-col justify-between"
+          >
+            <div className="space-y-4">
+               <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center">
+                  <CarFront className="w-6 h-6 text-slate-900" />
+               </div>
+               <h3 className="text-2xl font-black text-slate-900 tracking-tight">The Modern Fleet</h3>
+               <p className="text-sm font-medium text-slate-500 leading-relaxed">
+                 Our fleet consists of late-model executive mini-buses engineered 
+                 for safety and comfort.
+               </p>
+            </div>
+            <ul className="mt-8 space-y-3">
+               {['15 Passenger Capacity', 'Full Safety Certification', 'Climate Controlled', 'Professional PDP Drivers'].map((item) => (
+                 <li key={item} className="flex items-center gap-3 text-xs font-bold text-slate-700">
+                    <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                    {item}
+                 </li>
+               ))}
+            </ul>
+          </motion.div>
         </div>
 
-        {/* ===== Core Values ===== */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-center">
-            Our Core Values
-          </h2>
+        {/* ===== Core Values Grid ===== */}
+        <div className="space-y-12">
+           <div className="text-center space-y-2">
+              <h2 className="text-3xl font-black tracking-tight text-slate-900">Core Values</h2>
+              <p className="text-slate-400 font-medium uppercase text-[10px] tracking-[0.3em]">The Pillars of MD Travels</p>
+           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
-            <ValueCard
-              icon={<Shield />}
-              title="Safety First"
-              text="We maintain the highest safety standards for passengers, drivers, and vehicles."
-            />
-
-            <ValueCard
-              icon={<Clock />}
-              title="Reliability"
-              text="Punctual, dependable services that ensure you always arrive on time."
-            />
-
-            <ValueCard
-              icon={<CheckCircle />}
-              title="Integrity"
-              text="Honest and transparent operations that build trust with clients."
-            />
-
-            <ValueCard
-              icon={<Users />}
-              title="Respect"
-              text="We treat every client, driver, and colleague with dignity."
-            />
-
-            <ValueCard
-              icon={<CheckCircle />}
-              title="Excellence"
-              text="Continuous improvement to meet evolving transportation needs."
-            />
-
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <ValueCard icon={<Shield className="w-5 h-5" />} title="Safety First" />
+            <ValueCard icon={<Clock className="w-5 h-5" />} title="Reliability" />
+            <ValueCard icon={<CheckCircle className="w-5 h-5" />} title="Integrity" />
+            <ValueCard icon={<Users className="w-5 h-5" />} title="Respect" />
+            <ValueCard icon={<Award className="w-5 h-5" />} title="Excellence" />
           </div>
         </div>
-
-        {/* ===== Fleet ===== */}
-        <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-3">
-          <h2 className="text-xl font-semibold">Our Fleet</h2>
-
-          <p className="text-muted-foreground">
-            Our fleet consists of four modern mini buses designed
-            for comfort, safety, and reliability.
-          </p>
-
-          <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
-            <li>Comfortable seating for up to 15 passengers</li>
-            <li>Safety belts for all passengers</li>
-            <li>First aid kits and fire extinguishers</li>
-            <li>Experienced and qualified drivers</li>
-          </ul>
-        </div>
-
-        {/* ===== Services ===== */}
-        <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-3">
-          <h2 className="text-xl font-semibold">Our Services</h2>
-
-          <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
-            <li>Short-term contracts for events and conferences</li>
-            <li>Long-term corporate transportation solutions</li>
-            <li>Customized transport tailored to client needs</li>
-          </ul>
-        </div>
-
       </div>
     </section>
   )
 }
 
-function ValueCard({ icon, title, text }: any) {
+function LeadershipCard({ image, name, role, description }: any) {
   return (
-    <div className="rounded-xl border bg-card p-5 space-y-2">
-      <div className="text-accent">{icon}</div>
-      <h3 className="font-semibold">{title}</h3>
-      <p className="text-sm text-muted-foreground">{text}</p>
-    </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group bg-white rounded-[2.5rem] border border-slate-100 p-8 flex flex-col md:flex-row items-center gap-8 hover:shadow-2xl transition-all duration-500"
+    >
+      <div className="relative w-40 h-40 shrink-0">
+        <div className="absolute inset-0 bg-secondary rounded-3xl rotate-6 group-hover:rotate-12 transition-transform" />
+        <div className="relative w-full h-full rounded-3xl overflow-hidden border-4 border-white shadow-lg">
+          <Image src={image} alt={name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+        </div>
+      </div>
+      <div className="text-center md:text-left space-y-2">
+        <p className="text-[10px] font-black uppercase tracking-widest text-secondary">{role}</p>
+        <h3 className="text-2xl font-black text-slate-900 tracking-tight">{name}</h3>
+        <p className="text-sm font-medium text-slate-500 leading-relaxed">{description}</p>
+      </div>
+    </motion.div>
+  )
+}
+
+function ValueCard({ icon, title }: any) {
+  return (
+    <motion.div 
+      whileHover={{ scale: 1.05 }}
+      className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col items-center text-center gap-4 group hover:border-secondary transition-all"
+    >
+      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-black transition-all">
+        {icon}
+      </div>
+      <h3 className="text-xs font-black uppercase tracking-widest text-slate-900">{title}</h3>
+    </motion.div>
   )
 }

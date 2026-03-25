@@ -6,6 +6,7 @@ import { useLanguage } from "@/hooks/use-language"
 import { Plane, Briefcase, MapPin, Heart, Compass, Truck } from "lucide-react"
 import Link from "next/link"
 import CustomHero from "@/components/CustomHero"
+import { ServicesShowroom } from "@/components/ServicesShowroom"
 
 const services = [
   {
@@ -59,38 +60,7 @@ export default function Services() {
       <CustomHero title={t("services.title")} subTitle={t("services.subtitle")} />
 
       {/* Services Grid */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, idx) => (
-              <div
-                key={idx}
-                className="p-8 glass rounded-xl border border-border hover:border-secondary transition group hover:shadow-lg"
-              >
-                <service.icon className="w-12 h-12 text-secondary mb-4 group-hover:scale-110 transition" />
-                <h3 className="text-xl font-bold mb-3">{t(service.titleKey)}</h3>
-                <p className="text-text-secondary mb-6">{service.desc}</p>
-
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-text-secondary">
-                      <div className="w-1.5 h-1.5 bg-secondary rounded-full" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href="/quote"
-                  className="inline-block px-6 py-2 bg-secondary hover:opacity-90 text-primary rounded-lg font-semibold transition-all"
-                >
-                  Get Quote
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServicesShowroom services={services} t={t} />
 
       {/* Why Choose Section */}
       <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-surface/30">
