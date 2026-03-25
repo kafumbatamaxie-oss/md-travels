@@ -105,7 +105,7 @@ export default function Quote() {
 
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={LIBRARIES}>
-      <main className="relative min-h-[100dvh] flex items-center justify-center py-10 px-4 overflow-hidden">
+      <main className="relative min-h-100dvh flex items-center justify-center py-10 px-4 overflow-hidden">
         
         {/* VIDEO BACKGROUND */}
         <div className="absolute inset-0 z-0">
@@ -141,7 +141,7 @@ export default function Quote() {
                 </Link>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-[480px]">
+              <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-120">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={step}

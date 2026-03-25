@@ -60,7 +60,7 @@ export default function PremiumCTA() {
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
                 transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-[#EAB308]/10 to-transparent skew-x-12"
+                className="absolute inset-y-0 w-1/2 bg-linear-to-r from-transparent via-[#EAB308]/10 to-transparent skew-x-12"
               />
             </Link>
 
