@@ -14,21 +14,25 @@ export default function LuxuryAICall() {
   
   // 2. Handle the Call Logic
   const handleStartCall = async () => {
-    try {
-      setIsOpen(true);
-      const response = await fetch("/api/retell/web-call", { method: "POST" });
-      const data = await response.json();
-      
-      await retellWebClient.startCall({
-        accessToken: data.access_token,
-      });
-      
-      setIsCalling(true);
-    } catch (err) {
-      console.error("Call failed:", err);
-      setIsOpen(false);
-    }
-  };
+  try {
+    // 1. Request mic IMMEDIATELY to 'lock in' the user gesture
+    // Do this BEFORE the fetch or any other logic
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+    // 2. Now that we have permission, trigger the UI and backend call
+    setIsOpen(true);
+    const response = await fetch("/api/retell/web-call", { method: "POST" });
+    const data = await response.json();
+    
+    // 3. Start Retell call using the existing stream if possible or let SDK handle it
+    await retellWebClient.startCall({ accessToken: data.access_token });
+    setIsCalling(true);
+  } catch (err) {
+    // If this hits, the browser/OS is blocking before Retell even starts
+    console.error("Mic blocked by browser/OS:", err);
+  }
+};
+
 
   const handleEndCall = () => {
     retellWebClient.stopCall();

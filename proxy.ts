@@ -36,6 +36,8 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
   response.headers.set("X-Frame-Options", "DENY")
   response.headers.set("X-XSS-Protection", "1; mode=block")
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+   // ✅ ADD THIS LINE to ensure the mic isn't blocked by the middleware layer
+  response.headers.set("Permissions-Policy", "camera=(self), microphone=(self), geolocation=(self)")
 
   return response
 })
