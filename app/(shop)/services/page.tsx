@@ -7,6 +7,7 @@ import { Plane, Briefcase, MapPin, Heart, Compass, Truck } from "lucide-react"
 import Link from "next/link"
 import CustomHero from "@/components/CustomHero"
 import { ServicesShowroom } from "@/components/ServicesShowroom"
+import { WhyChooseSection } from "@/components/WhyChooseSection"
 
 const services = [
   {
@@ -63,40 +64,7 @@ export default function Services() {
       <ServicesShowroom services={services} t={t} />
 
       {/* Why Choose Section */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-surface/30">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 text-balance">Why Choose MD Travels for Services?</h2>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              {[
-                { title: "24/7 Availability", desc: "Round-the-clock service for your convenience" },
-                { title: "Licensed & Insured", desc: "Fully licensed with comprehensive coverage" },
-                { title: "Professional Team", desc: "Experienced and courteous drivers" },
-                { title: "Flexible Booking", desc: "Easy scheduling and cancellation options" },
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-4">
-                  <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary font-bold">{idx + 1}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold mb-1">{item.title}</h3>
-                    <p className="text-text-secondary text-sm">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="glass rounded-xl border border-border p-8 aspect-video flex items-center justify-center">
-              <img
-                src="/p1.jpg"
-                alt="Service showcase"
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhyChooseSection />
 
       <FloatingElements />
     </main>

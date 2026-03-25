@@ -9,14 +9,14 @@ export const HeroCarouselSection = () => {
   const { language, mounted } = useLanguage()
   const t = translations[language]
 
-  // Beautiful placeholder while mounting to prevent layout shift (CLS)
+  // Cinematic mounting state to set the "Premium" tone immediately
   if (!mounted) {
     return (
-      <div className="h-[90dvh] w-full bg-[#0a0a0c] flex items-center justify-center">
+      <div className="h-[100dvh] w-full bg-[#050506] flex items-center justify-center">
         <motion.div 
-          animate={{ opacity: [0.3, 0.6, 0.3] }} 
-          transition={{ duration: 2, repeat: Infinity }}
-          className="text-white/10 font-black text-4xl md:text-8xl tracking-tighter uppercase"
+          animate={{ opacity: [0.2, 0.5, 0.2] }} 
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="text-white/5 font-black text-6xl md:text-[12vw] tracking-tighter uppercase select-none"
         >
           Premium
         </motion.div>
@@ -36,7 +36,7 @@ export const HeroCarouselSection = () => {
     {
       id: 2,
       title: t.services.airportTransfers,
-      subtitle: "Reliable, on-time airport pickup and drop-off services for business and leisure travelers.",
+      subtitle: "Reliable, on-time airport pickup and drop-off services for business and leisure travellers.",
       cta: t.hero.cta1,
       image: "/bg-2.jpeg",
       mobileImage: "/hero-mobile-2.jpg",
@@ -68,38 +68,48 @@ export const HeroCarouselSection = () => {
   ]
 
   return (
-    <section className="relative h-[90dvh] md:h-screen w-full overflow-hidden bg-black">
-      {/* The Carousel handles the image/text logic internally */}
+    <section className="relative h-[90dvh] md:h-screen w-full overflow-hidden bg-[#050506]">
+      {/* 
+          PASSING REFINED DATA TO CAROUSEL:
+          The Carousel should use the 'animate-shimmer' class for slide titles 
+          to match our new global CSS theme.
+      */}
       <Carousel slides={carouselSlides} />
 
       {/* GLOBAL CINEMATIC OVERLAYS */}
       
-      {/* Bottom shadow gradient to ensure text readability on all slides */}
-      <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+      {/* Heavy Bottom Vignette: Ensures text remains legible regardless of the slide image */}
+      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#050506] via-transparent to-black/20" />
       
-      {/* 24/7 Availability Badge */}
-      <div className="absolute bottom-8 left-8 z-20 hidden lg:block">
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 px-5 py-2 rounded-full shadow-2xl">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-            <p className="text-[10px] font-bold text-white uppercase tracking-[0.2em]">
-              Available 24/7 in Cape Town
-            </p>
+      {/* 24/7 Availability Badge: Using the new 'glass-pill' class */}
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8 }}
+        className="absolute bottom-10 left-10 z-20 hidden lg:block"
+      >
+        <div className="glass-pill px-6 py-2.5 rounded-full flex items-center gap-3">
+          <div className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
           </div>
+          <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">
+            Available 24/7 <span className="text-white/40 ml-1">• Cape Town</span>
+          </p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Floating Scroll Indicator */}
+      {/* Floating Scroll Indicator: Vertical alignment for luxury feel */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        transition={{ delay: 1.2 }}
         className="absolute bottom-12 right-12 z-20 hidden md:flex flex-col items-center gap-6"
       >
-        <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] [writing-mode:vertical-lr]">
-          Scroll
+        <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em] [writing-mode:vertical-lr] select-none">
+          Explore
         </p>
-        <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent" />
+        <div className="w-px h-16 bg-gradient-to-b from-white/40 to-transparent" />
       </motion.div>
     </section>
   )
