@@ -28,7 +28,8 @@ const LIBRARIES: ("places")[] = ["places"]
 
 export default function Quote() {
   const { mounted } = useLanguage()
-  const { services } = useServices()
+  const
+  { services } = useServices()
   const [step, setStep] = useState(1)
   const [direction, setDirection] = useState(0)
 

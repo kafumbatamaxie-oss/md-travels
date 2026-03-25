@@ -1,9 +1,8 @@
 "use client"
 
-import type React from "react"
-
-import { motion,  type Variants  } from "framer-motion"
-import { useState } from "react"
+import React, { useState } from "react"
+import { motion, type Variants } from "framer-motion"
+import { Sparkles, Trophy, Star, ShieldCheck, Clock, Crown } from "lucide-react"
 
 interface WhyChooseItem {
   icon: React.ComponentType<{ className?: string }>
@@ -11,102 +10,110 @@ interface WhyChooseItem {
   description: string
 }
 
-interface WhyChooseMarqueeProps {
-  items: WhyChooseItem[]
-  title: string
-}
-
-export function WhyChooseUs({ items, title }: WhyChooseMarqueeProps) {
+export function WhyChooseUs({ items, title }: { items: WhyChooseItem[], title: string }) {
   const [isPaused, setIsPaused] = useState(false)
 
+  // Split items for two rows
   const firstRow = items.slice(0, Math.ceil(items.length / 2))
   const secondRow = items.slice(Math.ceil(items.length / 2))
 
-  const marqueeVariants : Variants = {
+  const marqueeVariants: Variants = {
     animate: {
-      x: [-1000, 0],
-      transition: {
-        duration: 30,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "linear",
-      },
-    },
-    paused: {
-      transition: {}, // ⬅️ required
+      x: ["0%", "-50%"],
+      transition: { duration: 40, repeat: Infinity, ease: "linear" },
     },
   }
 
-  const marqueeVariantsReverse : Variants = {
+  const marqueeVariantsReverse: Variants = {
     animate: {
-      x: [0, -1000],
-      transition: {
-        duration: 30,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "linear",
-      },
-    },
-     paused: {
-      transition: {}, // ⬅️ required
+      x: ["-50%", "0%"],
+      transition: { duration: 40, repeat: Infinity, ease: "linear" },
     },
   }
 
   return (
-    <div className="relative py-8  bg-sky-20  px-4 sm:px-6  bg-sky-10 overflow-hidden">
-      <div className="max-w-7xl flex flex-col items-center bg-transparent justify-center mx-auto mb-12 sm:mb-16 md:mb-20">
-        <p className="mt-6 text-base sm:text-lg leading-relaxed text-sky-800 max-w-prose italic">
-              Our promise to you
-            </p>
-        <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight uppercase  italic tracking-tight text-sky-950">
-            Why Choose <span className="text-secondary">Us</span>
+    <section className="relative py-24 bg-[#0F172A] overflow-hidden"> 
+      {/* Deep Slate Blue Base */}
+      
+      {/* Gold Ambient Glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EAB308]/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EAB308]/5 rounded-full blur-[120px] -z-10" />
+
+      <div className="max-w-7xl mx-auto px-4 mb-20 text-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAB308]/10 border border-[#EAB308]/20">
+            <Crown className="w-3.5 h-3.5 text-[#EAB308]" />
+            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#EAB308]">Excellence Defined</span>
+          </div>
+          <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none">
+            Why Choose <span className="text-[#EAB308] drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]">Us</span>
           </h2>
-      </div>
-
-      {/* First Marquee - Left to Right */}
-      <div
-        className="mb-8 md:mb-12 overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <motion.div
-          className="flex gap-6 md:gap-8 w-max"
-          variants={marqueeVariants}
-          animate={isPaused ? "paused" : "animate"}
-        >
-          {[...firstRow, ...firstRow].map((item, idx) => (
-            <div
-              key={idx}
-              className=" w-full sm:w-96 p-6 sm:p-8 bg-linear-to-br from-white to-gray-50 rounded-xl border border-sky-200 hover:border-secondary hover:shadow-lg transition-all group cursor-pointer"
-            >
-              <item.icon className="w-10 sm:w-12 h-10 sm:h-12 text-sky-950 mb-3 sm:mb-4 group-hover:scale-110 transition transform" />
-              <h3 className="text-lg sm:text-xl text-sky-950 font-bold mb-2 sm:mb-3 group-hover:secondary transition">
-                {item.title}
-              </h3>
-              <p className="text-sm sm:text-base text-sky-800 leading-relaxed">{item.description}</p>
-            </div>
-          ))}
+          <p className="text-slate-400 font-medium italic text-lg tracking-wide">Premium Standards. Golden Service.</p>
         </motion.div>
       </div>
 
-      {/* Second Marquee - Right to Left */}
-      <div className="overflow-hidden" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-        <motion.div
-          className="flex gap-6 md:gap-8 w-max"
-          variants={marqueeVariantsReverse}
-          animate={isPaused ? "paused" : "animate"}
+      <div className="relative">
+        {/* Edge Fades for Slate Blue background */}
+        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-[#0F172A] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-[#0F172A] to-transparent z-10 pointer-events-none" />
+
+        <div 
+          className="space-y-8 md:space-y-12"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
-          {[...secondRow, ...secondRow].map((item, idx) => (
-            <div
-              key={idx}
-              className="flex-shrink-0 w-full sm:w-96 p-6 sm:p-8 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 hover:border-secondary hover:shadow-lg transition-all group cursor-pointer"
+          {/* Row 1 */}
+          <div className="flex overflow-hidden">
+            <motion.div
+              className="flex gap-6 md:gap-10 pr-10"
+              variants={marqueeVariants}
+              animate={isPaused ? { x: 0, transition: { duration: 0 } } : "animate"}
             >
-              <item.icon className="w-10 sm:w-12 h-10 sm:h-12 text-secondary mb-3 sm:mb-4 group-hover:scale-110 transition transform" />
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 group-hover:text-secondary transition">
-                {item.title}
-              </h3>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{item.description}</p>
-            </div>
-          ))}
-        </motion.div>
+              {[...firstRow, ...firstRow].map((item, idx) => (
+                <LuxuryCard key={`row1-${idx}`} item={item} />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="flex overflow-hidden">
+            <motion.div
+              className="flex gap-6 md:gap-10 pr-10"
+              variants={marqueeVariantsReverse}
+              animate={isPaused ? { x: 0, transition: { duration: 0 } } : "animate"}
+            >
+              {[...secondRow, ...secondRow].map((item, idx) => (
+                <LuxuryCard key={`row2-${idx}`} item={item} />
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LuxuryCard({ item }: { item: WhyChooseItem }) {
+  return (
+    <div className="flex-shrink-0 w-[300px] md:w-[420px] p-8 md:p-12 bg-[#1E293B]/40 rounded-[3rem] border border-white/5 backdrop-blur-sm hover:border-[#EAB308]/40 hover:bg-[#1E293B]/60 transition-all duration-700 group cursor-pointer">
+      <div className="w-16 h-16 rounded-2xl bg-[#0F172A] border border-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(234,179,8,0.2)] transition-all duration-500">
+        <item.icon className="w-8 h-8 text-[#EAB308]" />
+      </div>
+      <h3 className="text-2xl md:text-3xl font-black text-white mb-4 tracking-tight group-hover:translate-x-1 transition-transform duration-500">
+        {item.title}
+      </h3>
+      <p className="text-sm md:text-base text-slate-400 font-medium leading-relaxed italic group-hover:text-slate-200 transition-colors">
+        {item.description}
+      </p>
+      
+      {/* Decorative Gold Corner */}
+      <div className="mt-8 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+        <Star className="w-4 h-4 text-[#EAB308] fill-[#EAB308]" />
       </div>
     </div>
   )

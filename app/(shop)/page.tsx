@@ -20,6 +20,8 @@ import PartnershipArea from "@/components/PartnershipArea"
 import CorollaSection from "@/components/CorollaSection"
 import RomionSection from "@/components/RomionSection"
 import ServiceFleetSection from "@/components/shop/services/ServiceFleetSection"
+import AICallSection from "@/components/AICallSection"
+import PremiumCTA from "@/components/PremiumCTA"
 
 
 
@@ -70,70 +72,20 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground">
       <HeroCarouselSection />
       {/* About Section */}
-      <AboutSection title={t.aboutSection.title}
+      <AboutSection 
+        title={t.aboutSection.title}
         description1={t.aboutSection.description1}
         description2={t.aboutSection.description2}
-        contactLabel={t.nav.contact}  quoteLabel={t.nav.getQuote}
+        contactLabel={t.nav.contact}  
+        quoteLabel={t.nav.getQuote}
       />
-
-      {/* Our Heritage Section with GIF background and Parallax */}
-      
+      {/* Our Heritage Section with GIF background and Parallax */}  
       <ServiceFleetSection /> 
-      <OurHeritageSection t={t} />
-      {/* <SpecialPackageSection /> 
-      <RomionSection />
-      <CorollaSection />
-      <ProposalSection />
-      <StariaQuoteSection /> 
-      <PartnershipArea /> */}
-      {/* Why Choose Us - Mobile First Marquee */}
-      <ScrollReveal className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8">
-        <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
-      </ScrollReveal>
-
-
-      {/* Featured Cars Showcase - NEW */}
-    {/* ''''''''''''''  <FeaturedCarsSection
-        title="THE PERFECT CAR FOR YOUR NEXT TRIP"
-        subtitle="Discover our premium fleet exclusively available in Cape Town"
-      />'''''''''''''' */}
-
-
-
+      <AICallSection />
+      <OurHeritageSection t={t} />  
+      <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
       {/* CTA Section - Mobile First */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-32 px-4 sm:px-6 md:px-8 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 md:mb-8 text-balance">
-            <span className="text-secondary">Ready to</span> <span className="text-sky-950">Experience Premium Transportation?</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-sky-800 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
-            Contact us today for a personalized quote or to book your luxury journey with MD Travels.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-            <Link
-              href="/quote"
-              className="px-6 sm:px-8 py-3 md:py-4 bg-secondary hover:opacity-90 text-white rounded-lg font-semibold transition-all hover:scale-105 text-sm sm:text-base shadow-lg"
-            >
-              {t.nav.getQuote}
-            </Link>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 sm:px-8 py-3 md:py-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white rounded-lg font-semibold transition-all hover:scale-105 text-sm sm:text-base"
-            >
-              Chat on WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
+      <PremiumCTA />
       <FloatingElements />
     </main>
   )

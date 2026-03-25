@@ -80,10 +80,10 @@ export default function Contact() {
               <ScrollReveal>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-4">
                   <Sparkles className="w-3 h-3 text-blue-600" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Get In Touch</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-red-500">Get In Touch</span>
                 </div>
                 <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter leading-[0.9]">
-                  How can we <span className="text-blue-600">assist</span> you?
+                  How can we <span className="text-secondary">assist</span> you?
                 </h2>
               </ScrollReveal>
 
@@ -119,7 +119,7 @@ export default function Contact() {
                       <div>
                         <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">{item.title}</h4>
                         <p className="text-lg font-bold text-slate-900 group-hover:text-secondary transition-colors italic">
-                          {item.links[0]} {item.links.length === 2 &&" / "} {item.links.length === 2 && item.links[1] }
+                          {item.links[0]} {item.links.length === 2 &&" /  "} {item.links.length === 2 && item.links[1] }
                         </p>
                       </div>
                     </a>
