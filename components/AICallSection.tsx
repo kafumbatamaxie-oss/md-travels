@@ -92,7 +92,7 @@ export default function LuxuryAICall() {
       {/* AI CALL DIALOG (Retell Interface) */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -122,7 +122,7 @@ export default function LuxuryAICall() {
                 {/* Golden Voice Visualizer */}
                 <div className="py-10 flex flex-col items-center justify-center space-y-8">
                   <div className="relative">
-                    <div className="w-32 h-32 rounded-[2.5rem] bg-gradient-to-tr from-[#EAB308] to-[#FDE047] flex items-center justify-center shadow-lg shadow-[#EAB308]/20">
+                    <div className="w-32 h-32 rounded-[2.5rem] bg-linear-to-tr from-[#EAB308] to-[#FDE047] flex items-center justify-center shadow-lg shadow-[#EAB308]/20">
                        <Mic className="w-10 h-10 text-[#0F172A]" />
                     </div>
                     {/* Animated Gold Soundwaves */}
@@ -150,9 +150,9 @@ export default function LuxuryAICall() {
                 <div className="space-y-4">
                     <button 
                         onClick={() => setIsOpen(false)}
-                        className="w-full py-5 bg-[#EF4444]/10 hover:bg-[#EF4444] hover:text-white text-[#EF4444] rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 border border-[#EF4444]/20"
+                        className="w-full py-5 bg-[#EF4444]/10 hover:bg-[#EF4444] hover:text-white text-[#EF4444] rounded-4xl font-black text-[11px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 border border-[#EF4444]/20"
                     >
-                        <Phone className="w-4 h-4 rotate-[135deg] fill-current" />
+                        <Phone className="w-4 h-4 rotate-135 fill-current" />
                         End Booking
                     </button>
                     <p className="text-[8px] text-slate-600 font-bold uppercase tracking-[0.3em]">Retell Encrypted Audio Stream</p>

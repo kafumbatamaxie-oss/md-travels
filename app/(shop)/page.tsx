@@ -78,13 +78,11 @@ export default function Home() {
         description2={t.aboutSection.description2}
         contactLabel={t.nav.contact}  
         quoteLabel={t.nav.getQuote}
-      />
-      {/* Our Heritage Section with GIF background and Parallax */}  
+      /> 
       <ServiceFleetSection /> 
       <AICallSection />
       <OurHeritageSection t={t} />  
       <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
-      {/* CTA Section - Mobile First */}
       <PremiumCTA />
       <FloatingElements />
     </main>
