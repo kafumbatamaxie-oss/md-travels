@@ -85,7 +85,7 @@ export function Navbar() {
       <nav 
         className={`mx-auto w-[95%] max-w-7xl pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] rounded-[2rem] 
         ${scrolled 
-          ? "bg-white/90 backdrop-blur-2xl py-3 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20" 
+          ? "bg-white/50 backdrop-blur-2xl py-3 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20" 
           : "bg-transparent py-5 px-4"
         }`}
       >
@@ -174,7 +174,7 @@ export function Navbar() {
               initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} 
               className="fixed inset-0 z-[-1] bg-white lg:hidden flex flex-col pt-32 px-10 pb-12"
             >
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 bg-white">
                 {navItems.map(([key, href], idx) => (
                   <motion.div key={key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
                     <Link href={href} onClick={() => setIsOpen(false)} className="text-5xl font-black uppercase tracking-tighter text-slate-900 active:text-secondary transition-colors">

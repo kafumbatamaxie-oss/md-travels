@@ -3,6 +3,7 @@
 import { FloatingElements } from "@/components/floating-elements"
 import { useLanguage } from "@/hooks/use-language"
 import CustomHero from "@/components/CustomHero"
+import PremiumGallery from "@/components/PremiumGallery"
 
 const galleryImages = [
   {
@@ -60,29 +61,7 @@ export default function Gallery() {
       <CustomHero title="Our Gallery" subTitle="Explore our fleet, services, and beautiful destinations" />
 
       {/* Gallery Grid */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {galleryImages.map((item, idx) => (
-              <div
-                key={idx}
-                className="group relative overflow-hidden rounded-lg aspect-square cursor-pointer hover:shadow-lg transition-all"
-              >
-                <img
-                  src={item.image || "/placeholder.svg"}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
-                  <h3 className="text-white font-semibold">{item.title}</h3>
-                  <p className="text-secondary text-sm">{item.category}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PremiumGallery galleryImages={galleryImages} />
 
       <FloatingElements />
     </main>
