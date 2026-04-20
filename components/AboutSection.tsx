@@ -36,7 +36,7 @@ export function AboutSection({
   return (
     <section 
       ref={sectionRef} 
-      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-[#0a0a0c] overflow-hidden"
+      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-[#4E9FE5] overflow-hidden"
     >
       {/* Dynamic Background Pattern */}
       <div className="absolute inset-0 z-0">
@@ -48,7 +48,7 @@ export function AboutSection({
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c] via-transparent to-[#0a0a0c]" />
+        <div className="absolute inset-0" />
       </div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -98,12 +98,12 @@ export function AboutSection({
                 rotateZ: videoRotate,
                 opacity
               }}
-              className="relative w-full max-w-[550px] aspect-[4/5] md:aspect-square lg:aspect-[4/5]"
+              className="relative w-full max-w-137.5 aspect-4/5 md:aspect-square lg:aspect-[4/5]"
             >
               {/* Outer Glow Decoration */}
               <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full opacity-50" />
 
-              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-[12px] border-slate-900/80 shadow-2xl bg-black group">
+              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-[12px] border-white/10 shadow-2xl bg-white group">
                 
                 {/* Video Layer */}
                 <video 

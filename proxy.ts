@@ -2,51 +2,70 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-// Public routes (no auth required)
+// 🎯 Route Matchers
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
 const isPublicRoute = createRouteMatcher([
   "/",
-  "/about",
-  "/services",
-  "/fleet",
-  "/quote",
-  "/contact",
+  "/shop(.*)",
+  "/product/(.*)",
+  "/brand",
   "/gallery",
+  "/contact",
   "/api/(.*)",
-  "/confirmation",
-  "/search",
-  "/search/(.*)",
-  "/views.mp4",
-  "/video-collection.mp4",
+  "/hero-video.mp4",
   "/bg-video.mp4",
-  '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|woff|woff2|ttf|mp4|webm)).*)'
-  
-])
+  "/video-collection.mp4"
+]);
 
-export default clerkMiddleware(async (auth, request: NextRequest) => {
-  // Protect non-public routes
-  if (!isPublicRoute(request)) {
-    await auth.protect()
-  }
+export function proxy(req: NextRequest, evt: any) {
+  return clerkMiddleware(async (auth, request) => {
+    const { userId, sessionClaims } = await auth();
+    const role = sessionClaims?.metadata?.role;
 
-  // Continue request
-  const response = NextResponse.next()
+    // 1. Handle Admin Route Protection
+    if (isAdminRoute(request)) {
+      // If not logged in, Clerk handles redirect to sign-in
+      await auth.protect();
+      
+      // If logged in but NOT a super_user, redirect to client dashboard
+      if (role !== "super_user") {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+    }
 
-  // 🔐 Security headers
-  response.headers.set("X-Content-Type-Options", "nosniff")
-  response.headers.set("X-Frame-Options", "DENY")
-  response.headers.set("X-XSS-Protection", "1; mode=block")
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-   // ✅ ADD THIS LINE to ensure the mic isn't blocked by the middleware layer
-  response.headers.set("Permissions-Policy", "camera=(self), microphone=(self), geolocation=(self)")
+    // 2. Handle Normal Dashboard Protection
+    if (isDashboardRoute(request)) {
+      await auth.protect();
+      
+      // If a super_user lands here, send them to the admin panel instead
+      if (role === "super_user") {
+        return NextResponse.redirect(new URL("/admin", request.url));
+      }
+    }
 
-  return response
-})
+    // 3. Protect all other non-public routes
+    if (!isPublicRoute(request)) {
+      await auth.protect();
+    }
+
+    // 4. Finalize Response and Security Headers
+    const response = NextResponse.next();
+    
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    response.headers.set("X-Frame-Options", "DENY");
+    response.headers.set("X-XSS-Protection", "1; mode=block");
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    response.headers.set("Permissions-Policy", "camera=(self), microphone=(self), geolocation=(self)");
+
+    return response;
+  })(req, evt);
+}
 
 export const config = {
   matcher: [
     // Skip Next.js internals & static files
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-
     // Always run for API routes
     "/(api|trpc)(.*)",
   ],

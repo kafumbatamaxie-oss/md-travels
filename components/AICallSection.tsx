@@ -51,7 +51,7 @@ export default function LuxuryAICall() {
   return (
     <section className="py-24 md:py-40 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-[#0F172A] rounded-tr-[5rem] rounded-bl-[5rem] md:rounded-tr-[12rem] md:rounded-bl-[12rem] p-8 md:p-24 overflow-hidden shadow-[0_50px_100px_-20px_rgba(15,23,42,0.4)]">
+        <div className="relative bg-[#4E9FE5] rounded-tr-[5rem] rounded-bl-[5rem] md:rounded-tr-[12rem] md:rounded-bl-[12rem] p-8 md:p-24 overflow-hidden shadow-[0_50px_100px_-20px_rgba(15,23,42,0.4)]">
           
           <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
