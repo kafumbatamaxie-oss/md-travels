@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { MessageCircle, ArrowUp } from "lucide-react"
+import BottomTabBar from "./BottomTabBar"
 
 export function FloatingElements() {
   const [scrolled, setScrolled] = useState(false)
@@ -25,11 +26,13 @@ export function FloatingElements() {
     <>
       {/* WhatsApp Button - Shows after scroll */}
       {scrolled && (
-        <a
+        <div className="flex justify-between items-center fixed bottom-2 right-2 md:bottom-12 md:right-8 z-40 animate-slide-up w-full ">
+          {<BottomTabBar />}
+          <a
           href="https://wa.me/27719455941"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-2 right-2 md:bottom-12 md:right-8 z-40 animate-slide-up"
+          className=""
         >
         <div className="relative">
             <div className="absolute inset-0 bg-green-500 rounded-full animate-pulse opacity-20" />
@@ -37,7 +40,8 @@ export function FloatingElements() {
               <MessageCircle className="w-7 h-7 md:w-8 md:h-8 text-white" />
             </button>
         </div>
-        </a>
+          </a>
+        </div>
       )}
 
       

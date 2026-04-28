@@ -16,7 +16,7 @@ export function StatsDashboardSection() {
   ]
 
   return (
-    <section ref={containerRef} className="relative py-24 bg-[#0a0a0c] overflow-hidden">
+    <section ref={containerRef} className="relative py-24 bg-primary overflow-hidden">
       {/* Background Decorative Gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.05)_0%,transparent_70%)] pointer-events-none" />
 
@@ -29,7 +29,7 @@ export function StatsDashboardSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: idx * 0.1, duration: 0.8 }}
               whileHover={{ y: -5 }}
-              className="group relative p-8 md:p-12 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-center transition-all hover:bg-white/[0.07] hover:border-secondary/30"
+              className="group relative p-8 md:p-12 bg-primary-dark backdrop-blur-xl border border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-center transition-all hover:bg-white/[0.07] hover:border-secondary/30"
             >
               {/* Animated Icon Orb */}
               <div className="mb-6 w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary transition-transform group-hover:scale-110 group-hover:bg-secondary group-hover:text-black">
@@ -50,7 +50,7 @@ export function StatsDashboardSection() {
 
               {/* Decorative Corner Highlight */}
               <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-[2.5rem] pointer-events-none">
-                <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-white to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </motion.div>
           ))}

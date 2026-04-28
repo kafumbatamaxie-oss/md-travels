@@ -39,10 +39,10 @@ const itemVariants: Variants = {
         {/* Header Section */}
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 mb-6">
-              OUR <span className="text-blue-600 italic">FLEET</span> & EXPERIENCE
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-primary mb-6">
+              OUR <span className="text-secondary italic">FLEET</span> & EXPERIENCE
             </h2>
-            <p className="text-lg text-slate-500 font-medium">
+            <p className="text-lg text-primary/50 font-medium">
               Explore our premium collection of vehicles and past journey highlights.
             </p>
           </div>

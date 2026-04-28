@@ -32,7 +32,7 @@ export function WhyChooseUs({ items, title }: { items: WhyChooseItem[], title: s
   }
 
   return (
-    <section className="relative py-24 bg-[#0F172A] overflow-hidden"> 
+    <section className="relative py-24 bg-primary overflow-hidden"> 
       {/* Deep Slate Blue Base */}
       
       {/* Gold Ambient Glows */}
@@ -46,8 +46,8 @@ export function WhyChooseUs({ items, title }: { items: WhyChooseItem[], title: s
           viewport={{ once: true }}
           className="space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAB308]/10 border border-[#EAB308]/20">
-            <Crown className="w-3.5 h-3.5 text-[#EAB308]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+            <Crown className="w-3.5 h-3.5  bg-primary text-[#EAB308]" />
             <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#EAB308]">Excellence Defined</span>
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none">
@@ -59,8 +59,8 @@ export function WhyChooseUs({ items, title }: { items: WhyChooseItem[], title: s
 
       <div className="relative">
         {/* Edge Fades for Slate Blue background */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-[#0F172A] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-[#0F172A] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-primary to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-primary to-transparent z-10 pointer-events-none" />
 
         <div 
           className="space-y-8 md:space-y-12"

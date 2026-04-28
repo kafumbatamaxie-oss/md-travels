@@ -7,21 +7,32 @@ const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
 const isPublicRoute = createRouteMatcher([
   "/",
+  "/about",
+  "/services",
   "/shop(.*)",
+  "/fleet",
   "/product/(.*)",
   "/brand",
+  "/quote",
   "/gallery",
   "/contact",
   "/api/(.*)",
   "/hero-video.mp4",
   "/bg-video.mp4",
+  "/newvid.mp4",
   "/video-collection.mp4"
 ]);
+type CustomSessionClaims = {
+  metadata?: {
+    role?: string;
+  };
+};
 
 export function proxy(req: NextRequest, evt: any) {
   return clerkMiddleware(async (auth, request) => {
-    const { userId, sessionClaims } = await auth();
-    const role = sessionClaims?.metadata?.role;
+
+  const { userId, sessionClaims } = await auth();
+  const role = (sessionClaims as CustomSessionClaims)?.metadata?.role;
 
     // 1. Handle Admin Route Protection
     if (isAdminRoute(request)) {

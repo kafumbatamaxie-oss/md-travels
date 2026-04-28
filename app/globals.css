@@ -3,12 +3,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a1a;
+  --foreground: #0d77d4;
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card-foreground: #0d77d4;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
-  --primary: #1a1a1a;
+  --popover-foreground: #0d77d4;
+  --primary: #0071af;
+  --primary-dark: #024467;
   --primary-foreground: #ffffff;
   --secondary: #d4af37;
   --secondary-foreground: #ffffff;
@@ -31,50 +32,16 @@
   --text-secondary: #737373;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: #4E9FE5;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --bleu-primary: #0172b6;
+  --bleu-secondary: #024771;
 }
 
-.dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --popover: #0f172a;
-  --popover-foreground: #f8fafc;
-  --primary: #f8fafc;
-  --primary-foreground: #0f172a;
-  --secondary: #d4af37;
-  --secondary-foreground: #0f172a;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #334155;
-  --accent-foreground: #d4af37;
-  --destructive: #dc2626;
-  --destructive-foreground: #f8fafc;
-  --border: #334155;
-  --input: #334155;
-  --ring: #d4af37;
-  --surface: #0f172a;
-  --text-secondary: #94a3b8;
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-}
 
 @theme inline {
   --font-sans: "Geist", "Geist Fallback";
@@ -407,4 +374,14 @@
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(234, 179, 8, 0.5);
+}
+
+/* iOS safe spacing */
+.bottom-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* smoother motion feel */
+.tab-bar-motion {
+  will-change: transform, opacity;
 }

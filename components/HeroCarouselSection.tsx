@@ -12,7 +12,7 @@ export const HeroCarouselSection = () => {
   // Cinematic mounting state to set the "Premium" tone immediately
   if (!mounted) {
     return (
-      <div className="h-[100dvh] w-full bg-[#050506] flex items-center justify-center">
+      <div className="h-[100dvh] w-full bg-bleu-primary flex items-center justify-center">
         <motion.div 
           animate={{ opacity: [0.2, 0.5, 0.2] }} 
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -68,7 +68,7 @@ export const HeroCarouselSection = () => {
   ]
 
   return (
-    <section className="relative h-[90dvh] md:h-screen w-full overflow-hidden bg-[#050506]">
+    <section className="relative h-[90dvh] md:h-screen w-full overflow-hidden bg-primary">
       {/* 
           PASSING REFINED DATA TO CAROUSEL:
           The Carousel should use the 'animate-shimmer' class for slide titles 
@@ -79,7 +79,7 @@ export const HeroCarouselSection = () => {
       {/* GLOBAL CINEMATIC OVERLAYS */}
       
       {/* Heavy Bottom Vignette: Ensures text remains legible regardless of the slide image */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#050506] via-transparent to-black/20" />
+      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-primary via-transparent to-primary/20" />
       
       {/* 24/7 Availability Badge: Using the new 'glass-pill' class */}
       <motion.div 

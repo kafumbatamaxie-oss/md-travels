@@ -48,14 +48,14 @@ export function TransAbout() {
               <motion.span 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400"
+                className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/50"
               >
                 Company Overview
               </motion.span>
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="text-4xl font-black tracking-tighter text-slate-900 md:text-5xl lg:text-6xl leading-[1.1]"
+                className="text-4xl font-black tracking-tighter text-primary md:text-5xl lg:text-6xl leading-[1.1]"
               >
                 Your Trusted Transport <br />
                 <span className="text-secondary">Partner in Cape Town.</span>
@@ -65,7 +65,7 @@ export function TransAbout() {
             <motion.p 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="text-lg leading-relaxed text-slate-500 font-medium max-w-2xl"
+              className="text-lg leading-relaxed text-primary/50 font-medium max-w-2xl"
             >
               MD Travels is a Western Cape-based professional transport service provider offering safe, insured, and reliable passenger solutions. We are committed to strict compliance and reliability standards required by Government institutions and corporate giants.
             </motion.p>
@@ -81,14 +81,14 @@ export function TransAbout() {
                   whileHover={{ y: -5 }}
                   className="group flex flex-col items-center gap-3 rounded-3xl border border-slate-100 bg-white p-8 text-center shadow-sm transition-all hover:shadow-xl hover:shadow-slate-200/50"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-secondary transition-transform group-hover:scale-110">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-secondary transition-transform group-hover:scale-110">
                     <item.icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-1">
-                    <span className="block text-sm font-black uppercase tracking-widest text-slate-900">
+                    <span className="block text-sm font-black uppercase tracking-widest text-primary">
                       {item.title}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase">
+                    <span className="text-[10px] font-bold text-primary/50 uppercase">
                       {item.desc}
                     </span>
                   </div>
@@ -102,7 +102,7 @@ export function TransAbout() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              className="relative rounded-[3rem] bg-slate-950 p-10 md:p-14 text-white shadow-2xl overflow-hidden"
+              className="relative rounded-[3rem] bg-primary p-10 md:p-14 text-white shadow-2xl overflow-hidden"
             >
               {/* Decorative Glow */}
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-secondary/10 blur-[100px] rounded-full" />
@@ -134,7 +134,7 @@ export function TransAbout() {
 
                 {/* Micro CTA */}
                 <div className="pt-6">
-                  <button className="w-full py-4 bg-white text-black rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-secondary transition-colors active:scale-95">
+                  <button className="w-full py-4 bg-white text-primary rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-secondary transition-colors active:scale-95">
                     View Full Compliance Docs
                   </button>
                 </div>

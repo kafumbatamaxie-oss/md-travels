@@ -15,7 +15,7 @@ export default function ProfessionalHero() {
   }, [])
 
   return (
-    <section className="relative flex min-h-[90dvh] items-center justify-center overflow-hidden bg-[#050506]">
+    <section className="relative flex min-h-[90dvh] items-center justify-center overflow-hidden bg-primary">
       {/* --- CINEMATIC VIDEO ENGINE --- */}
       <motion.div 
         initial={{ scale: 1.1 }}
@@ -37,7 +37,7 @@ export default function ProfessionalHero() {
           <source src="/video-collection.mp4" type="video/mp4" />
         </video>
         {/* Pro Overlay System */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050506]/80 via-transparent to-[#050506]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-transparent to-primary" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,6,0.4)_100%)]" />
       </motion.div>
 
@@ -50,7 +50,7 @@ export default function ProfessionalHero() {
           className="flex flex-col items-center gap-10"
         >
           {/* Animated Location Badge */}
-          <span className="glass-pill inline-flex items-center gap-2 rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-secondary shadow-2xl">
+          <span className="glass-pill inline-flex items-center gap-2 rounded-full px-5 py-2 mt-20 text-[10px] font-black uppercase tracking-[0.3em] text-secondary shadow-2xl">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
@@ -69,14 +69,14 @@ export default function ProfessionalHero() {
           {/* Action Hub */}
           <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
             <a
-              href="#contact"
-              className="group flex items-center justify-center gap-3 rounded-2xl bg-secondary px-10 py-5 text-sm font-black uppercase tracking-widest text-black transition-all hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(234,179,8,0.3)]"
+              href="/quote"
+              className="group flex items-center justify-center gap-3 rounded-2xl bg-secondary px-10 py-5 text-bold font-black uppercase tracking-widest text-primary transition-all hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(234,179,8,0.3)]"
             >
               Get a Quote
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
-              href="#fleet"
+              href="/fleet"
               className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md px-10 py-5 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-white/10 active:scale-95"
             >
               View Our Fleet

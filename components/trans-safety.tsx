@@ -33,7 +33,7 @@ const safetyItems = [
 
 export function TransSafety() {
   return (
-    <section id="safety" className="relative bg-[#0a0a0c] py-24 md:py-32 overflow-hidden">
+    <section id="safety" className="relative bg-primary py-24 md:py-32 overflow-hidden">
       {/* Background Decorative Element */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-[0.02] pointer-events-none">
         <ShieldAlert className="w-full h-full stroke-[0.5]" />
@@ -87,13 +87,13 @@ export function TransSafety() {
                 <h3 className="text-sm font-black uppercase tracking-widest text-white transition-colors group-hover:text-secondary">
                   {item.title}
                 </h3>
-                <p className="text-xs leading-relaxed font-bold text-slate-500 transition-colors group-hover:text-slate-300">
+                <p className="text-xs leading-relaxed font-sm text-white/80 transition-colors group-hover:text-slate-300">
                   {item.text}
                 </p>
               </div>
 
               {/* Decorative Card Detail */}
-              <div className="absolute bottom-4 h-1 w-8 rounded-full bg-white/5 transition-all group-hover:w-16 group-hover:bg-secondary" />
+              <div className="absolute bottom-4 h-1 w-8 rounded-full bg-white transition-all group-hover:w-16 group-hover:bg-secondary" />
             </motion.div>
           ))}
         </div>
@@ -104,13 +104,13 @@ export function TransSafety() {
           whileInView={{ opacity: 1 }}
           className="mt-20 pt-12 border-t border-white/5 flex flex-col items-center text-center gap-4"
         >
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-secondary/80">
             Certified Western Cape Operator
           </p>
           <div className="flex gap-4">
-             <div className="h-px w-12 bg-white/10 self-center" />
-             <ShieldCheck className="w-6 h-6 text-white/10" />
-             <div className="h-px w-12 bg-white/10 self-center" />
+             <div className="h-px w-12 bg-white/30 self-center" />
+             <ShieldCheck className="w-6 h-6 text-white/30" />
+             <div className="h-px w-12 bg-white/30 self-center" />
           </div>
         </motion.div>
       </div>

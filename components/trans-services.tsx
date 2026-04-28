@@ -52,7 +52,7 @@ const services = [
 
 export function TransServices() {
   return (
-    <section id="services" className="bg-[#050506] py-24 md:py-32 overflow-hidden">
+    <section id="services" className="bg-primary py-24 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         
         {/* Header Section */}
@@ -90,10 +90,10 @@ export function TransServices() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="group relative flex flex-col justify-between rounded-[2.5rem] border border-white/5 bg-[#0d0d0f] p-8 transition-all duration-500 hover:bg-[#121215] hover:border-secondary/30 hover:-translate-y-2 shadow-2xl"
+              className="group relative flex flex-col justify-between rounded-[2.5rem] border border-white/5 bg-primary/10 p-8 transition-all duration-500  hover:border-secondary/30 hover:-translate-y-2 shadow-2xl"
             >
               {/* Card Decoration - Large Ghost Number */}
-              <div className="absolute top-6 right-8 text-5xl font-black text-white/[0.02] transition-all duration-500 group-hover:text-secondary/5 group-hover:scale-110">
+              <div className="absolute top-6 right-8 text-5xl font-black text-white  transition-all duration-500  group-hover:scale-110">
                 {String(idx + 1).padStart(2, '0')}
               </div>
 
@@ -104,17 +104,17 @@ export function TransServices() {
                 </div>
                 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-bold tracking-tight text-white group-hover:text-secondary transition-colors duration-300">
+                  <h3 className="text-xl font-bold tracking-tight text-white  transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-slate-500 font-medium">
+                  <p className="text-sm leading-relaxed text-white/50 font-medium">
                     {service.description}
                   </p>
                 </div>
               </div>
 
               {/* Interaction Hint */}
-              <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-secondary/60 transition-all duration-300 group-hover:text-secondary group-hover:translate-x-1">
+              <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-secondary/80 transition-all duration-300 group-hover:text-secondary group-hover:translate-x-1">
                 Enquire Service <ArrowUpRight className="h-3 w-3" />
               </div>
             </motion.div>

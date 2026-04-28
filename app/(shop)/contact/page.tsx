@@ -78,11 +78,11 @@ export default function Contact() {
             {/* CONTACT INFO PANEL */}
             <div className="lg:col-span-5 space-y-10">
               <ScrollReveal>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-4">
-                  <Sparkles className="w-3 h-3 text-blue-600" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-red-500">Get In Touch</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/60 border border-primary/10 mb-4">
+                  <Sparkles className="w-3 h-3 text-primary" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-white">Get In Touch</span>
                 </div>
-                <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter leading-[0.9]">
+                <h2 className="text-4xl md:text-6xl font-black text-primary tracking-tighter leading-[0.9]">
                   How can we <span className="text-secondary">assist</span> you?
                 </h2>
               </ScrollReveal>
@@ -113,12 +113,12 @@ export default function Contact() {
                       href={item.href}
                       className="group flex items-center gap-6 p-2 pr-6 rounded-[2rem] bg-white border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500"
                     >
-                      <div className="w-16 h-16 rounded-[1.8rem] bg-slate-900 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors duration-500">
+                      <div className="w-16 h-16 rounded-[1.8rem] bg-primary flex items-center justify-center shrink-0 group-hover:bg-primary/80 transition-colors duration-500">
                         <item.icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">{item.title}</h4>
-                        <p className="text-lg font-bold text-slate-900 group-hover:text-secondary transition-colors italic">
+                        <h4 className="text-[9px] font-black uppercase tracking-widest text-primary/60 mb-1">{item.title}</h4>
+                        <p className="text-lg font-bold text-primary group-hover:text-secondary transition-colors italic">
                           {item.links[0]} {item.links.length === 2 &&" /  "} {item.links.length === 2 && item.links[1] }
                         </p>
                       </div>
@@ -170,7 +170,7 @@ export default function Contact() {
                         <button
                           type="submit"
                           disabled={loading}
-                          className="relative w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-600/20 active:scale-[0.98] disabled:opacity-70 group overflow-hidden"
+                          className="relative w-full py-5 bg-primary text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all hover:bg-primary/80 hover:shadow-xl hover:shadow-blue-600/20 active:scale-[0.98] disabled:opacity-70 group overflow-hidden"
                         >
                           {loading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />

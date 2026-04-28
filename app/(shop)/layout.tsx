@@ -4,6 +4,8 @@ import { LenisProvider } from "@/components/lenis-provider"
 import { LanguageProvider } from "@/components/language-provider"
 import { ScrollToTop } from "@/components/ScrollToTop"
 import HideOnQuote from "@/components/HideOnQuote"
+import ClientShell from "@/components/ClientShell"
+
 
 export default function ShopLayout({
   children,
@@ -11,15 +13,11 @@ export default function ShopLayout({
   children: React.ReactNode
 }) {
   return (
-    <LanguageProvider>
-      <LenisProvider>
-        <HideOnQuote Component={Navbar} hidePath="/quote" />
-        <HideOnQuote Component={ScrollToTop} hidePath="/quote" />
-
-        {children}
-
-        <HideOnQuote Component={Footer} hidePath="/quote" />
-      </LenisProvider>
+    <LanguageProvider>   
+        <ClientShell>
+          {children}
+        </ClientShell>
+        <Footer />
     </LanguageProvider>
   )
 }

@@ -43,14 +43,22 @@ export function Footer() {
   return (
     <footer className="relative bg-[#050506] text-white overflow-hidden border-t border-white/5">
       {/* Cinematic Background Layer */}
-      <div className="absolute inset-0 z-0">
-        <video 
-          autoPlay muted loop playsInline 
-          className="w-full h-full object-cover opacity-10 grayscale"
+    <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/heritage.png" 
+          className="h-full w-full object-cover opacity-60 grayscale-[30%]"
         >
-          <source src="/bg-vid.mp4" type="video/mp4" />
+          <source src="/bg-video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050506] via-[#050506]/80 to-transparent" />
+        
+        {/* Pro Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-slate-950 z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,6,0.4)_100%)] z-10" />
       </div>
 
       <div className="container relative z-10 px-6 pt-20 pb-10 mx-auto max-w-7xl">

@@ -26,7 +26,7 @@ export default function CustomHero({ title, subTitle }: CustomHeroProps) {
         </video>
         
         {/* Pro Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-slate-950 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary z-10" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,6,0.4)_100%)] z-10" />
       </div>
 

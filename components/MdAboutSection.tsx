@@ -25,16 +25,16 @@ export function MdAboutSection() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl font-black tracking-tighter text-slate-900 md:text-6xl lg:text-7xl leading-tight"
+            className="text-4xl font-black italic tracking-tighter text-primary md:text-6xl lg:text-7xl leading-tight"
           >
             Malipheze Dlunge <br />
-            <span className="text-slate-400">Logistics & Transport</span>
+            <span className="text-primary/50 italic">Logistics & Transport</span>
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="mx-auto max-w-2xl text-lg font-medium text-slate-500 leading-relaxed"
+            className="mx-auto max-w-2xl text-lg font-medium text-primary/80 leading-relaxed"
           >
             A premier Cape Town-based enterprise providing safe, reliable, and 
             efficient logistics to individuals and global organizations 
@@ -45,7 +45,7 @@ export function MdAboutSection() {
         {/* ===== Leadership: The Foundation ===== */}
         <div className="space-y-12 mb-32">
           <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-black tracking-tight text-slate-900 uppercase">Executive Leadership</h2>
+            <h2 className="text-2xl font-black tracking-tight text-primary uppercase">Executive Leadership</h2>
             <div className="h-px flex-1 bg-slate-100" />
           </div>
 
@@ -69,7 +69,7 @@ export function MdAboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32">
           <motion.div 
             whileHover={{ y: -5 }}
-            className="md:col-span-7 bg-slate-950 rounded-[3rem] p-10 md:p-14 text-white relative overflow-hidden group shadow-2xl"
+            className="md:col-span-7 bg-primary rounded-[3rem] p-10 md:p-14 text-white relative overflow-hidden group shadow-2xl"
           >
             <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 transition-transform">
                <Target className="w-32 h-32 text-secondary" />
@@ -77,7 +77,7 @@ export function MdAboutSection() {
             <div className="relative z-10 space-y-6">
               <span className="text-[10px] font-black uppercase tracking-widest text-secondary">Our Purpose</span>
               <h2 className="text-4xl font-black tracking-tight leading-tight">Driven by <br/> Excellence.</h2>
-              <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-md">
+              <p className="text-white font-medium text-lg leading-relaxed max-w-md">
                 To deliver exceptional transportation services that exceed expectations 
                 through professional, reliable, and high-compliance solutions.
               </p>
@@ -90,17 +90,17 @@ export function MdAboutSection() {
           >
             <div className="space-y-4">
                <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center">
-                  <CarFront className="w-6 h-6 text-slate-900" />
+                  <CarFront className="w-6 h-6 text-white" />
                </div>
-               <h3 className="text-2xl font-black text-slate-900 tracking-tight">The Modern Fleet</h3>
-               <p className="text-sm font-medium text-slate-500 leading-relaxed">
+               <h3 className="text-2xl font-black text-primary tracking-tight">The Modern Fleet</h3>
+               <p className="text-sm font-medium text-primary/80 leading-relaxed">
                  Our fleet consists of late-model executive mini-buses engineered 
                  for safety and comfort.
                </p>
             </div>
             <ul className="mt-8 space-y-3">
                {['15 Passenger Capacity', 'Full Safety Certification', 'Climate Controlled', 'Professional PDP Drivers'].map((item) => (
-                 <li key={item} className="flex items-center gap-3 text-xs font-bold text-slate-700">
+                 <li key={item} className="flex items-center gap-3 text-xs font-bold text-primary/70">
                     <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                     {item}
                  </li>
@@ -112,8 +112,8 @@ export function MdAboutSection() {
         {/* ===== Core Values Grid ===== */}
         <div className="space-y-12">
            <div className="text-center space-y-2">
-              <h2 className="text-3xl font-black tracking-tight text-slate-900">Core Values</h2>
-              <p className="text-slate-400 font-medium uppercase text-[10px] tracking-[0.3em]">The Pillars of MD Travels</p>
+              <h2 className="text-3xl font-black tracking-tight text-primary">Core Values</h2>
+              <p className="text-primary/80 font-medium uppercase text-[10px] tracking-[0.3em]">The Pillars of MD Travels</p>
            </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -145,8 +145,8 @@ function LeadershipCard({ image, name, role, description }: any) {
       </div>
       <div className="text-center md:text-left space-y-2">
         <p className="text-[10px] font-black uppercase tracking-widest text-secondary">{role}</p>
-        <h3 className="text-2xl font-black text-slate-900 tracking-tight">{name}</h3>
-        <p className="text-sm font-medium text-slate-500 leading-relaxed">{description}</p>
+        <h3 className="text-2xl font-black text-primary tracking-tight">{name}</h3>
+        <p className="text-sm font-medium text-primary/80 leading-relaxed">{description}</p>
       </div>
     </motion.div>
   )
@@ -161,7 +161,7 @@ function ValueCard({ icon, title }: any) {
       <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-black transition-all">
         {icon}
       </div>
-      <h3 className="text-xs font-black uppercase tracking-widest text-slate-900">{title}</h3>
+      <h3 className="text-xs font-black uppercase tracking-widest text-primary">{title}</h3>
     </motion.div>
   )
 }

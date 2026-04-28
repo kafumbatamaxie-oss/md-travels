@@ -51,9 +51,9 @@ export default function LuxuryAICall() {
   return (
     <section className="py-24 md:py-40 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-[#4E9FE5] rounded-tr-[5rem] rounded-bl-[5rem] md:rounded-tr-[12rem] md:rounded-bl-[12rem] p-8 md:p-24 overflow-hidden shadow-[0_50px_100px_-20px_rgba(15,23,42,0.4)]">
+        <div className="relative bg-primary border-primary-dark border rounded-tl-4xl rounded-br-4xl rounded-tr-[5rem] rounded-bl-[5rem] md:rounded-tr-[12rem] md:rounded-bl-[12rem] p-8 md:p-24 overflow-hidden shadow-[0_50px_100px_-20px_rgba(15,23,42,0.4)]">
           
-          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative z-10  grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EAB308]/10 border border-[#EAB308]/20">
                 <Crown className="w-3.5 h-3.5 text-[#EAB308]" />
@@ -62,9 +62,9 @@ export default function LuxuryAICall() {
 
               <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] uppercase italic">
                 Speak to our <br />
-                <span className="text-[#EAB308]">Gold Agent</span>
+                <span className="text-secondary">Gold Agent</span>
               </h2>
-              <p className="text-slate-400 text-lg font-medium max-w-md italic">Skip the typing. Experience luxury concierge.</p>
+              <p className="text-white/50 text-lg font-medium max-w-md italic">Skip the typing. Experience luxury concierge.</p>
             </div>
 
             {/* PULSE TRIGGER */}
@@ -73,10 +73,10 @@ export default function LuxuryAICall() {
                 {[...Array(3)].map((_, i) => (
                   <motion.div key={i} animate={{ scale: 2.2, opacity: 0 }} transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.8 }} className="absolute w-24 h-24 bg-[#EAB308] rounded-full" />
                 ))}
-                <div className="relative w-28 h-28 bg-[#EAB308] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-500">
-                  <Phone className="w-10 h-10 text-[#0F172A] fill-[#0F172A]" />
+                <div className="relative w-28 h-28 bg-secondary/80 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-500">
+                  <Phone className="w-10 h-10 text-secondary-dark fill-secondary" />
                 </div>
-                <span className="absolute -bottom-14 whitespace-nowrap text-[10px] font-black uppercase tracking-[0.4em] text-[#EAB308]">Initialize Call</span>
+                <span className="absolute -bottom-14 whitespace-nowrap text-[10px] font-black uppercase tracking-[0.4em] text-white/50">Initialize Call</span>
               </button>
             </div>
           </div>

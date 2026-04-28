@@ -28,7 +28,7 @@ export function ContactConciergeSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-slate-950 rounded-[3rem] p-8 md:p-16 text-white shadow-2xl overflow-hidden group"
+          className="relative bg-primary rounded-[3rem] p-8 md:p-16 text-white shadow-2xl overflow-hidden group"
         >
           {/* Background Brand Decoration */}
           <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
@@ -43,9 +43,9 @@ export function ContactConciergeSection() {
               </span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
                 Secure Your <br />
-                <span className="text-slate-400">Luxury Transfer.</span>
+                <span className="text-secondary/60">Luxury Transfer.</span>
               </h2>
-              <p className="text-slate-500 font-medium text-lg">
+              <p className="text-white/80 font-medium text-lg">
                 For bookings or customized corporate quotes, our concierge is available 24/7.
               </p>
             </div>
@@ -57,13 +57,13 @@ export function ContactConciergeSection() {
                   key={idx}
                   href={item.href}
                   whileHover={{ y: -5 }}
-                  className="flex flex-col gap-6 p-8 bg-white/[0.03] border border-white/10 rounded-[2.5rem] hover:bg-white/[0.07] hover:border-secondary/30 transition-all group/item"
+                  className="flex flex-col gap-6 p-8 bg-primary/20 border border-white/10 rounded-[2.5rem] hover:bg-white/[0.07] hover:border-secondary/30 transition-all group/item"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary transition-transform group-hover/item:scale-110 group-hover/item:bg-secondary group-hover/item:text-black">
+                  <div className="w-12 h-12 rounded-2xl bg-secondary/50 flex items-center justify-center text-secondary transition-transform group-hover/item:scale-110 group-hover/item:bg-secondary group-hover/item:text-black">
                     <item.icon className="w-5 h-5" />
                   </div>
                   <div className="space-y-3">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{item.label}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/80">{item.label}</p>
                     <div className="space-y-1">
                       {item.lines.map((line, i) => (
                         <p key={i} className="text-lg font-bold text-white group-hover/item:text-secondary transition-colors">
@@ -83,14 +83,14 @@ export function ContactConciergeSection() {
                   <MapPin className="w-4 h-4 text-secondary" />
                 </div>
                 <div>
-                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Corporate HQ</p>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-">Corporate HQ</p>
                    <p className="font-bold text-sm">129 Beaufort Street, Goodwood, Cape Town</p>
                 </div>
               </div>
               
               <button 
-                onClick={() => window.location.href = "https://wa.me"}
-                className="w-full md:w-auto px-8 py-4 bg-white text-black rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-secondary transition-colors active:scale-95"
+                onClick={() => window.location.href="https://wa.me/27719455941"}
+                className="w-full md:w-auto px-8 py-4 bg-white text-primary rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-secondary transition-colors active:scale-95"
               >
                 Instant WhatsApp Quote <ExternalLink className="w-3 h-3" />
               </button>

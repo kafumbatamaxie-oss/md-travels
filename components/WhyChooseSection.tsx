@@ -45,17 +45,17 @@ export function WhyChooseSection() {
               <motion.span 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary"
+                className="text-[10px] font-bold uppercase tracking-[0.4em] text-secondary"
               >
                 The MD Advantage
               </motion.span>
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 leading-[1.1]"
+                className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-primary/80 leading-[1.1]"
               >
                 Why Choose <br />
-                <span className="text-slate-400">MD Travels?</span>
+                <span className="text-primary"><span className="text-secondary">MD</span>{"  "} Travels?</span>
               </motion.h2>
             </div>
 
@@ -69,17 +69,17 @@ export function WhyChooseSection() {
                   whileHover={{ x: 10 }}
                   className="group flex items-center gap-6 p-6 bg-white border border-slate-100 rounded-[2rem] shadow-sm hover:shadow-xl hover:border-secondary/30 transition-all duration-500"
                 >
-                  <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-secondary group-hover:text-black">
+                  <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary text-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-secondary group-hover:text-black">
                     <item.icon className="h-6 w-6" />
-                    <div className="absolute -top-2 -left-2 text-[40px] font-black text-slate-900/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute -top-2 -left-2 text-[40px] font-black text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                       {idx + 1}
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-900 group-hover:text-secondary transition-colors">
+                    <h3 className="text-sm font-black uppercase tracking-widest text-primary group-hover:text-secondary transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs font-medium text-slate-500 leading-relaxed">
+                    <p className="text-xs font-medium text-white leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
@@ -104,7 +104,7 @@ export function WhyChooseSection() {
                 className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
               />
               {/* Image Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent" />
               
               {/* Floating Floating Badge */}
               <motion.div 
@@ -114,13 +114,13 @@ export function WhyChooseSection() {
               >
                 <div className="flex items-center gap-4">
                   <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center">
-                    <Sparkles className="h-5 w-5 text-black" />
+                    <Sparkles className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 leading-none mb-1">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white leading-none mb-1">
                       Verified Safety
                     </p>
-                    <p className="text-sm font-black text-slate-900 leading-none">
+                    <p className="text-sm font-black text-white leading-none">
                       Gold Standard
                     </p>
                   </div>

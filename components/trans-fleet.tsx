@@ -72,7 +72,7 @@ function VehicleCard({
       onClick={onClick}
       className="group cursor-pointer relative flex flex-col bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-slate-50 flex items-center justify-center p-8">
+      <div className="relative aspect-[4/3] overflow-hidden bg-primary flex items-center justify-center p-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.03)_100%)]" />
         <Image
           src={vehicle.image}
@@ -81,7 +81,7 @@ function VehicleCard({
           height={300}
           className="object-contain transition-all duration-700 group-hover:scale-110"
         />
-        <div className="absolute top-6 right-6 bg-slate-950 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl">
+        <div className="absolute top-6 right-6 bg-black/20 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl">
           <div className="flex items-center gap-2 text-white font-bold text-[10px] uppercase tracking-widest">
             <Users className="h-3 w-3 text-secondary" />
             {vehicle.seats}
@@ -91,14 +91,14 @@ function VehicleCard({
 
       <div className="p-8">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight">
+          <h3 className="text-xl font-black text-secondary tracking-tight leading-tight">
             {vehicle.name}
           </h3>
           <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-secondary transition-all">
-            <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-black" />
+            <ArrowRight className="h-5 w-5 text-primary group-hover:text-primary/50" />
           </div>
         </div>
-        <p className="mt-4 text-sm font-medium text-slate-500 leading-relaxed">
+        <p className="mt-4 text-sm font-medium text-primary/80 leading-relaxed">
           {vehicle.description}
         </p>
       </div>
@@ -117,7 +117,7 @@ export function TransFleet() {
           <motion.span 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white"
           >
             <CarFront className="h-3 w-3 text-secondary" />
             The MD Fleet
@@ -125,9 +125,9 @@ export function TransFleet() {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl font-black tracking-tighter text-slate-900 md:text-6xl"
+            className="text-4xl font-black tracking-tighter text-primary md:text-6xl"
           >
-            Modern Vehicles <br className="hidden md:block" /> for Every Journey.
+            Modern Vehicles <br className="hidden md:block" /> for Every Journey<span className="text-6xl text-secondary">.</span>
           </motion.h2>
         </div>
 

@@ -60,9 +60,9 @@ export function Navbar() {
   const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100] w-full pt-2 md:pt-4 pointer-events-none">
+    <header className="relative z-100 w-full pt-2 md:pt-4  ">
       {/* ================= TOP INFO BAR ================= */}
-      <div className={`hidden md:block w-[92%] max-w-7xl mx-auto mb-2 bg-slate-950/80 backdrop-blur-md text-white/70 text-[10px] font-bold uppercase tracking-widest py-2 px-6 rounded-full transition-all duration-500 pointer-events-auto ${hideTopBar ? "-translate-y-20 opacity-0" : "translate-y-0 opacity-100"}`}>
+      <div className={`hidden md:block w-[92%] max-w-7xl mx-auto mb-2 bg-primary backdrop-blur-md text-white/70 text-[10px] font-bold uppercase tracking-widest py-2 px-6 rounded-full transition-all duration-500 pointer-events-auto ${hideTopBar ? "-translate-y-20 opacity-0" : "translate-y-0 opacity-100"}`}>
         <div className="flex justify-between items-center">
           <div className="flex gap-6">
             <a href="tel:+27606411703" className="flex items-center gap-2 hover:text-secondary transition-colors"><Phone className="w-3 h-3" /> +27 606 411 703</a>
@@ -82,10 +82,10 @@ export function Navbar() {
       </div>
 
       {/* ================= FLOWING NAV PILL ================= */}
-      <nav 
+      <nav id="navbar" 
         className={`mx-auto w-[95%] max-w-7xl pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] rounded-[2rem] 
         ${scrolled 
-          ? "bg-white/50 backdrop-blur-2xl py-3 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20" 
+          ? "bg-white backdrop-blur-2xl py-3 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20" 
           : "bg-transparent py-5 px-4"
         }`}
       >
@@ -109,8 +109,8 @@ export function Navbar() {
                 href={href} 
                 className={`relative px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors duration-500
                 ${isActive(href) 
-                  ? "text-black" 
-                  : (scrolled ? "text-slate-500 hover:text-black" : "text-white/80 hover:text-white")
+                  ? "text-primary" 
+                  : (scrolled ? "text-primary/50 hover:text-primary" : "text-primary/50 hover:text-primary/50")
                 }`}
               >
                 <span className="relative z-10">{t(`nav.${key}`)}</span>
@@ -161,7 +161,7 @@ export function Navbar() {
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setIsOpen(!isOpen)} 
-            className={`lg:hidden p-3 rounded-full transition-all duration-500 ${scrolled || isOpen ? "bg-black text-white" : "bg-white/10 text-white backdrop-blur-md"}`}
+            className={`lg:hidden p-3 rounded-full transition-all duration-500 ${scrolled || isOpen ? "bg-primary text-white" : "bg-primary text-white backdrop-blur-md"}`}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -177,7 +177,7 @@ export function Navbar() {
               <div className="flex flex-col gap-6 bg-white">
                 {navItems.map(([key, href], idx) => (
                   <motion.div key={key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
-                    <Link href={href} onClick={() => setIsOpen(false)} className="text-5xl font-black uppercase tracking-tighter text-slate-900 active:text-secondary transition-colors">
+                    <Link href={href} onClick={() => setIsOpen(false)} className="text-5xl font-black uppercase tracking-tighter text-primary/80 active:text-secondary transition-colors">
                       {t(`nav.${key}`)}
                     </Link>
                   </motion.div>

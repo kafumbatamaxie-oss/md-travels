@@ -36,7 +36,7 @@ export function AboutSection({
   return (
     <section 
       ref={sectionRef} 
-      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-[#4E9FE5] overflow-hidden"
+      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-primary overflow-hidden"
     >
       {/* Dynamic Background Pattern */}
       <div className="absolute inset-0 z-0">
@@ -74,7 +74,7 @@ export function AboutSection({
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/quote"
-                className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-bold transition-all hover:bg-slate-200 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-white text-secondary rounded-2xl font-bold transition-all hover:bg-slate-200 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               >
                 {quoteLabel}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -101,9 +101,9 @@ export function AboutSection({
               className="relative w-full max-w-137.5 aspect-4/5 md:aspect-square lg:aspect-[4/5]"
             >
               {/* Outer Glow Decoration */}
-              <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full opacity-50" />
+              <div className="absolute -inset-4 bg-primary/5 blur-3xl rounded-full opacity-50" />
 
-              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-[12px] border-white/10 shadow-2xl bg-white group">
+              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-[12px] border-primary/10 shadow-2xl bg-white group">
                 
                 {/* Video Layer */}
                 <video 

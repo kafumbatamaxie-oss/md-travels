@@ -20,18 +20,18 @@ export function OurHeritageSection({ t }: { t: any }) {
   return (
     <section 
       ref={containerRef}
-      className="relative py-20 md:py-32 overflow-hidden bg-[#0a0a0c]"
+      className="relative py-20 md:py-32 overflow-hidden bg-white "
     >
       {/* HERITAGE BACKGROUND OVERLAY */}
       <div
-        className="absolute inset-0 z-0 opacity-[0.07] pointer-events-none bg-fixed bg-cover bg-center grayscale contrast-125"
+        className="absolute inset-0 z-0 opacity-[0.07] pointer-events-none bg-fixed bg-white bg-center grayscale contrast-125"
         style={{
           backgroundImage: "url('/Flag_of_South_Africa.gif')",
         }}
       />
       
       {/* VIGNETTE GRADIENT */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c] via-transparent to-[#0a0a0c] z-0" />
+      <div className="absolute inset-0  bg-transparent z-0" />
 
       <div className="container relative z-10 mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -45,7 +45,7 @@ export function OurHeritageSection({ t }: { t: any }) {
             className="relative order-1 lg:order-2 group"
           >
             {/* Outer Glow Decoration */}
-            <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full opacity-30 group-hover:opacity-50 transition-opacity" />
+            <div className="absolute -inset-4 bg-primary/5 blur-3xl rounded-full opacity-30 group-hover:opacity-50 transition-opacity" />
             
             <div className="relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-auto lg:h-[650px] border-[10px] border-white/5 shadow-2xl">
               <motion.img
@@ -55,7 +55,7 @@ export function OurHeritageSection({ t }: { t: any }) {
                 className="w-full h-full object-cover transition-all duration-700"
               />
               {/* Image Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
             </div>
 
             {/* Floating Badge (South African Excellence) */}
@@ -74,9 +74,9 @@ export function OurHeritageSection({ t }: { t: any }) {
             style={{ y: textY }}
             className="order-2 lg:order-1 space-y-10"
           >
-            <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[3rem] p-8 md:p-14 shadow-2xl relative overflow-hidden">
+            <div className="bg-primary backdrop-blur-xl border border-primary/10 rounded-[3rem] p-8 md:p-14 shadow-2xl relative overflow-hidden">
               {/* Subtle inner highlight */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               
               <div className="space-y-6">
                 <TextComponent 

@@ -49,13 +49,13 @@ export default function ServiceFleetSection() {
           className="mb-20 text-center lg:text-left lg:flex lg:items-end lg:justify-between gap-8"
         >
           <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-slate-400 mb-4 block">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/50 mb-4 block">
               Premium Fleet
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-              Our Transport Services
+              <span className="text-secondary">Our</span> <span className="text-primary">Transport Services</span>
             </h2>
-            <p className="text-slate-500 mt-4 text-lg font-medium leading-relaxed">
+            <p className="text-primary/50 mt-4 text-lg font-medium leading-relaxed">
               Explore a curated selection of vehicles tailored for every Cape Town journey.
             </p>
           </div>

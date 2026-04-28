@@ -22,6 +22,7 @@ import RomionSection from "@/components/RomionSection"
 import ServiceFleetSection from "@/components/shop/services/ServiceFleetSection"
 import AICallSection from "@/components/AICallSection"
 import PremiumCTA from "@/components/PremiumCTA"
+import CarSection from "@/components/CarSection"
 
 
 
@@ -80,6 +81,7 @@ export default function Home() {
         quoteLabel={t.nav.getQuote}
       /> 
       <ServiceFleetSection /> 
+      <CarSection title="Our collections" subTitle="Luxury Style" />
       <AICallSection />
       <OurHeritageSection t={t} />  
       <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
