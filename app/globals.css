@@ -385,3 +385,7 @@
 .tab-bar-motion {
   will-change: transform, opacity;
 }
+
+html, body {
+  background-color: #fff; /* deep luxury black */
+}

@@ -23,6 +23,7 @@ import ServiceFleetSection from "@/components/shop/services/ServiceFleetSection"
 import AICallSection from "@/components/AICallSection"
 import PremiumCTA from "@/components/PremiumCTA"
 import CarSection from "@/components/CarSection"
+import { LuxurySection } from "@/components/sections/luxury-section"
 
 
 
@@ -82,6 +83,36 @@ export default function Home() {
       /> 
       <ServiceFleetSection /> 
       <CarSection title="Our collections" subTitle="Luxury Style" />
+      <LuxurySection
+        title="Stellenbosch Luxury Escape"
+        subtitle="Ernie Els Wine Estate Experience"
+
+        description="Indulge in a curated couple’s journey through Stellenbosch with private chauffeur-driven luxury. Enjoy breathtaking vineyard scenery and exclusive wine tasting at Ernie Els Estate — designed for unforgettable moments."
+
+        image="/couple-destiantion-stellenbosch-enie-els-wine-estate.jpg"
+        imageAlt="Couple enjoying wine estate experience with MD Travels luxury chauffeur"
+
+        direction="right"
+        eyebrow="Couple Destination"
+
+      highlight="Limited Weekend Availability"
+
+      features={[
+        "Private Chauffeur Transfer",
+        "Door-to-Door Pickup",
+        "Safe & Professional Drivers",
+        "Luxury Comfort Vehicles"
+      ]}
+
+      href="/booking"
+      ctaLabel="Reserve Your Experience"
+
+      whatsappNumber="27712345678" // 🔥 replace with your real number
+
+      priceNote="Custom packages available • Enquire for pricing"
+
+      priority
+    />
       <AICallSection />
       <OurHeritageSection t={t} />  
       <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
