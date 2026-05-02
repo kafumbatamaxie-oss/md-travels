@@ -69,7 +69,7 @@ export default function RootLayout({
   const content = (
     <ClerkProvider>
       <html lang="en" className="scroll-smooth">
-        <body className={`${_geist.className} antialiased bg-background text-foreground`}>     
+        <body className={`${_geist.className} antialiased bg-white text-foreground`}>     
             
             {children}
             <Analytics />
