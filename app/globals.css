@@ -103,12 +103,13 @@
   :root {
     --background: #ffffff;
     --foreground: #1a1a1a;
-    --primary: #d4af37;
+    --primary: #0071af;
     --primary-foreground: #ffffff;
-    --secondary: #1a1a1a;
+    --secondary: #d4af37;
     --secondary-foreground: #ffffff;
     --accent: #f8f8f8;
     --accent-foreground: #d4af37;
+    
   }
 
   .snap-container {
@@ -387,5 +388,5 @@
 }
 
 html, body {
-  background-color: #fff; /* deep luxury black */
+  background-color: #fff  !important; /* deep luxury black */
 }
