@@ -20,6 +20,7 @@ import { FaWhatsapp } from "react-icons/fa"
 
 import { useLanguage } from "@/hooks/use-language"
 import type { LanguageCode } from "@/lib/i18n"
+import BookingDialog from "./booking/BookingDialog"
 // import BookNowButton from "./shop/BookNowButton"
 
 export function Navbar() {
@@ -485,6 +486,10 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      <BookingDialog
+        open={bookingOpen}
+        setOpen={setBookingOpen}
+      />
     </>
   )
 }
