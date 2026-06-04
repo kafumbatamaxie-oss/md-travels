@@ -1,88 +1,118 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import { LenisProvider } from "@/components/lenis-provider"
-import { Footer } from "@/components/footer"
-import { LanguageProvider } from "@/components/language-provider"
-import { Navbar } from "@/components/navbar"
 import { ClerkProvider } from "@clerk/nextjs"
 import "./globals.css"
-import { ScrollToTop } from "@/components/ScrollToTop"
-import HideOnQuote from "@/components/HideOnQuote"
+import ClientProviders from "@/components/ClientProviders"
+import { BookingProvider } from "@/components/booking/BookingProvider"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist-mono",
+})
 
 export const metadata: Metadata = {
-  title: "MD Travels - Premium Transportation Services in Cape Town | Luxury Transfers",
+  metadataBase: new URL("https://www.mdtravels.co.za"),
+
+  title: {
+    default: "MD Travels | Premium Transportation Services Cape Town",
+    template: "%s | MD Travels",
+  },
+
   description:
-    "Premium transportation services in Cape Town. Airport transfers, corporate travel, luxury fleet, reliable 24/7 service. Book your ride with MD Travels for exceptional travel experiences.",
-  keywords:
-    "MD Travels, Cape Town transportation, airport transfers, corporate travel, luxury fleet, premium transport, Cape Town travel, business travel, wedding transport",
+    "Luxury airport transfers, executive travel, chauffeur services and premium transportation across Cape Town. Available 24/7.",
+
+  keywords: [
+    "Cape Town airport transfer",
+    "Luxury chauffeur Cape Town",
+    "Corporate transportation",
+    "Executive transport",
+    "MD Travels",
+  ],
+
   authors: [{ name: "MD Travels" }],
   creator: "MD Travels",
   publisher: "MD Travels",
-  robots: "index, follow",
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://mdtravels.co.za",
-    title: "MD Travels - Premium Transportation in Cape Town",
-    description: "Premium luxury transportation services available 24/7",
+    url: "https://www.mdtravels.co.za",
+    siteName: "MD Travels",
+    title: "MD Travels | Luxury Transportation Cape Town",
+    description:
+      "Premium chauffeur and transportation services in Cape Town.",
     images: [
       {
-        url: "https://mdtravels.co.za/og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "MD Travels - Premium Transportation",
-    description: "Luxury transportation services in Cape Town",
+    title: "MD Travels",
+    description:
+      "Premium transportation services in Cape Town.",
+    images: ["/og-image.png"],
   },
+
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-icon.png",
   },
-    generator: 'v0.app'
 }
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#d4af37",
+  themeColor: "#005d91",
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
-  const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
- 
+}) {
+  const clerkKey =
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-  const content = (
-    <ClerkProvider>
-      <html lang="en" className="scroll-smooth">
-        <body className={`${_geist.className} antialiased bg-white text-foreground`}>     
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geist.variable} ${geistMono.variable}`}
+    >
+      <body className="antialiased bg-white text-black">
+        <ClerkProvider publishableKey={clerkKey}>
+          <ClientProviders>
+            <BookingProvider>
+              
+              
+                {children}
+           
+            </BookingProvider>
             
-            {children}
             <Analytics />
-        </body>
-      </html>
-    </ClerkProvider>
-    
+          </ClientProviders>
+        </ClerkProvider>
+      </body>
+    </html>
   )
-
-  if (!clerkKey) {
-    console.warn("[v0] Clerk Publishable Key is missing. Auth features will be disabled.")
-    return content
-  }
-
-  return <ClerkProvider publishableKey={clerkKey}>{content}</ClerkProvider>
 }

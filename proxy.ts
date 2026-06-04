@@ -20,7 +20,10 @@ const isPublicRoute = createRouteMatcher([
   "/hero-video.mp4",
   "/bg-video.mp4",
   "/newvid.mp4",
-  "/video-collection.mp4"
+  "/video-collection.mp4",
+  "/sign-in(.*)",
+  "/sign-up(.*)"
+  
 ]);
 type CustomSessionClaims = {
   metadata?: {
@@ -40,9 +43,9 @@ export function proxy(req: NextRequest, evt: any) {
       await auth.protect();
       
       // If logged in but NOT a super_user, redirect to client dashboard
-      if (role !== "super_user") {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
-      }
+      // if (role !== "super_user") {
+      //   return NextResponse.redirect(new URL("/dashboard", request.url));
+      // }
     }
 
     // 2. Handle Normal Dashboard Protection

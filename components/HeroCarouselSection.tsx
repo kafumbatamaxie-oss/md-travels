@@ -67,50 +67,86 @@ export const HeroCarouselSection = () => {
     },
   ]
 
-  return (
-    <section className="relative h-[90dvh] md:h-screen w-full overflow-hidden bg-primary">
-      {/* 
-          PASSING REFINED DATA TO CAROUSEL:
-          The Carousel should use the 'animate-shimmer' class for slide titles 
-          to match our new global CSS theme.
-      */}
-      <Carousel slides={carouselSlides} />
+   return (
+  <section className="relative h-[100dvh] overflow-hidden bg-primary">
+    <Carousel slides={carouselSlides} />
 
-      {/* GLOBAL CINEMATIC OVERLAYS */}
-      
-      {/* Heavy Bottom Vignette: Ensures text remains legible regardless of the slide image */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-primary via-transparent to-primary/20" />
-      
-      {/* 24/7 Availability Badge: Using the new 'glass-pill' class */}
-      <motion.div 
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.8 }}
-        className="absolute bottom-10 left-10 z-20 hidden lg:block"
-      >
-        <div className="glass-pill px-6 py-2.5 rounded-full flex items-center gap-3">
-          <div className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
-          </div>
-          <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">
-            Available 24/7 <span className="text-white/40 ml-1">• Cape Town</span>
-          </p>
-        </div>
-      </motion.div>
+   {/* Luxury vignette */}
+    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-900/10 z-10 pointer-events-none" />
 
-      {/* Floating Scroll Indicator: Vertical alignment for luxury feel */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-12 right-12 z-20 hidden md:flex flex-col items-center gap-6"
+  {/* Top gradient */}
+  <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/20 to-transparent z-10 pointer-events-none" />
+    {/* Availability Badge */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1 }}
+      className="
+        hidden
+        lg:flex
+        absolute
+        left-10
+        bottom-10
+        z-30
+      "
+    >
+      <div
+        className="
+          glass-pill
+          px-6
+          py-3
+          rounded-full
+          flex
+          items-center
+          gap-3
+        "
       >
-        <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em] [writing-mode:vertical-lr] select-none">
-          Explore
-        </p>
-        <div className="w-px h-16 bg-gradient-to-b from-white/40 to-transparent" />
-      </motion.div>
-    </section>
-  )
+        <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+
+        <span
+          className="
+            text-white
+            text-[11px]
+            uppercase
+            tracking-[0.25em]
+            font-black
+          "
+        >
+          Available 24/7
+        </span>
+      </div>
+    </motion.div>
+
+    {/* Scroll Indicator */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.2 }}
+      className="
+        hidden
+        md:flex
+        absolute
+        right-10
+        bottom-10
+        z-30
+        flex-col
+        items-center
+        gap-4
+      "
+    >
+      <span
+        className="
+          text-white/40
+          text-[10px]
+          uppercase
+          tracking-[0.4em]
+        "
+      >
+        Scroll
+      </span>
+
+      <div className="w-px h-20 bg-gradient-to-b from-white/50 to-transparent" />
+    </motion.div>
+  </section>
+)
 }

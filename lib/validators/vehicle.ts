@@ -1,21 +1,37 @@
 import { z } from "zod"
 
-export const vehicleStatusEnum = z.enum([
-  "ACTIVE",
-  "MAINTENANCE",
-  "DISABLED"
-])
-
 export const vehicleSchema = z.object({
   name: z.string().min(2),
-  type: z.string().min(2),
-  capacity: z.number().min(1),
+
+  slug: z.string().min(2),
+
+  description: z.string().optional(),
+
+  type: z.string(),
+
+  capacity: z.number(),
+
+  luggageCapacity: z.number().nullable().optional(),
 
   basePrice: z.number().nullable().optional(),
+
   perKmPrice: z.number().nullable().optional(),
+
   perDayPrice: z.number().nullable().optional(),
 
-  status: vehicleStatusEnum
-})
+  airConditioning: z.boolean(),
 
-export type VehicleInput = z.infer<typeof vehicleSchema>
+  wifi: z.boolean(),
+
+  executive: z.boolean(),
+
+  featured: z.boolean(),
+
+  active: z.boolean(),
+
+  status: z.enum([
+    "ACTIVE",
+    "MAINTENANCE",
+    "DISABLED",
+  ]),
+})

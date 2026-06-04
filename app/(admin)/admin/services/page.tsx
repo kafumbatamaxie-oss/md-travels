@@ -66,6 +66,10 @@ export default function ServicesPage() {
                   </Link>
                 </td>
 
+                <td className="p-3">
+                  {service._count?.vehicles ?? 0}
+                </td>
+
               </tr>
             ))}
           </tbody>

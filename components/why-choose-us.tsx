@@ -1,120 +1,240 @@
 "use client"
 
-import React, { useState } from "react"
-import { motion, type Variants } from "framer-motion"
-import { Sparkles, Trophy, Star, ShieldCheck, Clock, Crown } from "lucide-react"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, ShieldCheck, Clock3, Star } from "lucide-react"
+import { FaWhatsapp } from "react-icons/fa"
 
-interface WhyChooseItem {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  description: string
-}
+export default function WhyChooseUs() {
+  const whatsappUrl =
+    "https://wa.me/27606411703?text=Hello%20MD%20Travels,%20I%20would%20like%20to%20make%20a%20booking."
 
-export function WhyChooseUs({ items, title }: { items: WhyChooseItem[], title: string }) {
-  const [isPaused, setIsPaused] = useState(false)
-
-  // Split items for two rows
-  const firstRow = items.slice(0, Math.ceil(items.length / 2))
-  const secondRow = items.slice(Math.ceil(items.length / 2))
-
-  const marqueeVariants: Variants = {
-    animate: {
-      x: ["0%", "-50%"],
-      transition: { duration: 40, repeat: Infinity, ease: "linear" },
+  const stats = [
+    {
+      icon: Clock3,
+      value: "24/7",
+      label: "Availability",
     },
-  }
-
-  const marqueeVariantsReverse: Variants = {
-    animate: {
-      x: ["-50%", "0%"],
-      transition: { duration: 40, repeat: Infinity, ease: "linear" },
+    {
+      icon: ShieldCheck,
+      value: "100%",
+      label: "Professional",
     },
-  }
+    {
+      icon: Star,
+      value: "5★",
+      label: "Experience",
+    },
+  ]
 
   return (
-    <section className="relative py-24 bg-primary overflow-hidden"> 
-      {/* Deep Slate Blue Base */}
-      
-      {/* Gold Ambient Glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EAB308]/5 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EAB308]/5 rounded-full blur-[120px] -z-10" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary via-[#07101d] to-black py-28">
 
-      <div className="max-w-7xl mx-auto px-4 mb-20 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      {/* Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_60%)]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+
+        {/* Heading */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-4"
+          className="max-w-4xl"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-            <Crown className="w-3.5 h-3.5  bg-primary text-[#EAB308]" />
-            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#EAB308]">Excellence Defined</span>
-          </div>
-          <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none">
-            Why Choose <span className="text-[#EAB308] drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]">Us</span>
+          <span className="text-white/50 text-xs tracking-[0.4em] uppercase font-black">
+            Why MD Travels
+          </span>
+
+          <h2 className="mt-6 text-white font-black leading-none tracking-tight text-5xl md:text-7xl">
+            Cape Town's
+            <br />
+            Premium
+            <br />
+            Transport
+            <br />
+            Experience
           </h2>
-          <p className="text-slate-400 font-medium italic text-lg tracking-wide">Premium Standards. Golden Service.</p>
+
+          <p className="mt-8 text-white/60 text-lg md:text-xl max-w-xl leading-relaxed">
+            Luxury transfers, professional chauffeurs and executive transport
+            designed for business, leisure and special occasions.
+          </p>
         </motion.div>
-      </div>
 
-      <div className="relative">
-        {/* Edge Fades for Slate Blue background */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-primary to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-primary to-transparent z-10 pointer-events-none" />
+        {/* Image */}
 
-        <div 
-          className="space-y-8 md:space-y-12"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mt-16"
         >
-          {/* Row 1 */}
-          <div className="flex overflow-hidden">
-            <motion.div
-              className="flex gap-6 md:gap-10 pr-10"
-              variants={marqueeVariants}
-              animate={isPaused ? { x: 0, transition: { duration: 0 } } : "animate"}
-            >
-              {[...firstRow, ...firstRow].map((item, idx) => (
-                <LuxuryCard key={`row1-${idx}`} item={item} />
-              ))}
-            </motion.div>
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10">
+
+            <div className="relative h-[450px] md:h-[650px]">
+
+              <Image
+                src="/luxury-transfer.jpg"
+                alt="MD Travels Luxury Fleet"
+                fill
+                className="object-cover"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+              <div className="absolute bottom-8 left-8">
+
+                <div className="backdrop-blur-xl bg-white/10 border border-white/10 rounded-3xl p-6">
+
+                  <p className="text-white text-2xl font-black">
+                    ★★★★★
+                  </p>
+
+                  <p className="text-white/70 text-sm mt-2">
+                    Trusted by business and leisure travellers
+                    throughout Cape Town.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </motion.div>
+
+        {/* Stats */}
+
+        <div className="grid grid-cols-3 gap-4 mt-10">
+
+          {stats.map((item, i) => {
+            const Icon = item.icon
+
+            return (
+              <div
+                key={i}
+                className="
+                rounded-3xl
+                border
+                border-white/10
+                bg-white/[0.04]
+                backdrop-blur-xl
+                p-5
+                text-center
+              "
+              >
+                <Icon className="w-5 h-5 text-white/60 mx-auto mb-3" />
+
+                <h3 className="text-white font-black text-xl">
+                  {item.value}
+                </h3>
+
+                <p className="text-white/50 text-xs uppercase tracking-widest mt-1">
+                  {item.label}
+                </p>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Services */}
+
+        <div className="mt-10 overflow-x-auto">
+
+          <div className="flex gap-4 min-w-max">
+
+            {[
+              "Airport Transfers",
+              "Corporate Travel",
+              "Private Tours",
+              "Wedding Transport",
+              "Event Transfers",
+            ].map((item) => (
+              <div
+                key={item}
+                className="
+                px-6
+                py-4
+                rounded-full
+                border
+                border-white/10
+                bg-white/[0.04]
+                backdrop-blur-xl
+                text-white
+                font-semibold
+                whitespace-nowrap
+              "
+              >
+                {item}
+              </div>
+            ))}
+
           </div>
 
-          {/* Row 2 */}
-          <div className="flex overflow-hidden">
-            <motion.div
-              className="flex gap-6 md:gap-10 pr-10"
-              variants={marqueeVariantsReverse}
-              animate={isPaused ? { x: 0, transition: { duration: 0 } } : "animate"}
-            >
-              {[...secondRow, ...secondRow].map((item, idx) => (
-                <LuxuryCard key={`row2-${idx}`} item={item} />
-              ))}
-            </motion.div>
-          </div>
         </div>
+
+        {/* CTA */}
+
+        <div className="mt-20 text-center">
+
+          <h3 className="text-white text-4xl md:text-5xl font-black">
+            Ready To Travel In Comfort?
+          </h3>
+
+          <p className="text-white/50 mt-4 max-w-xl mx-auto">
+            Executive transport solutions tailored to your journey.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+
+            <Link
+              href="/quote"
+              className="
+                px-8 py-4
+                rounded-2xl
+                bg-white
+                text-primary
+                font-black
+                inline-flex
+                items-center
+                justify-center
+                gap-3
+              "
+            >
+              Get Quote
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                px-8 py-4
+                rounded-2xl
+                bg-green-500
+                text-white
+                font-black
+                inline-flex
+                items-center
+                justify-center
+                gap-3
+              "
+            >
+              <FaWhatsapp className="w-5 h-5" />
+              WhatsApp
+            </a>
+
+          </div>
+
+        </div>
+
       </div>
     </section>
-  )
-}
-
-function LuxuryCard({ item }: { item: WhyChooseItem }) {
-  return (
-    <div className="flex-shrink-0 w-[300px] md:w-[420px] p-8 md:p-12 bg-[#1E293B]/40 rounded-[3rem] border border-white/5 backdrop-blur-sm hover:border-[#EAB308]/40 hover:bg-[#1E293B]/60 transition-all duration-700 group cursor-pointer">
-      <div className="w-16 h-16 rounded-2xl bg-[#0F172A] border border-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(234,179,8,0.2)] transition-all duration-500">
-        <item.icon className="w-8 h-8 text-[#EAB308]" />
-      </div>
-      <h3 className="text-2xl md:text-3xl font-black text-white mb-4 tracking-tight group-hover:translate-x-1 transition-transform duration-500">
-        {item.title}
-      </h3>
-      <p className="text-sm md:text-base text-slate-400 font-medium leading-relaxed italic group-hover:text-slate-200 transition-colors">
-        {item.description}
-      </p>
-      
-      {/* Decorative Gold Corner */}
-      <div className="mt-8 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-        <Star className="w-4 h-4 text-[#EAB308] fill-[#EAB308]" />
-      </div>
-    </div>
   )
 }

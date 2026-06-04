@@ -36,7 +36,7 @@ export function AboutSection({
   return (
     <section 
       ref={sectionRef} 
-      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-primary overflow-hidden"
+      className="relative min-h-[90vh] flex items-center py-20 md:py-32 px-4 md:px-12 bg-slate-900 overflow-hidden"
     >
       {/* Dynamic Background Pattern */}
       <div className="absolute inset-0 z-0">
@@ -59,9 +59,9 @@ export function AboutSection({
             style={{ y: contentY, opacity }}
             className="lg:col-span-6 space-y-10 order-2 lg:order-1"
           >
-            <div className="relative group">
+            <div className="relative">
               {/* Subtle accent line */}
-              <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-white/40 to-transparent hidden md:block" />
+              <div  className="absolute -left-8  top-0  h-full  w-px  bg-gradient-to-b  from-secondary  via-secondary/40  to-transparent  hidden  lg:block" />
               
               <TextComponent 
                 title={title} 
@@ -112,9 +112,43 @@ export function AboutSection({
                 >
                   <source src="/video-collection.mp4" type="video/mp4" />
                 </video>
+                <div className="grid grid-cols-3 gap-4 mt-8">
+                <div className="
+                    absolute
+                    top-6
+                    left-6
+                    backdrop-blur-xl
+                    bg-white/10
+                    border
+                    border-white/10
+                    rounded-full
+                    px-5
+                    py-3
+                    text-slate-900
+                    ">
+
+                    ★★★★★ Trusted Service
+
+                    </div>
+                <div className="glass-card">
+                  <h3>24/7</h3>
+                  <p>Available</p>
+                </div>
+
+                <div className="glass-card">
+                  <h3>100%</h3>
+                  <p>Professional</p>
+                </div>
+
+                <div className="glass-card">
+                  <h3>5★</h3>
+                  <p>Rated</p>
+                </div>
+
+              </div>
 
                 {/* Lighting Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-white/10 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-200 via-transparent to-white/10 pointer-events-none" />
                 
                 {/* Bezel "Glass" Highlight */}
                 <div className="absolute inset-0 border border-white/20 rounded-[2rem] pointer-events-none" />

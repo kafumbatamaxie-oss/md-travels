@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 
-interface Vehicle {
+type Vehicle = {
   id: string
   name: string
   type: string
@@ -11,138 +11,111 @@ interface Vehicle {
 }
 
 export default function ServiceVehiclesPage() {
-
   const params = useParams()
-  const id = params.id as string
+
+  const serviceId = params.id as string
 
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [assigned, setAssigned] = useState<string[]>([])
-  const [serviceName, setServiceName] = useState("")
   const [loading, setLoading] = useState(true)
 
+  async function loadData() {
+    const [vehiclesRes, serviceRes] = await Promise.all([
+      fetch("/api/admin/vehicles"),
+      fetch(`/api/admin/services/${serviceId}/vehicles`),
+    ])
 
+    const vehiclesData = await vehiclesRes.json()
+    const assignedData = await serviceRes.json()
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+    setVehicles(vehiclesData)
 
-
-
-  async function fetchData() {
-
-    const res = await fetch(`/api/admin/services/${id}/vehicles`)
-    const data = await res.json()
-
-    setVehicles(data.vehicles)
-
-    setServiceName(data.service.name)
-
-    const assignedIds =
-      data.service.vehicles.map((v:any)=>v.vehicleId)
-
-    setAssigned(assignedIds)
+    setAssigned(
+      assignedData.map((v: Vehicle) => v.id)
+    )
 
     setLoading(false)
   }
 
+  useEffect(() => {
+    loadData()
+  }, [serviceId])
 
+  async function toggleVehicle(vehicleId: string) {
+    const selected = assigned.includes(vehicleId)
 
-  function toggleVehicle(vehicleId:string) {
+    await fetch(
+      `/api/admin/services/${serviceId}/vehicles`,
+      {
+        method: selected ? "DELETE" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vehicleId,
+        }),
+      }
+    )
 
-    if (assigned.includes(vehicleId)) {
-
-      setAssigned(
-        assigned.filter(id => id !== vehicleId)
-      )
-
-    } else {
-
-      setAssigned([...assigned, vehicleId])
-
-    }
+    loadData()
   }
-
-
-
-  async function saveAssignments() {
-
-    await fetch(`/api/admin/services/${id}/vehicles`, {
-
-      method: "POST",
-
-      headers: {
-        "Content-Type":"application/json"
-      },
-
-      body: JSON.stringify({
-        vehicleIds: assigned
-      })
-
-    })
-
-    alert("Vehicles updated")
-  }
-
-
 
   if (loading) {
-    return <div className="p-6">Loading...</div>
+    return (
+      <div className="p-6">
+        Loading...
+      </div>
+    )
   }
 
-
-
   return (
+    <div className="max-w-5xl mx-auto p-4 md:p-8">
 
-    <div className="p-6 space-y-6">
-
-      <h1 className="text-2xl font-bold">
-        Vehicles for {serviceName}
+      <h1 className="text-3xl font-black mb-8">
+        Assign Vehicles
       </h1>
 
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 
+        {vehicles.map((vehicle) => {
+          const selected =
+            assigned.includes(vehicle.id)
 
-      <div className="bg-white border rounded-xl p-6 space-y-3">
+          return (
+            <button
+              key={vehicle.id}
+              onClick={() =>
+                toggleVehicle(vehicle.id)
+              }
+              className={`
+                p-5
+                rounded-2xl
+                border
+                text-left
+                transition
 
-        {vehicles.map(vehicle => (
-
-          <label
-            key={vehicle.id}
-            className="flex items-center gap-3 border p-3 rounded cursor-pointer hover:bg-gray-50"
-          >
-
-            <input
-              type="checkbox"
-              checked={assigned.includes(vehicle.id)}
-              onChange={()=>toggleVehicle(vehicle.id)}
-            />
-
-            <div>
-              <p className="font-medium">
+                ${
+                  selected
+                    ? "bg-black text-white border-black"
+                    : "bg-white hover:border-black"
+                }
+              `}
+            >
+              <h3 className="font-bold text-lg">
                 {vehicle.name}
+              </h3>
+
+              <p className="text-sm opacity-70">
+                {vehicle.type}
               </p>
 
-              <p className="text-sm text-gray-500">
-                {vehicle.type} • {vehicle.capacity} seats
+              <p className="text-sm mt-2">
+                {vehicle.capacity} passengers
               </p>
-            </div>
-
-          </label>
-
-        ))}
-
+            </button>
+          )
+        })}
       </div>
-
-
-
-      <button
-        onClick={saveAssignments}
-        className="bg-blue-600 text-white px-6 py-2 rounded"
-      >
-        Save Assignments
-      </button>
-
     </div>
-
   )
-
 }

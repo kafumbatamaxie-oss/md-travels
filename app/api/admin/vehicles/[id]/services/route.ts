@@ -1,87 +1,62 @@
-import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { NextResponse } from "next/server"
 
+export async function GET(
+  req: Request,
+  context: {
+    params: Promise<{ id: string }>
+  }
+) {
+  const { id } = await context.params
 
+  const services =
+    await prisma.service.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    })
+
+  const assigned =
+    await prisma.serviceVehicle.findMany({
+      where: {
+        vehicleId: id,
+      },
+    })
+
+  return NextResponse.json({
+    services,
+    assigned,
+  })
+}
 
 export async function POST(
   req: Request,
-  context: { params: Promise<{ id: string }> }
-) {
-
-  try {
-
-    const { id } = await context.params
-    const body = await req.json()
-
-    const { serviceId } = body
-
-    if (!serviceId) {
-      return NextResponse.json(
-        { error: "serviceId is required" },
-        { status: 400 }
-      )
-    }
-
-    const assignment = await prisma.serviceVehicle.create({
-      data: {
-        vehicleId: id,
-        serviceId
-      }
-    })
-
-    return NextResponse.json(assignment)
-
-  } catch (error) {
-
-    console.error(error)
-
-    return NextResponse.json(
-      { error: "Failed to assign service" },
-      { status: 500 }
-    )
+  context: {
+    params: Promise<{ id: string }>
   }
-}
-
-
-
-export async function DELETE(
-  req: Request,
-  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
 
-  try {
+  const body = await req.json()
 
-    const { id } = await context.params
-    const { searchParams } = new URL(req.url)
+  await prisma.serviceVehicle.deleteMany({
+    where: {
+      vehicleId: id,
+    },
+  })
 
-    const serviceId = searchParams.get("serviceId")
-
-    if (!serviceId) {
-      return NextResponse.json(
-        { error: "serviceId required" },
-        { status: 400 }
-      )
-    }
-
-    await prisma.serviceVehicle.delete({
-      where: {
-        serviceId_vehicleId: {
+  if (body.serviceIds?.length) {
+    await prisma.serviceVehicle.createMany({
+      data: body.serviceIds.map(
+        (serviceId: string) => ({
+          vehicleId: id,
           serviceId,
-          vehicleId: id
-        }
-      }
+        })
+      ),
     })
-
-    return NextResponse.json({ success: true })
-
-  } catch (error) {
-
-    console.error(error)
-
-    return NextResponse.json(
-      { error: "Failed to remove service" },
-      { status: 500 }
-    )
   }
 
+  return NextResponse.json({
+    success: true,
+  })
 }

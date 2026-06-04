@@ -4,10 +4,14 @@ import { serviceSchema } from "@/lib/validators/service"
 
 export async function GET() {
   const services = await prisma.service.findMany({
-    orderBy: {
-      createdAt: "asc"
-    }
-  })
+  include: {
+    _count: {
+      select: {
+        vehicles: true,
+      },
+    },
+  },
+})
 
   return NextResponse.json(services)
 }
@@ -25,17 +29,43 @@ export async function POST(req: Request) {
       )
     }
 
-    const service = await prisma.service.create({
-      data: {
-        name: parsed.data.name,
-        description: parsed.data.description ?? null,
-        pricingModel: parsed.data.pricingModel,
+  const service = await prisma.service.create({
+    data: {
+      name: parsed.data.name,
+      slug: parsed.data.slug,
 
-        basePrice: parsed.data.basePrice ?? null,
-        pricePerKm: parsed.data.pricePerKm ?? null,
-        pricePerDay: parsed.data.pricePerDay ?? null
-      }
-    })
+      description: parsed.data.description,
+
+      category: parsed.data.category,
+
+      pricingModel: parsed.data.pricingModel,
+
+      basePrice: parsed.data.basePrice,
+
+      perKmPrice: parsed.data.perKmPrice,
+
+      perHourPrice: parsed.data.perHourPrice,
+
+      perDayPrice: parsed.data.perDayPrice,
+
+      minimumCharge: parsed.data.minimumCharge,
+
+      active: parsed.data.active,
+
+      featured: parsed.data.featured,
+
+      vehicles: {
+        create:
+          body.vehicleIds?.map((id: string) => ({
+            vehicleId: id,
+          })) || [],
+      },
+    },
+
+    include: {
+      vehicles: true,
+    },
+  })
 
     return NextResponse.json(service)
 

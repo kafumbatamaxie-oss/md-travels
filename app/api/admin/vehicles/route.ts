@@ -33,15 +33,42 @@ export async function POST(req: Request) {
     const vehicle = await prisma.vehicle.create({
       data: {
         name: parsed.data.name,
-        type: parsed.data.type,
-        capacity: parsed.data.capacity,
+        slug: parsed.data.slug,
+        description:  parsed.data.description,
+        type:  parsed.data.type,
+        capacity:
+          parsed.data.capacity,
 
-        basePrice: parsed.data.basePrice ?? null,
-        perKmPrice: parsed.data.perKmPrice ?? null,
-        perDayPrice: parsed.data.perDayPrice ?? null,
+        luggageCapacity:
+          parsed.data.luggageCapacity,
 
-        status: parsed.data.status
-      }
+        basePrice:
+          parsed.data.basePrice,
+
+        perKmPrice:
+          parsed.data.perKmPrice,
+
+        perDayPrice:
+          parsed.data.perDayPrice,
+
+        airConditioning:
+          parsed.data.airConditioning,
+
+        wifi:
+          parsed.data.wifi,
+
+        executive:
+          parsed.data.executive,
+
+        featured:
+          parsed.data.featured,
+
+        active:
+          parsed.data.active,
+
+        status:
+          parsed.data.status,
+      },
     })
 
     return NextResponse.json(vehicle)

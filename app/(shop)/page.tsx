@@ -9,7 +9,6 @@ import { HeroCarouselSection } from "@/components/HeroCarouselSection"
 import { AboutSection } from "@/components/AboutSection"
 import { FeaturedCarsSection } from "@/components/FeaturedCardsSection"
 import {OurHeritageSection} from "@/components/OurHeritageSection"
-import { WhyChooseUs } from "@/components/why-choose-us"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import SpecialPackageSection from "@/components/SpecialPackageSection"
 import ProposalSection from "@/components/ProposalSection"
@@ -24,6 +23,7 @@ import AICallSection from "@/components/AICallSection"
 import PremiumCTA from "@/components/PremiumCTA"
 import CarSection from "@/components/CarSection"
 import { LuxurySection } from "@/components/sections/luxury-section"
+import WhyChooseUs from "@/components/why-choose-us"
 
 
 
@@ -115,7 +115,7 @@ export default function Home() {
     />
       <AICallSection />
       <OurHeritageSection t={t} />  
-      <WhyChooseUs items={whyChooseItems} title={t.contact.whyTitle} />
+      <WhyChooseUs />
       <PremiumCTA />
       <FloatingElements />
     </main>
