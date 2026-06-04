@@ -20,7 +20,7 @@ import { FaWhatsapp } from "react-icons/fa"
 
 import { useLanguage } from "@/hooks/use-language"
 import type { LanguageCode } from "@/lib/i18n"
-import BookNowButton from "./shop/BookNowButton"
+// import BookNowButton from "./shop/BookNowButton"
 
 export function Navbar() {
   const pathname = usePathname()
@@ -28,7 +28,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-
+  const [bookingOpen, setBookingOpen] = useState(false)
   const { language, changeLanguage, t, mounted } =
     useLanguage()
 
@@ -336,7 +336,35 @@ export function Navbar() {
                   />
                 </Link> */}
 
-                 <BookNowButton />
+                 {/* <BookNowButton /> */}
+                 <button
+  onClick={() => setBookingOpen(true)}
+  className="
+    group
+    h-11
+    px-6
+    rounded-full
+    bg-secondary
+    text-white
+    flex
+    items-center
+    gap-2
+    font-bold
+    text-sm
+    hover:scale-105
+    transition
+  "
+>
+  Book Now
+
+  <ArrowRight
+    size={16}
+    className="
+      group-hover:translate-x-1
+      transition
+    "
+  />
+</button>
               </div>
 
               {/* Mobile Button */}
@@ -385,7 +413,7 @@ export function Navbar() {
             className="
               fixed
               inset-0
-              z-[998]
+              z-[99899999999999]
               bg-primary
               lg:hidden
             "
@@ -409,7 +437,35 @@ export function Navbar() {
                 </Link>
               ))}
 
-              <BookNowButton />
+              {/* <BookNowButton /> */}
+              <button
+  onClick={() => setBookingOpen(true)}
+  className="
+    group
+    h-11
+    px-6
+    rounded-full
+    bg-secondary
+    text-white
+    flex
+    items-center
+    gap-2
+    font-bold
+    text-sm
+    hover:scale-105
+    transition
+  "
+>
+  Book Now
+
+  <ArrowRight
+    size={16}
+    className="
+      group-hover:translate-x-1
+      transition
+    "
+  />
+</button>
 
               <a
                 href="https://wa.me/27606411703"

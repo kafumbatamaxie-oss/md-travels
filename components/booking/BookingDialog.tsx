@@ -179,7 +179,7 @@ useEffect(() => {
             className="
               fixed
               inset-0
-              z-999999
+              z-[999999]
               bg-black/60
               backdrop-blur-md
 

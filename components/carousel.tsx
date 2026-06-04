@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import BookingDialog from "@/components/booking/BookingDialog"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, ArrowRight, Shield, Clock, Star } from "lucide-react"
@@ -14,7 +15,15 @@ interface CarouselSlide {
   cta: string
 }
 
-export function Carousel({ slides }: { slides: CarouselSlide[] }) {
+interface CarouselProps {
+  slides: CarouselSlide[]
+  onBookNow?: () => void
+}
+
+export function Carousel({
+  slides,
+  onBookNow,
+}: CarouselProps) {
   const [current, setCurrent] = useState(0)
   const [autoPlay, setAutoPlay] = useState(true)
   const startX = useRef<number | null>(null)
@@ -136,8 +145,8 @@ export function Carousel({ slides }: { slides: CarouselSlide[] }) {
 
                 {/* CTA */}
                 <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href="/quote"
+                  <button
+                    onClick={onBookNow}
                     className="
                       bg-secondary
                       text-black
@@ -155,9 +164,9 @@ export function Carousel({ slides }: { slides: CarouselSlide[] }) {
                       transition
                     "
                   >
-                    Get Quote
+                    Book Now
                     <ArrowRight className="w-5 h-5" />
-                  </Link>
+                  </button>
 
                   <a
                     href="https://wa.me/27606411703"
