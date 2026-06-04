@@ -414,7 +414,7 @@ export function Navbar() {
             className="
               fixed
               inset-0
-              z-[99899999999999]
+              z-[9989]
               bg-primary
               lg:hidden
             "

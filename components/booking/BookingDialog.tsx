@@ -211,7 +211,6 @@ useEffect(() => {
   left-0
   right-0
   bottom-0
-  z-[999999]
   bg-white
   overflow-hidden
 "
