@@ -177,18 +177,16 @@ useEffect(() => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="
-              fixed
-              inset-0
-              z-[999999]
-              bg-black/60
-              backdrop-blur-md
-
-              flex
-              items-end
-
-              lg:items-center
-              lg:justify-center
-            "
+  fixed
+  inset-0
+  z-[9999999]
+  bg-black/70
+  backdrop-blur-xl
+  flex
+  items-end
+  lg:items-center
+  lg:justify-center
+"
           >
             <motion.div
   initial={{
@@ -207,10 +205,8 @@ useEffect(() => {
   }}
   className="
   fixed
-  top-0
-  left-0
-  right-0
-  bottom-0
+  inset-0
+  z-[10000000]
   bg-white
   overflow-hidden
 "

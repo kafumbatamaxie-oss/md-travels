@@ -1,7 +1,8 @@
 "use client"
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState } from "react"
+import BookingDialog from "@/components/booking/BookingDialog"
 import Link from "next/link"
 import { ArrowRight, MessageCircle,  Car } from "lucide-react"
 import TextComponent from "./Text-Component"
@@ -21,6 +22,7 @@ export function AboutSection({
   quoteLabel,
 }: AboutSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [bookingOpen, setBookingOpen] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -72,13 +74,14 @@ export function AboutSection({
 
             {/* Premium CTA Block */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/quote"
+              <button
+                onClick={() => setBookingOpen(true)}
                 className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-white text-secondary rounded-2xl font-bold transition-all hover:bg-slate-200 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               >
                 {quoteLabel}
+
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </button>
               
               <Link
                 href="/contact"
@@ -176,6 +179,10 @@ export function AboutSection({
           </div>
         </div>
       </div>
+      <BookingDialog
+        open={bookingOpen}
+        setOpen={setBookingOpen}
+      />
     </section>
   )
 }
