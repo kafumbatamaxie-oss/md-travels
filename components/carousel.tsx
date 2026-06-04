@@ -65,7 +65,7 @@ export function Carousel({
 
   return (
     <section
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden pt-30"
       onMouseEnter={() => setAutoPlay(false)}
       onMouseLeave={() => setAutoPlay(true)}
       onTouchStart={onTouchStart}

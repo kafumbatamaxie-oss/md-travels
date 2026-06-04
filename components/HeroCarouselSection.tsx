@@ -87,7 +87,7 @@ export const HeroCarouselSection = () => {
 
   return (
     <>
-      <section className="relative h-[100dvh] pt-30 overflow-hidden bg-primary">
+      <section className="relative h-[100dvh] overflow-hidden bg-primary">
         <Carousel
           slides={carouselSlides}
           onBookNow={() => setBookingOpen(true)}
